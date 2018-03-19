@@ -1,9 +1,8 @@
 
 function mark()
 {
-  // chrome.storage.local.clear();
   chrome.storage.local.get(function(items) {
-    console.log(items);
+    // console.log(items);
     var host = window.location.hostname;
     var markItem = items[host];
     var classes = markItem.class;
@@ -24,3 +23,9 @@ function mark()
   });
 }
 mark();
+
+function autoMark()
+{
+  
+}
+autoMark();

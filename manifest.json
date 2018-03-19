@@ -42,6 +42,11 @@
     ]
   }],
   
+  "options_ui": {
+    "page": "option/options.html",
+    "chrome_style": true
+  },
+  
   "permissions": [
     "contextMenus",
     "tabs",

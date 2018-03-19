@@ -1,0 +1,13 @@
+
+body {
+  width: 60rem;
+}
+
+span {
+  display: inline;
+}
+
+.linkSpan {
+  background-color: grey;
+}
+
