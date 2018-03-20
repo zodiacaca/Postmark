@@ -105,12 +105,12 @@ function createBox() {
   $(classBox).css("display", "block");
   $(classBox).css("width", "280px");
   $(classBox).css("height", "380px");
-  $(classBox).css("border-left", "thick solid #111");
-  $(classBox).css("border-bottom", "thin solid #333");
+  $(classBox).css("border", "thin solid grey");
   $(classBox).css("background-color", bgColor);
   $(classBox).css("box-sizing", "content-box");
-  $(classBox).css("box-shadow", "4px 4px 10px rgba(80,80,80,1)");
+  $(classBox).css("box-shadow", "3px 3px 4px grey");
   $(classBox).css("position", "fixed");
+  $(classBox).css("overflow", "hidden");
   var indexes = [];
   var nodes = $("body").children();
   nodes.each(function () {

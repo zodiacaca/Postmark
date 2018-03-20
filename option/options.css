@@ -47,9 +47,11 @@ tbody tr:nth-child(even) {
 }
 
 tr td:nth-child(4) {
+  padding: 10px 0px;
   text-align: center;
 }
 
 tr td:nth-child(5) {
+  padding: 10px 0px;
   text-align: center;
 }
