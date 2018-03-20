@@ -3,11 +3,43 @@ body {
   width: 60rem;
 }
 
-span {
-  display: inline;
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: thin solid #555;
 }
 
-.linkSpan {
-  background-color: grey;
+th, td {
+  padding: 10px 10px;
+  border: thin solid #555;
+  overflow: hidden;
 }
 
+thead th:nth-child(1) {
+  width: 20%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 45%;
+}
+
+thead th:nth-child(4) {
+  width: 10%;
+}
+
+thead th:nth-child(5) {
+  width: 5%;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fff;
+}

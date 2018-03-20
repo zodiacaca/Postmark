@@ -62,9 +62,11 @@ function checkDOM()
   $("#classConfirm").on("click", function (e) {
     var markItem = {};
     var host = window.location.hostname;
-    markItem[host] = { class: containerClasses[index], href: link };
+    markItem[host] = { class: containerClasses[index], href: link, page: window.location.href };
     chrome.storage.local.set(markItem, function() {
     });
+    $(containers[index]).css("border", "thick solid #f00");
+    $(containers[index]).css("box-sizing", "border-box");
     clear();
   });
   
@@ -78,7 +80,7 @@ function checkDOM()
 */
 function findClasses() {
   var itemClass = item.className;
-  itemClass && containers.push(item);
+  itemClass && containers.push($(item));
   itemClass && containerClasses.push(itemClass);
   var parents = $(item).parents();
   var count = parents.length - 2;
@@ -109,6 +111,17 @@ function createBox() {
   $(classBox).css("box-sizing", "content-box");
   $(classBox).css("box-shadow", "4px 4px 10px rgba(80,80,80,1)");
   $(classBox).css("position", "fixed");
+  var indexes = [];
+  var nodes = $("body").children();
+  nodes.each(function () {
+    var z = $(this).css("z-index");
+    (!isNaN(z)) && indexes.push(z);
+  });
+  var max = indexes.reduce(function (a, b) {
+    return Math.max(a, b);
+  });
+  var zIndex = max + 1;
+  $(classBox).css("z-index", zIndex);
 }
 
 function updateBox() {
@@ -169,7 +182,6 @@ function addItem(i) {
   paragraph.appendChild(document.createTextNode(containerClasses[i]));
   // css properties
   $(level).css("all", "initial");
-  $(level).css("color", listTextColor);
   $(level).css("display", "block");
   $(level).css("border-bottom", "thin solid " + floorColor);
   
@@ -177,6 +189,7 @@ function addItem(i) {
   $(paragraph).css("font-family", "Helvetica");
   $(paragraph).css("font-size", "20px");
   $(paragraph).css("line-height", "1.6");
+  $(paragraph).css("color", listTextColor);
   $(paragraph).css("margin-left", "10px");
   $(paragraph).before().css("content", "");
   $(paragraph).before().css("clear", "both");
