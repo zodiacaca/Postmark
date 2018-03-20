@@ -19,6 +19,7 @@ function mark()
       ($(value).attr("href") == markItem.href) && (match = true);
       ($(value).find("a").attr("href") == markItem.href) && (match = true);
       match && $(value).css("border", "thick solid #f00");
+      match && $(value).css("box-sizing", "border-box");
     });
   });
 }

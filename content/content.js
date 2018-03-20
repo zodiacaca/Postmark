@@ -99,6 +99,7 @@ function createBox() {
   // append to body
   document.body.appendChild(classBox);
   // css properties
+  $(classBox).css("all", "initial");
   $(classBox).css("display", "block");
   $(classBox).css("width", "280px");
   $(classBox).css("height", "380px");
@@ -127,6 +128,7 @@ function addStick() {
   classBox.appendChild(stick);
   var height = 20 * 1.6;
   height += "px";
+  $(stick).css("all", "initial");
   $(stick).css("width", "5px");
   $(stick).css("height", height);
   $(stick).css("background-color", stickColor);
@@ -152,9 +154,8 @@ function createList() {
   var classBox = document.getElementById("classBox");
   classBox.appendChild(list);
   // css properties
+  $(list).css("all", "initial");
   $(list).css("list-style", "none");
-  $(list).css("margin", "0");
-  $(list).css("padding", "0");
 }
 
 function addItem(i) {
@@ -167,16 +168,19 @@ function addItem(i) {
   level.appendChild(paragraph);
   paragraph.appendChild(document.createTextNode(containerClasses[i]));
   // css properties
-  $(level).css("font-family", "Arial");
-  $(level).css("font-size", "20px");
+  $(level).css("all", "initial");
   $(level).css("color", listTextColor);
-  $(level).css("margin", "0");
-  $(level).css("padding", "0");
+  $(level).css("display", "block");
   $(level).css("border-bottom", "thin solid " + floorColor);
   
+  $(paragraph).css("all", "initial");
+  $(paragraph).css("font-family", "Helvetica");
+  $(paragraph).css("font-size", "20px");
   $(paragraph).css("line-height", "1.6");
-  $(paragraph).css("margin", "0");
   $(paragraph).css("margin-left", "10px");
+  $(paragraph).before().css("content", "");
+  $(paragraph).before().css("clear", "both");
+  $(paragraph).before().css("display", "table");
 }
 
 function addButtons() {
@@ -189,8 +193,10 @@ function addButtons() {
   height += "px";
   var top = 380 - 20 * 1.4 - 2;
   top += "px";
-  $(cancel).css("font-family", "Arial");
+  $(cancel).css("all", "initial");
+  $(cancel).css("font-family", "Helvetica");
   $(cancel).css("font-size", "14px");
+  $(cancel).css("text-align", "center");
   $(cancel).css("color", buttonTextColor);
   $(cancel).css("width", "100px");
   $(cancel).css("height", height);
@@ -205,8 +211,10 @@ function addButtons() {
   confirm.id = "classConfirm";
   classBox.appendChild(confirm);
   confirm.appendChild(document.createTextNode("OK"));
-  $(confirm).css("font-family", "Arial");
+  $(confirm).css("all", "initial");
+  $(confirm).css("font-family", "Helvetica");
   $(confirm).css("font-size", "14px");
+  $(confirm).css("text-align", "center");
   $(confirm).css("color", buttonTextColor);
   $(confirm).css("width", "100px");
   $(confirm).css("height", height);
