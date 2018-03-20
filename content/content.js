@@ -117,11 +117,13 @@ function createBox() {
     var z = $(this).css("z-index");
     (!isNaN(z)) && indexes.push(z);
   });
-  var max = indexes.reduce(function (a, b) {
-    return Math.max(a, b);
-  });
-  var zIndex = max + 1;
-  $(classBox).css("z-index", zIndex);
+  if (indexes.length > 0) {
+    var max = indexes.reduce(function (a, b) {
+      return Math.max(a, b);
+    });
+    var zIndex = max + 1;
+    $(classBox).css("z-index", zIndex);
+  }
 }
 
 function updateBox() {

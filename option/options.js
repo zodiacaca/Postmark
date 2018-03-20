@@ -27,6 +27,6 @@ chrome.storage.local.get(function(items) {
     $(postLink).attr("href", items[key].href);
     $(pageLink).attr("href", items[key].page);
     postLink.appendChild(document.createTextNode(items[key].href));
-    pageLink.appendChild(document.createTextNode(items[key].page));
+    pageLink.appendChild(document.createTextNode("page"));
   }
 });
