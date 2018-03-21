@@ -11,7 +11,7 @@ table {
 }
 
 th, td {
-  padding: 10px 10px;
+  padding: 0.5rem 0.5rem;
   border: thin solid #555;
   overflow: hidden;
 }
@@ -29,12 +29,12 @@ thead th:nth-child(3) {
 }
 
 thead th:nth-child(4) {
-  padding: 10px 0px;
+  padding: 0.5rem 0rem;
   width: 5%;
 }
 
 thead th:nth-child(5) {
-  padding: 10px 0px;
+  padding: 0.5rem 0rem;
   width: 5%;
 }
 
@@ -47,11 +47,11 @@ tbody tr:nth-child(even) {
 }
 
 tr td:nth-child(4) {
-  padding: 10px 0px;
+  padding: 0.5rem 0rem;
   text-align: center;
 }
 
 tr td:nth-child(5) {
-  padding: 10px 0px;
+  padding: 0.5rem 0rem;
   text-align: center;
 }

@@ -25,14 +25,16 @@ var listTextColor = "rgba(40,40,40,1)"
 var buttonTextColor = "rgba(230,230,230,1)"
 var bgColor = "#ddd";
 var bgColorSelected = "#aaa";
-var floorColor = "#444";
-var stickColor = "#555";
+var floorColor = "#888";
+var stickColor = "#111";
 
 function checkDOM()
 {
   toggle = !toggle;
   
   if (toggle) {
+    // chrome.runtime.sendMessage({ task: "css" });
+    
     createBox();
     updateBox();
     addStick();
@@ -53,7 +55,7 @@ function checkDOM()
     if (e.deltaY > 0) {
       if (index < containers.length - 1) { index += 1 }
     }
-    updateStyle()
+    updateStyle();
     
     return !toggle;
   }
@@ -89,6 +91,28 @@ function findClasses() {
     classNames && containers.push(parents.get(i));
     classNames && containerClasses.push(classNames);
   }
+  
+  selectClasses()
+}
+
+function selectClasses() {
+  chrome.storage.local.get(function(items) {
+    var host = window.location.hostname;
+    var markItem = items[host];
+    if (markItem) {
+      var classes = markItem.class;
+      var indexFound = containerClasses.findIndex(function (element) {
+        return element == classes;
+      });
+      if (indexFound >= 0) {
+        index = indexFound;
+        
+        window.setTimeout(function () {
+          updateStyle();
+        }, 200);
+      }
+    }
+  });
 }
 
 /*
@@ -103,14 +127,17 @@ function createBox() {
   // css properties
   $(classBox).css("all", "initial");
   $(classBox).css("display", "block");
-  $(classBox).css("width", "280px");
-  $(classBox).css("height", "380px");
+  $(classBox).css("width", "18rem");
+  $(classBox).css("height", "24rem");
   $(classBox).css("border", "thin solid grey");
+  $(classBox).css("border-left", "medium solid black");
   $(classBox).css("background-color", bgColor);
   $(classBox).css("box-sizing", "content-box");
-  $(classBox).css("box-shadow", "3px 3px 4px grey");
+  $(classBox).css("box-shadow", "0.2rem 0.2rem 0.25rem grey");
   $(classBox).css("position", "fixed");
   $(classBox).css("overflow", "hidden");
+  
+  // find top level
   var indexes = [];
   var nodes = $("body").children();
   nodes.each(function () {
@@ -141,15 +168,15 @@ function addStick() {
   stick.id = "classStick";
   var classBox = document.getElementById("classBox");
   classBox.appendChild(stick);
-  var height = 20 * 1.6;
-  height += "px";
+  var height = 1 * 2;
+  height += "rem";
   $(stick).css("all", "initial");
-  $(stick).css("width", "5px");
+  $(stick).css("width", "0.25rem");
   $(stick).css("height", height);
   $(stick).css("background-color", stickColor);
   $(stick).css("position", "absolute");
-  $(stick).css("top", "0px");
-  $(stick).css("left", "0px");
+  $(stick).css("top", "0");
+  $(stick).css("left", "0");
 }
 
 function fillBox() {
@@ -158,7 +185,6 @@ function fillBox() {
   for (var i = 0; i < count; i++) {
     addItem(i);
   }
-  $("#classList").children().eq(index).css("background-color", bgColorSelected);
 }
 
 function createList() {
@@ -189,10 +215,10 @@ function addItem(i) {
   
   $(paragraph).css("all", "initial");
   $(paragraph).css("font-family", "Helvetica");
-  $(paragraph).css("font-size", "20px");
-  $(paragraph).css("line-height", "1.6");
+  $(paragraph).css("font-size", "1rem");
+  $(paragraph).css("line-height", "2");
   $(paragraph).css("color", listTextColor);
-  $(paragraph).css("margin-left", "10px");
+  $(paragraph).css("margin-left", "0.75rem");
   $(paragraph).before().css("content", "");
   $(paragraph).before().css("clear", "both");
   $(paragraph).before().css("display", "table");
@@ -204,41 +230,47 @@ function addButtons() {
   var classBox = document.getElementById("classBox");
   classBox.appendChild(cancel);
   cancel.appendChild(document.createTextNode("Cancel"));
-  var height = 20 * 1.4;
-  height += "px";
-  var top = 380 - 20 * 1.4 - 2;
-  top += "px";
+  var height = 1 * 1.4;
+  var heightREM = height + "rem";
+  var top = 24 - 1 * 1.4 - 0.125;
+  var topREM = top + "rem";
+  var width = 6.25;
+  var widthREM = width + "rem";
+  var leftCancel = 18 - width - 0.2;
+  var leftCancelREM = leftCancel + "rem";
   $(cancel).css("all", "initial");
   $(cancel).css("font-family", "Helvetica");
-  $(cancel).css("font-size", "14px");
+  $(cancel).css("font-size", "0.8rem");
   $(cancel).css("text-align", "center");
   $(cancel).css("color", buttonTextColor);
-  $(cancel).css("width", "100px");
-  $(cancel).css("height", height);
+  $(cancel).css("width", widthREM);
+  $(cancel).css("height", heightREM);
   $(cancel).css("border", "thin solid rgba(80,80,80,1)");
   $(cancel).css("background", "linear-gradient(45deg, #666, #555)");
   $(cancel).css("box-sizing", "border-box");
   $(cancel).css("position", "absolute");
-  $(cancel).css("top", top);
-  $(cancel).css("left", "177px");
+  $(cancel).css("top", topREM);
+  $(cancel).css("left", leftCancelREM);
   
   var confirm = document.createElement("button");
   confirm.id = "classConfirm";
   classBox.appendChild(confirm);
   confirm.appendChild(document.createTextNode("OK"));
+  var leftConfirm = 18 - width * 2 - 0.2 * 2;
+  var leftConfirmREM = leftConfirm + "rem";
   $(confirm).css("all", "initial");
   $(confirm).css("font-family", "Helvetica");
-  $(confirm).css("font-size", "14px");
+  $(confirm).css("font-size", "0.8rem");
   $(confirm).css("text-align", "center");
   $(confirm).css("color", buttonTextColor);
-  $(confirm).css("width", "100px");
-  $(confirm).css("height", height);
+  $(confirm).css("width", widthREM);
+  $(confirm).css("height", heightREM);
   $(confirm).css("border", "thin solid rgba(80,80,80,1)");
   $(confirm).css("background", "linear-gradient(45deg, #666, #555)");
   $(confirm).css("box-sizing", "border-box");
   $(confirm).css("position", "absolute");
-  $(confirm).css("top", top);
-  $(confirm).css("left", "74px");
+  $(confirm).css("top", topREM);
+  $(confirm).css("left", leftConfirmREM);
 }
 
 /*
