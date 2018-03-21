@@ -106,10 +106,7 @@ function selectClasses() {
       });
       if (indexFound >= 0) {
         index = indexFound;
-        
-        window.setTimeout(function () {
-          updateStyle();
-        }, 200);
+        updateStyle();
       }
     }
   });
@@ -185,6 +182,7 @@ function fillBox() {
   for (var i = 0; i < count; i++) {
     addItem(i);
   }
+  updateStyle();
 }
 
 function createList() {
