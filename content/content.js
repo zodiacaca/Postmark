@@ -73,7 +73,7 @@ function checkDOM()
     markItem[host] = {
       class: containers[index].class,
       href: link,
-      text: linkText,
+      title: linkText,
       page: window.location.href
     };
     chrome.storage.local.set(markItem, function() {
