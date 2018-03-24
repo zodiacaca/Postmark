@@ -25,7 +25,7 @@ thead th:nth-child(2) {
 }
 
 thead th:nth-child(3) {
-  width: 50%;
+  width: 40%;
 }
 
 thead th:nth-child(4) {
@@ -39,6 +39,10 @@ thead th:nth-child(5) {
 }
 
 thead th:nth-child(6) {
+  width: 10%;
+}
+
+thead th:nth-child(7) {
   padding: 0.5rem 0rem;
   width: 5%;
 }
@@ -62,6 +66,10 @@ tr td:nth-child(5) {
 }
 
 tr td:nth-child(6) {
+  text-align: center;
+}
+
+tr td:nth-child(7) {
   padding: 0.5rem 0rem;
   text-align: center;
 }

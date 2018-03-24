@@ -1,6 +1,10 @@
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  checkDOM();
+  if (message.event == "onRClicked") {
+    checkDOM();
+  } else if (message.event == "onActivated") {
+    mark()
+  }
 });
 
 document.oncontextmenu = function (e) {
@@ -35,7 +39,7 @@ var size = 16;
 function checkDOM()
 {
   if (!document.getElementById("classBox") && item) {
-    // chrome.runtime.sendMessage({ task: "css" });
+    // chrome.runtime.sendMessage({ task: "css", file: "" });
     
     createBox();
     updateBox();
@@ -74,10 +78,11 @@ function checkDOM()
       class: containers[index].class,
       href: link,
       title: linkText,
-      page: window.location.href
+      page: window.location.href,
+      date: getTime()
     };
-    chrome.storage.local.set(markItem, function() {
-    });
+    chrome.storage.local.set(markItem);
+    console.log(markItem);
     $(containers[index].container).css("border", "thick solid #f00");
     $(containers[index].container).css("box-sizing", "border-box");
     $(containers[index].container).css("overflow", "hidden");
@@ -120,7 +125,6 @@ function findClasses() {
       containers.push(data);
     }
   }
-  console.log(containers);
   selectClasses()
 }
 

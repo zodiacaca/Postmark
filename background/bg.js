@@ -17,7 +17,7 @@ function onClickHandler(info, tab) {
   // send info to content.js
   chrome.tabs.sendMessage(
     tab.id,
-    { greeting: "" },  // messages
+    { event: "onRClicked" },  // messages
     callbackHandler
   );
 };
@@ -26,11 +26,25 @@ function callbackHandler(content) {
   
 }
 
+chrome.tabs.onActiveChanged.addListener(function (tabId, selectInfo) {
+  chrome.tabs.sendMessage(
+    tabId,
+    { event: "onActivated" },  // messages
+    callbackHandler
+  );
+});
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+  alert("icon clicked")
+});
+
 // listen from content
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(sender.tab ? "from a content script: " + sender.tab.url : "from the extension");
   // console.log(sender.tab);
   if (request.task == "css") {
-    // chrome.tabs.insertCSS(sender.tab.id, {file: ""})
+    // chrome.tabs.insertCSS(sender.tab.id, {file: request.file})
+  } else if (request.task == "icon") {
+    chrome.browserAction.setIcon({path: request.path});
   }
 });

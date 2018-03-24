@@ -31,6 +31,9 @@ function mark()
     console.log(container);
   } */
   
+  // initialize icon
+  chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128.png"});
+  
   chrome.storage.local.get(function(items) {
     // console.log(items);
     var host = window.location.hostname;
@@ -52,6 +55,8 @@ function mark()
         match && $(value).css("border", "thick solid #f00");
         match && $(value).css("box-sizing", "border-box");
         match && $(value).css("overflow", "hidden");
+        // change icon to notice user
+        match && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128-r.png"});
       });
     }
   });
@@ -63,3 +68,16 @@ function autoMark()
   
 }
 autoMark();
+
+function getTime() {
+  var d = new Date();
+  var year = d.getFullYear();
+  var month = d.getMonth() + 1;
+  var date = d.getDate();
+  var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var day = days[d.getDay()];
+  
+  var str = year + "/" + month + "/" + date + ", " + day;
+  
+  return str;
+}
