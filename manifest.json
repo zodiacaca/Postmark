@@ -45,6 +45,10 @@
     "chrome_style": true
   },
   
+  "web_accessible_resources": [
+    "icons/*.*"
+  ],
+  
   "permissions": [
     "contextMenus",
     "tabs",

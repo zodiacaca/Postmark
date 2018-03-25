@@ -34,6 +34,7 @@ var floorColor = "grey";
 var stickColor = "#111";
 
 var size = 16;
+var zIndex;
 
 
 function checkDOM()
@@ -181,7 +182,7 @@ function createBox() {
     var max = indexes.reduce(function (a, b) {
       return Math.max(a, b);
     });
-    var zIndex = max + 1;
+    zIndex = max + 1;
     $(classBox).css("z-index", zIndex);
   }
 }
@@ -265,43 +266,60 @@ function addButtons() {
   
   var cancel = document.createElement("button");
   cancel.id = "classCancel";
-  classBox.appendChild(cancel);
-  cancel.appendChild(document.createTextNode("Cancel"));
+  document.body.appendChild(cancel);
   $(cancel).css("all", "initial");
-  $(cancel).css("font-family", "Helvetica");
-  $(cancel).css("font-size", toPx(0.8));
-  $(cancel).css("text-align", "center");
-  $(cancel).css("color", buttonTextColor);
-  $(cancel).css("margin-top", toPx(2));
-  $(cancel).css("margin-bottom", toPx(0.2));
-  $(cancel).css("margin-right", toPx(0.2));
-  $(cancel).css("width", toPx(width));
-  $(cancel).css("height", toPx(1.4));
-  $(cancel).css("border", "thin solid rgba(80,80,80,1)");
-  $(cancel).css("background", "linear-gradient(45deg, #666, #555)");
-  $(cancel).css("box-sizing", "border-box");
-  $(cancel).css("position", "relative");
-  $(cancel).css("float", "right");
+  $(cancel).css("position", "fixed");
+  $(cancel).css("z-index", zIndex);
+  var removeIcon = document.createElement("img");
+  var url = chrome.runtime.getURL("/icons/cross-remove-sign.svg");
+  $(removeIcon).attr("src", url);
+  cancel.appendChild(removeIcon);
+  $(removeIcon).css("all", "initial");
+  $(removeIcon).css("padding", toPx(0.4, 0.4));
+  $(removeIcon).css("width", toPx(1));
+  $(removeIcon).css("height", toPx(1));
+  $(removeIcon).hover(
+    function () {
+      $(this).css("width", toPx(1.2));
+      $(this).css("height", toPx(1.2));
+    }, function () {
+      $(this).css("width", toPx(1));
+      $(this).css("height", toPx(1));
+    }
+  );
+  $(cancel).position({
+    my: "left top",
+    at: "right top",
+    of: classBox,
+    collision: "fit"
+  });
   
   var confirm = document.createElement("button");
   confirm.id = "classConfirm";
   classBox.appendChild(confirm);
-  confirm.appendChild(document.createTextNode("OK"));
   $(confirm).css("all", "initial");
-  $(confirm).css("font-family", "Helvetica");
-  $(confirm).css("font-size", toPx(0.8));
-  $(confirm).css("text-align", "center");
-  $(confirm).css("color", buttonTextColor);
-  $(confirm).css("margin-top", toPx(2));
-  $(confirm).css("margin-bottom", toPx(0.2));
-  $(confirm).css("width", toPx(width));
-  $(confirm).css("height", toPx(1.4));
-  $(confirm).css("border", "thin solid rgba(80,80,80,1)");
-  $(confirm).css("background", "linear-gradient(45deg, #666, #555)");
-  $(confirm).css("box-sizing", "border-box");
-  $(confirm).css("display", "inline-block");
+  $(confirm).css("margin-top", toPx(1));
   $(confirm).css("position", "relative");
   $(confirm).css("float", "right");
+  var checkIcon = document.createElement("img");
+  url = chrome.runtime.getURL("/icons/check.svg");
+  $(checkIcon).attr("src", url);
+  confirm.appendChild(checkIcon);
+  $(checkIcon).css("all", "initial");
+  $(checkIcon).css("padding", toPx(0.5, 0.5));
+  $(checkIcon).css("width", toPx(1.2));
+  $(checkIcon).css("height", toPx(1.2));
+  $(checkIcon).hover(
+    function () {
+      $(this).css("width", toPx(1.6));
+      $(this).css("height", toPx(1.6));
+      $(this).css("padding", toPx(0.3, 0.5, 0.5, 0.5));
+    }, function () {
+      $(this).css("width", toPx(1.2));
+      $(this).css("height", toPx(1.2));
+      $(this).css("padding", toPx(0.5, 0.5));
+    }
+  );
 }
 
 /*
@@ -362,6 +380,7 @@ function toPx(num) {
 function clear() {
   lastContainer && $(lastContainer).css("background", lastContainerStyle);
   $("#classBox").remove();
+  $("#classCancel").remove();
   item = undefined;
   link = undefined;
   linkText = undefined;
