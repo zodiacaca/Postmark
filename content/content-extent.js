@@ -39,6 +39,7 @@ function mark()
     var host = window.location.hostname;
     var markItem = items[host];
     if (markItem) {
+      var title = markItem.title;
       var classes = markItem.class;
       var classArray = classes.split(" ");
       for (var i = 0; i < classArray.length; i++) {
@@ -48,16 +49,32 @@ function mark()
       for (var i = 0; i < classArray.length; i++) {
         classSelector += classArray[i];
       }
-      $(classSelector).each(function(index, value) {
-        var match = false;
-        ($(value).attr("href") == markItem.href) && (match = true);
-        ($(value).find("a").attr("href") == markItem.href) && (match = true);
-        match && $(value).css("border", "thick solid #f00");
-        match && $(value).css("box-sizing", "border-box");
-        match && $(value).css("overflow", "hidden");
-        // change icon to notice user
-        match && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128-r.png"});
-      });
+      var matched = false;
+      if (title) {
+        $(classSelector).each(function(index, value) {
+          var match = false;
+          ($(value).innerText == title) && (match = true);
+          $(value).find("a").each(function(i, v) {
+            (v.innerText == title) && (match = true);
+          });
+          match && $(value).css("border", "thick solid #f00");
+          match && $(value).css("box-sizing", "border-box");
+          match && $(value).css("overflow", "hidden");
+          match && (matched = true);
+        });
+      } else {
+        $(classSelector).each(function(index, value) {
+          var match = false;
+          ($(value).attr("href") == markItem.href) && (match = true);
+          ($(value).find("a").attr("href") == markItem.href) && (match = true);
+          match && $(value).css("border", "thick solid #f00");
+          match && $(value).css("box-sizing", "border-box");
+          match && $(value).css("overflow", "hidden");
+          match && (matched = true);
+        });
+      }
+      // change icon to notice user
+      matched && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128-r.png"});
     }
   });
 }

@@ -7,7 +7,6 @@ chrome.storage.local.get(function(items) {
     var entry = document.createElement("tr");
     var host = document.createElement("th");
     $(host).attr("scope", "row");
-    // chrome.extension.getBackgroundPage().console.log($(host));
     var classes = document.createElement("td");
     var title = document.createElement("td");
     var post = document.createElement("td");
@@ -39,7 +38,7 @@ chrome.storage.local.get(function(items) {
     $(removeIcon).attr("src", "/icons/cross-remove-sign.svg");
     $(removeIcon).attr("alt", "remove");
     
-    $(removeIcon).on("click", function() {
+    $(removeIcon).on("click", function () {
       var parent = $(this).parent().parent();
       var str = $(parent).children()[0].innerText;
       chrome.storage.local.remove(str);
