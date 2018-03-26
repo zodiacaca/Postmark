@@ -50,7 +50,7 @@ function mark()
         classSelector += classArray[i];
       }
       var matched = false;
-      if (title) {
+      if (title && title != "") {
         $(classSelector).each(function(index, value) {
           var match = false;
           ($(value).innerText == title) && (match = true);

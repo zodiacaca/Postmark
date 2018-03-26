@@ -259,67 +259,74 @@ function addItem(i) {
 }
 
 function addButtons() {
-  
-  var classBox = document.getElementById("classBox");
-  
-  var width = 6;
-  
-  var cancel = document.createElement("button");
-  cancel.id = "classCancel";
-  document.body.appendChild(cancel);
-  $(cancel).css("all", "initial");
-  $(cancel).css("position", "fixed");
-  $(cancel).css("z-index", zIndex);
-  var removeIcon = document.createElement("img");
-  var url = chrome.runtime.getURL("/icons/cross-remove-sign.svg");
-  $(removeIcon).attr("src", url);
-  cancel.appendChild(removeIcon);
-  $(removeIcon).css("all", "initial");
-  $(removeIcon).css("padding", toPx(0.4, 0.4));
-  $(removeIcon).css("width", toPx(1));
-  $(removeIcon).css("height", toPx(1));
-  $(removeIcon).hover(
-    function () {
-      $(this).css("width", toPx(1.2));
-      $(this).css("height", toPx(1.2));
-    }, function () {
-      $(this).css("width", toPx(1));
-      $(this).css("height", toPx(1));
-    }
-  );
-  $(cancel).position({
-    my: "left top",
-    at: "right top",
-    of: classBox,
-    collision: "fit"
-  });
+
+  var opBox = document.createElement("div");
+  opBox.id = "opBox";
+  document.body.appendChild(opBox);
+  $(opBox).css("all", "initial");
+  $(opBox).css("position", "fixed");
+  $(opBox).css("z-index", zIndex);
   
   var confirm = document.createElement("button");
   confirm.id = "classConfirm";
-  classBox.appendChild(confirm);
+  opBox.appendChild(confirm);
   $(confirm).css("all", "initial");
-  $(confirm).css("margin-top", toPx(1));
-  $(confirm).css("position", "relative");
-  $(confirm).css("float", "right");
+  $(confirm).css("background", "#0f0");
+  $(confirm).css("display", "inline");
   var checkIcon = document.createElement("img");
   url = chrome.runtime.getURL("/icons/check.svg");
   $(checkIcon).attr("src", url);
   confirm.appendChild(checkIcon);
   $(checkIcon).css("all", "initial");
-  $(checkIcon).css("padding", toPx(0.5, 0.5));
-  $(checkIcon).css("width", toPx(1.2));
-  $(checkIcon).css("height", toPx(1.2));
-  $(checkIcon).hover(
+  $(checkIcon).css("padding", toPx(0.4));
+  $(checkIcon).css("width", toPx(1));
+  $(checkIcon).css("height", toPx(1));
+  $(checkIcon).css("border-top", "thin solid grey");
+  $(checkIcon).css("border-right", "thin solid grey");
+  $(checkIcon).css("background", "#aaa");
+  $(confirm).hover(
     function () {
-      $(this).css("width", toPx(1.6));
-      $(this).css("height", toPx(1.6));
-      $(this).css("padding", toPx(0.3, 0.5, 0.5, 0.5));
+      $(checkIcon).css("background", "#ddd");
+      $(confirm).css("transform", "scale(1.1)");
     }, function () {
-      $(this).css("width", toPx(1.2));
-      $(this).css("height", toPx(1.2));
-      $(this).css("padding", toPx(0.5, 0.5));
+      $(checkIcon).css("background", "#aaa");
+      $(confirm).css("transform", "scale(1)");
     }
   );
+  
+  var cancel = document.createElement("button");
+  cancel.id = "classCancel";
+  opBox.appendChild(cancel);
+  $(cancel).css("all", "initial");
+  $(cancel).css("background", "red");
+  $(cancel).css("display", "inline");
+  var removeIcon = document.createElement("img");
+  var url = chrome.runtime.getURL("/icons/cross-remove-sign.svg");
+  $(removeIcon).attr("src", url);
+  cancel.appendChild(removeIcon);
+  $(removeIcon).css("all", "initial");
+  $(removeIcon).css("padding", toPx(0.4));
+  $(removeIcon).css("width", toPx(1));
+  $(removeIcon).css("height", toPx(1));
+  $(removeIcon).css("border-top", "thin solid grey");
+  $(removeIcon).css("border-right", "thin solid grey");
+  $(removeIcon).css("background", "#aaa");
+  $(cancel).hover(
+    function () {
+      $(removeIcon).css("background", "#ddd");
+      $(cancel).css("transform", "scale(1.1)");
+    }, function () {
+      $(removeIcon).css("background", "#aaa");
+      $(cancel).css("transform", "scale(1)");
+    }
+  );
+  
+  $(opBox).position({
+    my: "left top",
+    at: "right top",
+    of: $("#classBox"),
+    collision: "fit"
+  });
 }
 
 /*
@@ -380,7 +387,7 @@ function toPx(num) {
 function clear() {
   lastContainer && $(lastContainer).css("background", lastContainerStyle);
   $("#classBox").remove();
-  $("#classCancel").remove();
+  $("#opBox").remove();
   item = undefined;
   link = undefined;
   linkText = undefined;
