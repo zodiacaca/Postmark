@@ -27,7 +27,6 @@ var lastContainerStyle;
 
 // colors
 var listTextColor = "rgba(30,30,30,1)"
-var buttonTextColor = "rgba(230,230,230,1)"
 var bgColor = "#fff";
 var bgColorSelected = "#bbb";
 var floorColor = "grey";
@@ -39,7 +38,7 @@ var zIndex;
 
 function checkDOM()
 {
-  if (!document.getElementById("classBox") && item) {
+  if (!document.getElementById("markBox") && item) {
     // chrome.runtime.sendMessage({ task: "css", file: "" });
     
     createBox();
@@ -72,7 +71,7 @@ function checkDOM()
   }
   
   // exit
-  $("#classConfirm").on("click", function (e) {
+  $("#markConfirm").on("click", function (e) {
     var markItem = {};
     var host = window.location.hostname;
     markItem[host] = {
@@ -90,7 +89,7 @@ function checkDOM()
     clear();
   });
   
-  $("#classCancel").on("click", function (e) {
+  $("#markCancel").on("click", function (e) {
     clear();
   });
 }
@@ -156,20 +155,20 @@ function selectClasses() {
 */
 function createBox() {
   // initialize
-  var classBox = document.createElement("div");
-  classBox.id = "classBox";
+  var markBox = document.createElement("div");
+  markBox.id = "markBox";
   // append to body
-  document.body.appendChild(classBox);
+  document.body.appendChild(markBox);
   // css properties
-  $(classBox).css("all", "initial");
-  $(classBox).css("border", "thin solid grey");
-  $(classBox).css("border-left", "medium solid black");
-  $(classBox).css("background-color", bgColor);
-  $(classBox).css("box-sizing", "content-box");
-  $(classBox).css("box-shadow", toPx([0.25, 0.25, 0]) + "#222");
-  $(classBox).css("display", "block");
-  $(classBox).css("position", "fixed");
-  $(classBox).css("overflow", "hidden");
+  $(markBox).css("all", "initial");
+  $(markBox).css("border", "thin solid grey");
+  $(markBox).css("border-left", "medium solid black");
+  $(markBox).css("background-color", bgColor);
+  $(markBox).css("box-sizing", "content-box");
+  $(markBox).css("box-shadow", toPx([0.25, 0.25, 0]) + "#222");
+  $(markBox).css("display", "block");
+  $(markBox).css("position", "fixed");
+  $(markBox).css("overflow", "hidden");
   
   // find top level
   var indexes = [];
@@ -183,13 +182,13 @@ function createBox() {
       return Math.max(a, b);
     });
     zIndex = max + 1;
-    $(classBox).css("z-index", zIndex);
+    $(markBox).css("z-index", zIndex);
   }
 }
 
 function updateBox() {
   // update position of list box
-  $("#classBox").position({
+  $("#markBox").position({
     my: "left top",
     at: "right top",
     of: item,
@@ -199,9 +198,9 @@ function updateBox() {
 
 function addStick() {
   var stick = document.createElement("div");
-  stick.id = "classStick";
-  var classBox = document.getElementById("classBox");
-  classBox.appendChild(stick);
+  stick.id = "markStick";
+  var markBox = document.getElementById("markBox");
+  markBox.appendChild(stick);
   $(stick).css("all", "initial");
   $(stick).css("width", toPx(0.2));
   $(stick).css("height", toPx(0.9 * 2.2));
@@ -223,10 +222,10 @@ function fillBox() {
 function createList() {
   // initialize
   var list = document.createElement("ol");
-  list.id = "classList";
+  list.id = "markList";
   // append
-  var classBox = document.getElementById("classBox");
-  classBox.appendChild(list);
+  var markBox = document.getElementById("markBox");
+  markBox.appendChild(list);
   // css properties
   $(list).css("all", "initial");
   $(list).css("list-style", "none");
@@ -237,8 +236,8 @@ function addItem(i) {
   var level = document.createElement("li");
   var paragraph = document.createElement("p");
   // append
-  var classList = document.getElementById("classList");
-  classList.appendChild(level);
+  var markList = document.getElementById("markList");
+  markList.appendChild(level);
   level.appendChild(paragraph);
   paragraph.appendChild(document.createTextNode(containers[i].class));
   // css properties
@@ -268,7 +267,7 @@ function addButtons() {
   $(opBox).css("z-index", zIndex);
   
   var confirm = document.createElement("button");
-  confirm.id = "classConfirm";
+  confirm.id = "markConfirm";
   opBox.appendChild(confirm);
   $(confirm).css("all", "initial");
   $(confirm).css("background", "#0f0");
@@ -295,7 +294,7 @@ function addButtons() {
   );
   
   var cancel = document.createElement("button");
-  cancel.id = "classCancel";
+  cancel.id = "markCancel";
   opBox.appendChild(cancel);
   $(cancel).css("all", "initial");
   $(cancel).css("background", "red");
@@ -324,7 +323,7 @@ function addButtons() {
   $(opBox).position({
     my: "left top",
     at: "right top",
-    of: $("#classBox"),
+    of: $("#markBox"),
     collision: "fit"
   });
 }
@@ -342,15 +341,15 @@ function updateStyle() {
 }
 
 function moveStick() {
-  var listPos = $("#classList").position().top;
-  var itemPos = $("#classList").children().eq(index).position().top;
+  var listPos = $("#markList").position().top;
+  var itemPos = $("#markList").children().eq(index).position().top;
   var top = itemPos - listPos;
-  $("#classStick").css("top", top);
+  $("#markStick").css("top", top);
 }
 
 function changeBackground() {
-  $("#classList").children().css("background-color", bgColor);
-  $("#classList").children().eq(index).css("background-color", bgColorSelected);
+  $("#markList").children().css("background-color", bgColor);
+  $("#markList").children().eq(index).css("background-color", bgColorSelected);
 }
 
 function colorBackground() {
@@ -386,7 +385,7 @@ function toPx(num) {
 */
 function clear() {
   lastContainer && $(lastContainer).css("background", lastContainerStyle);
-  $("#classBox").remove();
+  $("#markBox").remove();
   $("#opBox").remove();
   item = undefined;
   link = undefined;
