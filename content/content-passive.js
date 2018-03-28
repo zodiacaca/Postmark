@@ -1,5 +1,49 @@
 
-function mark()
+
+// variables //
+// switch
+var toggle = false;
+var index = 0;
+
+// link right clicked
+var item;
+var link;
+var linkText;
+var containers = [];
+var lastContainer;
+var lastContainerStyle;
+
+// colors
+var listTextColor = "rgba(30,30,30,1)"
+var bgColor = "#fff";
+var bgColorSelected = "#bbb";
+var floorColor = "grey";
+var stickColor = "#111";
+
+var size = 16;
+var zIndex;
+
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  if (message.event == "onRClicked") {
+    checkDOM();
+  } else if (message.event == "onActivated") {
+    mark()
+  }
+});
+
+
+document.oncontextmenu = function (e) {
+  item = e.target;
+  link = $(item).attr("href");
+  linkText = item.innerText;
+}
+
+
+/*
+  passive mark action
+*/
+function checkMark()
 {
 /*   $.ajax({
     url: "",
@@ -34,7 +78,7 @@ function mark()
   // initialize icon
   chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128.png"});
   
-  chrome.storage.local.get(function(items) {
+  chrome.storage.local.get(function (items) {
     // console.log(items);
     var host = window.location.hostname;
     var markItem = items[host];
@@ -51,10 +95,10 @@ function mark()
       }
       var matched = false;
       if (title && title != "") {
-        $(classSelector).each(function(index, value) {
+        $(classSelector).each(function (index, value) {
           var match = false;
           ($(value).innerText == title) && (match = true);
-          $(value).find("a").each(function(i, v) {
+          $(value).find("a").each(function (i, v) {
             (v.innerText == title) && (match = true);
           });
           match && $(value).css("border", "thick solid #f00");
@@ -63,10 +107,10 @@ function mark()
           match && (matched = true);
         });
       } else {
-        $(classSelector).each(function(index, value) {
+        $(classSelector).each(function (index, value) {
           var match = false;
           ($(value).attr("href") == markItem.href) && (match = true);
-          $(value).find("a").each(function(i, v) {
+          $(value).find("a").each(function (i, v) {
             ($(v).attr("href") == markItem.href) && (match = true);
           });
           match && $(value).css("border", "thick solid #f00");
@@ -80,23 +124,10 @@ function mark()
     }
   });
 }
-mark();
+checkMark();
 
 function autoMark()
 {
   
 }
 autoMark();
-
-function getTime() {
-  var d = new Date();
-  var year = d.getFullYear();
-  var month = d.getMonth() + 1;
-  var date = d.getDate();
-  var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  var day = days[d.getDay()];
-  
-  var str = year + "/" + month + "/" + date + ", " + day;
-  
-  return str;
-}

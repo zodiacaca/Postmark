@@ -1,6 +1,6 @@
 
 // chrome.storage.local.clear();
-chrome.storage.local.get(function(items) {
+chrome.storage.local.get(function (items) {
   // chrome.extension.getBackgroundPage().console.log(items);
   var markList = document.getElementById("markList");
   for (var key in items) {
