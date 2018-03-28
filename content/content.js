@@ -270,7 +270,13 @@ function addButtons() {
   confirm.id = "markConfirm";
   opBox.appendChild(confirm);
   $(confirm).css("all", "initial");
-  $(confirm).css("background", "#0f0");
+  $(confirm).css("width", toPx(1.8));
+  $(confirm).css("height", toPx(1.8));
+  $(confirm).css("border-top", "thin solid grey");
+  $(confirm).css("border-right", "thin solid grey");
+  $(confirm).css("border-bottom", "medium solid #0f0");
+  $(confirm).css("background", "#aaa");
+  $(confirm).css("box-sizing", "content-box");
   $(confirm).css("display", "inline");
   var checkIcon = document.createElement("img");
   url = chrome.runtime.getURL("/icons/check.svg");
@@ -280,16 +286,18 @@ function addButtons() {
   $(checkIcon).css("padding", toPx(0.4));
   $(checkIcon).css("width", toPx(1));
   $(checkIcon).css("height", toPx(1));
-  $(checkIcon).css("border-top", "thin solid grey");
-  $(checkIcon).css("border-right", "thin solid grey");
-  $(checkIcon).css("background", "#aaa");
   $(confirm).hover(
     function () {
-      $(checkIcon).css("background", "#ddd");
+      $(confirm).css("background", "#ddd");
       $(confirm).css("transform", "scale(1.1)");
+      $(confirm).css("border", "0px solid grey");
+      $(confirm).css("border-bottom", "medium solid #0f0");
     }, function () {
-      $(checkIcon).css("background", "#aaa");
+      $(confirm).css("background", "#aaa");
       $(confirm).css("transform", "scale(1)");
+      $(confirm).css("border-top", "thin solid grey");
+      $(confirm).css("border-right", "thin solid grey");
+      $(confirm).css("border-bottom", "medium solid #0f0");
     }
   );
   
@@ -297,7 +305,13 @@ function addButtons() {
   cancel.id = "markCancel";
   opBox.appendChild(cancel);
   $(cancel).css("all", "initial");
-  $(cancel).css("background", "red");
+  $(cancel).css("width", toPx(1.8));
+  $(cancel).css("height", toPx(1.8));
+  $(cancel).css("border-top", "thin solid grey");
+  $(cancel).css("border-right", "thin solid grey");
+  $(cancel).css("border-bottom", "medium solid red");
+  $(cancel).css("background", "#aaa");
+  $(cancel).css("box-sizing", "content-box");
   $(cancel).css("display", "inline");
   var removeIcon = document.createElement("img");
   var url = chrome.runtime.getURL("/icons/cross-remove-sign.svg");
@@ -307,16 +321,18 @@ function addButtons() {
   $(removeIcon).css("padding", toPx(0.4));
   $(removeIcon).css("width", toPx(1));
   $(removeIcon).css("height", toPx(1));
-  $(removeIcon).css("border-top", "thin solid grey");
-  $(removeIcon).css("border-right", "thin solid grey");
-  $(removeIcon).css("background", "#aaa");
   $(cancel).hover(
     function () {
-      $(removeIcon).css("background", "#ddd");
+      $(cancel).css("background", "#ddd");
       $(cancel).css("transform", "scale(1.1)");
+      $(cancel).css("border", "0px solid grey");
+      $(cancel).css("border-bottom", "medium solid red");
     }, function () {
-      $(removeIcon).css("background", "#aaa");
+      $(cancel).css("background", "#aaa");
       $(cancel).css("transform", "scale(1)");
+      $(cancel).css("border-top", "thin solid grey");
+      $(cancel).css("border-right", "thin solid grey");
+      $(cancel).css("border-bottom", "medium solid red");
     }
   );
   

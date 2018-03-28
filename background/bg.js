@@ -1,5 +1,7 @@
 
-
+/*
+  right click
+*/
 chrome.runtime.onInstalled.addListener(function () {
   var id = chrome.contextMenus.create({
     "title": "Inspect Containers",
@@ -8,7 +10,6 @@ chrome.runtime.onInstalled.addListener(function () {
   });
 });
 
-// click on the item created by above
 chrome.contextMenus.onClicked.addListener(onClickHandler);
 
 function onClickHandler(info, tab) {
@@ -26,6 +27,18 @@ function callbackHandler(content) {
   
 }
 
+
+/*
+  icon click
+*/
+chrome.browserAction.onClicked.addListener(function (tab) {
+  alert("icon clicked")
+});
+
+
+/*
+  tab switch
+*/
 chrome.tabs.onActiveChanged.addListener(function (tabId, selectInfo) {
   chrome.tabs.sendMessage(
     tabId,
@@ -34,11 +47,10 @@ chrome.tabs.onActiveChanged.addListener(function (tabId, selectInfo) {
   );
 });
 
-chrome.browserAction.onClicked.addListener(function (tab) {
-  alert("icon clicked")
-});
 
-// listen from content
+/*
+  listen from content
+*/
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(sender.tab ? "from a content script: " + sender.tab.url : "from the extension");
   // console.log(sender.tab);
