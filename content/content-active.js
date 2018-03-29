@@ -37,8 +37,7 @@ function checkDOM()
   
   // exit
   $("#markConfirm").on("click", function (e) {
-    saveData();
-    clear();
+    prepareData();
   });
   
   $("#markCancel").on("click", function (e) {
@@ -49,18 +48,38 @@ function checkDOM()
 /*
   save data
 */
-function saveData() {
-  var markItem = {};
+function prepareData() {
   var host = window.location.hostname;
+  var page = window.location.href;
+  var subfolders = page.substr(page.indexOf(host) + host.length);
+  if (subfolders.indexOf("/") != subfolders.lastIndexOf("/")) {
+    extraStep = true;
+    
+    var subArray = subfolders.split("/");
+    var subArrayClean = [];
+    subArray.forEach(item => (item != "") && subArrayClean.push(item));
+    for (var i = 0; i < subArrayClean.length; i++) {
+      subArrayClean[i] = "/" + subArrayClean[i];
+      showSubfolders(subArrayClean[i]);
+    }
+  }
+  if (!extraStep) {
+    saveData(host, page);
+    clear();
+  }
+}
+
+function saveData(host, page) {
+  var markItem = {};
   markItem[host] = {
     class: containers[index].class,
     href: link,
     title: linkText,
-    page: window.location.href,
+    page: page,
     date: getTime()
   };
+  // console.log(markItem);
   chrome.storage.local.set(markItem);
-  console.log(markItem);
   styleContainer(containers[index].container);
 }
 
@@ -154,4 +173,5 @@ function clear() {
   lastContainerStyle = undefined;
   index = 0;
   toggle = false;
+  extraStep = false;
 }

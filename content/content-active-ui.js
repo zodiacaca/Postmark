@@ -193,6 +193,10 @@ function addButtons() {
   });
 }
 
+function showSubfolders(folder) {
+  
+}
+
 /*
   update UI
 */

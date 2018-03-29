@@ -45,10 +45,7 @@
     ]
   }],
   
-  "options_ui": {
-    "page": "option/options.html",
-    "chrome_style": true
-  },
+  "options_page": "option/options.html",
   
   "web_accessible_resources": [
     "icons/*.*"

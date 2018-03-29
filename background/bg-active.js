@@ -2,14 +2,6 @@
 /*
   right click
 */
-chrome.runtime.onInstalled.addListener(function () {
-  var id = chrome.contextMenus.create({
-    "title": "Inspect Containers",
-    "contexts":["link"],
-    "id": "postmark"
-  });
-});
-
 chrome.contextMenus.onClicked.addListener(onClickHandler);
 
 function onClickHandler(info, tab) {

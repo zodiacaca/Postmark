@@ -4,6 +4,7 @@
 // switch
 var toggle = false;
 var index = 0;
+var extraStep = false;
 
 // link right clicked
 var item;
@@ -28,7 +29,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();
   } else if (message.event == "onActivated") {
-    mark()
+    checkMark()
   }
 });
 
@@ -76,7 +77,7 @@ function checkMark()
   } */
   
   // initialize icon
-  chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128.png"});
+  chrome.runtime.sendMessage({task: "icon", path: "icons/postmark.svg"});
   
   chrome.storage.local.get(function (items) {
     // console.log(items);
@@ -120,7 +121,7 @@ function checkMark()
         });
       }
       // change icon to notice user
-      matched && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-128-r.png"});
+      matched && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-r.svg"});
     }
   });
 }
