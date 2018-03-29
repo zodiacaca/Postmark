@@ -41,7 +41,12 @@ function checkDOM()
   });
   
   $("#markCancel").on("click", function (e) {
-    clear();
+    if (extraStep) {
+      $("#markFolderList").remove();
+      extraStep = false;
+    } else {
+      clear();
+    }
   });
 }
 
@@ -53,20 +58,23 @@ function prepareData() {
   var page = window.location.href;
   var subfolders = page.substr(page.indexOf(host) + host.length);
   if (subfolders.indexOf("/") != subfolders.lastIndexOf("/")) {
-    extraStep = true;
-    
-    var subArray = subfolders.split("/");
-    var subArrayClean = [];
-    subArray.forEach(item => (item != "") && subArrayClean.push(item));
-    for (var i = 0; i < subArrayClean.length; i++) {
-      subArrayClean[i] = "/" + subArrayClean[i];
-      showSubfolders(subArrayClean[i]);
+    if (!extraStep) {
+      extraStep = true;
+      
+      var subArray = subfolders.split("/");
+      var subArrayClean = [];
+      subArray.forEach(item => (item != "") && subArrayClean.push(item));
+      for (var i = 0; i < subArrayClean.length; i++) {
+        subArrayClean[i] = "/" + subArrayClean[i];
+        showSubfolders(subArrayClean[i]);
+      }
     }
   }
   if (!extraStep) {
     saveData(host, page);
     clear();
   }
+  extraStep = false;
 }
 
 function saveData(host, page) {

@@ -194,7 +194,10 @@ function addButtons() {
 }
 
 function showSubfolders(folder) {
-  
+  var folderItem = document.createElement("button");
+  var markBox = document.getElementById("markBox");
+  markBox.appendChild(folderItem);
+  folderItem.appendChild(document.createTextNode(folder));
 }
 
 /*
