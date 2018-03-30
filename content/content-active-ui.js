@@ -193,11 +193,35 @@ function addButtons() {
   });
 }
 
+function addFolderList() {
+  var folderList = document.createElement("div");
+  folderList.id = "markFolders";
+  var markBox = document.getElementById("markBox");
+  markBox.appendChild(folderList);
+  $(folderList).css("position", "absolute");
+  $(folderList).css("top", "0");
+  $(folderList).css("left", "0");
+  $(folderList).css("background", "rgba(0, 0, 0, 0.5)");
+  
+  addHostnamesButton();
+}
+
+function addHostnamesButton() {
+  var hostItem = document.createElement("button");
+  var folderList = document.getElementById("markFolders");
+  folderList.appendChild(hostItem);
+  hostItem.appendChild(document.createTextNode(window.location.hostname));
+}
+
 function showSubfolders(folder) {
   var folderItem = document.createElement("button");
-  var markBox = document.getElementById("markBox");
-  markBox.appendChild(folderItem);
+  var folderList = document.getElementById("markFolders");
+  folderList.appendChild(folderItem);
   folderItem.appendChild(document.createTextNode(folder));
+  
+  $(folderItem).on("click", function (e) {
+    subfolders.push(folder);
+  });
 }
 
 /*

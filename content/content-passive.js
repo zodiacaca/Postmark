@@ -1,30 +1,5 @@
 
 
-// variables //
-// switch
-var toggle = false;
-var index = 0;
-var extraStep = false;
-
-// link right clicked
-var item;
-var link;
-var linkText;
-var containers = [];
-var lastContainer;
-var lastContainerStyle;
-
-// colors
-var listTextColor = "rgba(30,30,30,1)"
-var bgColor = "#fff";
-var bgColorSelected = "#bbb";
-var floorColor = "grey";
-var stickColor = "#111";
-
-var size = 16;
-var zIndex;
-
-
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();

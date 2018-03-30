@@ -1,4 +1,28 @@
 
+// variables //
+// switch
+var toggle = false;
+var index = 0;
+
+// link right clicked
+var item;
+var link;
+var linkText;
+var containers = [];
+var lastContainer;
+var lastContainerStyle;
+var subfolders = [];
+
+// colors
+var listTextColor = "rgba(30,30,30,1)"
+var bgColor = "#fff";
+var bgColorSelected = "#bbb";
+var floorColor = "grey";
+var stickColor = "#111";
+
+var size = 16;
+var zIndex;
+
 
 function checkDOM()
 {
@@ -13,6 +37,8 @@ function checkDOM()
     fillBox();
     addButtons();
     colorBackground();
+    
+    subfolders.push(window.location.hostname);
     
     toggle = true;
   }
@@ -41,9 +67,8 @@ function checkDOM()
   });
   
   $("#markCancel").on("click", function (e) {
-    if (extraStep) {
-      $("#markFolderList").remove();
-      extraStep = false;
+    if (document.getElementById("markFolders")) {
+      $("#markFolders").remove();
     } else {
       clear();
     }
@@ -56,30 +81,33 @@ function checkDOM()
 function prepareData() {
   var host = window.location.hostname;
   var page = window.location.href;
-  var subfolders = page.substr(page.indexOf(host) + host.length);
-  if (subfolders.indexOf("/") != subfolders.lastIndexOf("/")) {
-    if (!extraStep) {
-      extraStep = true;
-      
-      var subArray = subfolders.split("/");
-      var subArrayClean = [];
-      subArray.forEach(item => (item != "") && subArrayClean.push(item));
-      for (var i = 0; i < subArrayClean.length; i++) {
-        subArrayClean[i] = "/" + subArrayClean[i];
-        showSubfolders(subArrayClean[i]);
+  if (!document.getElementById("markFolders")) {
+    var subfoldersStr = page.substr(page.indexOf(host) + host.length);
+    if (subfoldersStr.indexOf("/") != subfoldersStr.lastIndexOf("/")) {
+      var subArray = subfoldersStr.split("/");
+      var subFolderArray = [];
+      subArray.forEach(item => (item != "") && subFolderArray.push(item));
+      addFolderList();
+      for (var i = 0; i < subFolderArray.length; i++) {
+        subFolderArray[i] = "/" + subFolderArray[i];
+        showSubfolders(subFolderArray[i]);
       }
     }
   }
-  if (!extraStep) {
+  console.log(subfolders);
+  if (!document.getElementById("markFolders") || subfolders.length > 1) {
     saveData(host, page);
     clear();
   }
-  extraStep = false;
 }
 
 function saveData(host, page) {
+  subfolders.shift(); // remove host from subfolders
+  var subfoldersStr = subfolders.toString();
   var markItem = {};
-  markItem[host] = {
+  markItem[host + subfoldersStr] = {
+    hostname: host,
+    depth: subfolders,
     class: containers[index].class,
     href: link,
     title: linkText,
@@ -179,7 +207,7 @@ function clear() {
   containers = [];
   lastContainer = undefined;
   lastContainerStyle = undefined;
+  subfolders = [];
   index = 0;
   toggle = false;
-  extraStep = false;
 }
