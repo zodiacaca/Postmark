@@ -198,29 +198,58 @@ function addFolderList() {
   folderList.id = "markFolders";
   var markBox = document.getElementById("markBox");
   markBox.appendChild(folderList);
+  $(folderList).css("all", "initial");
   $(folderList).css("position", "absolute");
   $(folderList).css("top", "0");
   $(folderList).css("left", "0");
-  $(folderList).css("background", "rgba(0, 0, 0, 0.5)");
+  $(folderList).css("background-color", "rgba(0, 0, 0, 0.8)");
   
-  addHostnamesButton();
+  addHostnameButton();
 }
 
-function addHostnamesButton() {
+function addHostnameButton() {
   var hostItem = document.createElement("button");
   var folderList = document.getElementById("markFolders");
   folderList.appendChild(hostItem);
   hostItem.appendChild(document.createTextNode(window.location.hostname));
+  $(hostItem).css("all", "initial");
+  $(hostItem).css("font-family", "Helvetica");
+  $(hostItem).css("font-size", toPx(0.9));
+  $(hostItem).css("color", "#222");
+  $(hostItem).css("margin", toPx(0.4));
+  $(hostItem).css("margin-left", toPx(0.1));
+  $(hostItem).css("margin-right", toPx(0.2));
+  $(hostItem).css("padding", toPx([0.1, 0.2]));
+  $(hostItem).css("border-bottom", "medium solid #0f0");
+  $(hostItem).css("background-color", "#eee");
 }
 
-function showSubfolders(folder) {
+function showSubfolders(index, folder) {
   var folderItem = document.createElement("button");
+  folderItem.id = "folderItem" + index;
   var folderList = document.getElementById("markFolders");
   folderList.appendChild(folderItem);
   folderItem.appendChild(document.createTextNode(folder));
+  $(folderItem).css("all", "initial");
+  $(folderItem).css("font-family", "Helvetica");
+  $(folderItem).css("font-size", toPx(0.9));
+  $(folderItem).css("margin", toPx(0.4));
+  $(folderItem).css("margin-left", toPx(0.1));
+  $(folderItem).css("margin-right", toPx(0.2));
+  $(folderItem).css("padding", toPx([0.1, 0.2]));
+  $(folderItem).css("border-bottom", "medium solid grey");
+  $(folderItem).css("background-color", "#eee");
   
   $(folderItem).on("click", function (e) {
-    subfolders.push(folder);
+    var num = this.id.substring(10);
+    var index = parseInt(num);
+    initSubfolders();
+    for (var i = 0; i <= index; i++) {
+      var element = document.getElementById("folderItem" + i);
+      var folder = element.innerText;
+      subfolders.push(folder);
+      $(element).css("border-bottom", "medium solid #0f0");
+    }
   });
 }
 

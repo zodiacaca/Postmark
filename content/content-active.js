@@ -69,6 +69,7 @@ function checkDOM()
   $("#markCancel").on("click", function (e) {
     if (document.getElementById("markFolders")) {
       $("#markFolders").remove();
+      initSubfolders();
     } else {
       clear();
     }
@@ -90,7 +91,7 @@ function prepareData() {
       addFolderList();
       for (var i = 0; i < subFolderArray.length; i++) {
         subFolderArray[i] = "/" + subFolderArray[i];
-        showSubfolders(subFolderArray[i]);
+        showSubfolders(i, subFolderArray[i]);
       }
     }
   }
@@ -102,12 +103,14 @@ function prepareData() {
 }
 
 function saveData(host, page) {
-  subfolders.shift(); // remove host from subfolders
-  var subfoldersStr = subfolders.toString();
+  var subfoldersStr = "";
+  for (var i = 1; i < subfolders.length; i++) {
+    subfoldersStr += subfolders[i];
+  }
   var markItem = {};
-  markItem[host + subfoldersStr] = {
+  markItem[host] = {
     hostname: host,
-    depth: subfolders,
+    depth: subfoldersStr,
     class: containers[index].class,
     href: link,
     title: linkText,
@@ -197,6 +200,11 @@ function selectClasses() {
 /*
   reset
 */
+function initSubfolders() {
+  subfolders = [];
+  subfolders.push(window.location.hostname);
+}
+
 function clear() {
   lastContainer && $(lastContainer).css("background", lastContainerStyle);
   $("#markBox").remove();

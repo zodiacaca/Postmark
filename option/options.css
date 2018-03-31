@@ -28,16 +28,15 @@ thead th:nth-child(1) {
 }
 
 thead th:nth-child(2) {
-  width: 15%;
+  width: 10%;
 }
 
 thead th:nth-child(3) {
-  width: 45%;
+  width: 15%;
 }
 
 thead th:nth-child(4) {
-  padding: 0.5rem 0rem;
-  width: 5%;
+  width: 35%;
 }
 
 thead th:nth-child(5) {
@@ -46,25 +45,21 @@ thead th:nth-child(5) {
 }
 
 thead th:nth-child(6) {
-  width: 10%;
-}
-
-thead th:nth-child(7) {
   padding: 0.5rem 0rem;
   width: 5%;
 }
 
-tbody tr:nth-child(odd) {
-  background-color: #eee;
+thead th:nth-child(7) {
+  width: 10%;
 }
 
-tbody tr:nth-child(even) {
-  background-color: #fff;
-}
-
-tr td:nth-child(4) {
+thead th:nth-child(8) {
   padding: 0.5rem 0rem;
-  text-align: center;
+  width: 5%;
+}
+
+tbody tr:hover {
+  background-color: #ddd;
 }
 
 tr td:nth-child(5) {
@@ -73,10 +68,15 @@ tr td:nth-child(5) {
 }
 
 tr td:nth-child(6) {
+  padding: 0.5rem 0rem;
   text-align: center;
 }
 
 tr td:nth-child(7) {
+  text-align: center;
+}
+
+tr td:nth-child(8) {
   padding: 0.5rem 0rem;
   text-align: center;
 }

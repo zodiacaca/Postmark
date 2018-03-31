@@ -7,6 +7,7 @@ chrome.storage.local.get(function (items) {
     var entry = document.createElement("tr");
     var host = document.createElement("th");
     $(host).attr("scope", "row");
+    var subfolders = document.createElement("td");
     var classes = document.createElement("td");
     var title = document.createElement("td");
     var post = document.createElement("td");
@@ -18,6 +19,7 @@ chrome.storage.local.get(function (items) {
     var removeIcon = document.createElement("img");
     markList.appendChild(entry);
     entry.appendChild(host);
+    entry.appendChild(subfolders);
     entry.appendChild(classes);
     entry.appendChild(title);
     entry.appendChild(post);
@@ -28,6 +30,7 @@ chrome.storage.local.get(function (items) {
     entry.appendChild(remove);
     remove.appendChild(removeIcon);
     host.appendChild(document.createTextNode(key));
+    subfolders.appendChild(document.createTextNode(items[key].depth));
     classes.appendChild(document.createTextNode(items[key].class));
     title.appendChild(document.createTextNode(items[key].title));
     $(postLink).attr("href", items[key].href);
