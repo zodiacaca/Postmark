@@ -38,8 +38,6 @@ function checkDOM()
     addButtons();
     colorBackground();
     
-    subfolders.push(window.location.hostname);
-    
     toggle = true;
   }
   else {
@@ -69,7 +67,7 @@ function checkDOM()
   $("#markCancel").on("click", function (e) {
     if (document.getElementById("markFolders")) {
       $("#markFolders").remove();
-      initSubfolders();
+      subfolders = [];
     } else {
       clear();
     }
@@ -89,14 +87,15 @@ function prepareData() {
       var subFolderArray = [];
       subArray.forEach(item => (item != "") && subFolderArray.push(item));
       addFolderList();
+      showSubfolders(0, host);
       for (var i = 0; i < subFolderArray.length; i++) {
         subFolderArray[i] = "/" + subFolderArray[i];
-        showSubfolders(i, subFolderArray[i]);
+        showSubfolders(i + 1, subFolderArray[i]);
       }
     }
   }
   console.log(subfolders);
-  if (!document.getElementById("markFolders") || subfolders.length > 1) {
+  if (!document.getElementById("markFolders") || subfolders.length > 0) {
     saveData(host, page);
     clear();
   }
@@ -200,11 +199,6 @@ function selectClasses() {
 /*
   reset
 */
-function initSubfolders() {
-  subfolders = [];
-  subfolders.push(window.location.hostname);
-}
-
 function clear() {
   lastContainer && $(lastContainer).css("background", lastContainerStyle);
   $("#markBox").remove();
