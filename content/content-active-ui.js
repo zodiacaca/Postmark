@@ -243,7 +243,6 @@ function showSubfolders(index, folder) {
   $(folderItem).on("click", function (e) {
     var num = this.id.substring(10);
     var index = parseInt(num);
-    initSubfolders();
     for (var i = 0; i <= index; i++) {
       var element = document.getElementById("folderItem" + i);
       var folder = element.innerText;
