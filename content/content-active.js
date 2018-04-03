@@ -91,7 +91,7 @@ function prepareData() {
       addFolderList();
       for (var i = 0; i < subFolderArray.length; i++) {
         subFolderArray[i] = "/" + subFolderArray[i];
-        showSubfolders(i, subFolderArray[i]);
+        showSubfolders(i + 1, subFolderArray[i]);
       }
     }
   }

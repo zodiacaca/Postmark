@@ -209,6 +209,7 @@ function addFolderList() {
 
 function addHostnameButton() {
   var hostItem = document.createElement("button");
+  hostItem.id = "folderItem0";
   var folderList = document.getElementById("markFolders");
   folderList.appendChild(hostItem);
   hostItem.appendChild(document.createTextNode(window.location.hostname));
@@ -222,6 +223,16 @@ function addHostnameButton() {
   $(hostItem).css("padding", toPx([0.1, 0.2]));
   $(hostItem).css("border-bottom", "medium solid #0f0");
   $(hostItem).css("background-color", "#eee");
+  
+  $(hostItem).on("click", function (e) {
+    subfolders = [];
+    subfolders.push(window.location.hostname);
+    var count = $("#markFolders").children().length;
+    for (var i = 1; i <= count; i++) {
+      var element = document.getElementById("folderItem" + i);
+      $(element).css("border-bottom", "medium solid grey");
+    }
+  });
 }
 
 function showSubfolders(index, folder) {
@@ -243,11 +254,17 @@ function showSubfolders(index, folder) {
   $(folderItem).on("click", function (e) {
     var num = this.id.substring(10);
     var index = parseInt(num);
-    for (var i = 0; i <= index; i++) {
+    for (var i = 1; i <= index; i++) {
       var element = document.getElementById("folderItem" + i);
       var folder = element.innerText;
       subfolders.push(folder);
       $(element).css("border-bottom", "medium solid #0f0");
+    }
+    var count = $("#markFolders").children().length;
+    for (var i = index + 1; i <= count; i++) {
+      var element = document.getElementById("folderItem" + i);
+      subfolders.splice(index + 1)
+      $(element).css("border-bottom", "medium solid grey");
     }
   });
 }
