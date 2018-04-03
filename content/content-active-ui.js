@@ -257,7 +257,7 @@ function showSubfolders(index, folder) {
     for (var i = 1; i <= index; i++) {
       var element = document.getElementById("folderItem" + i);
       var folder = element.innerText;
-      subfolders.push(folder);
+      subfolders.pushIfUnique(folder);
       $(element).css("border-bottom", "medium solid #0f0");
     }
     var count = $("#markFolders").children().length;

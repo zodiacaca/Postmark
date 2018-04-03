@@ -1,4 +1,11 @@
 
+// prototype
+Array.prototype.pushIfUnique = function(element) { 
+  if (this.indexOf(element) == -1) {
+    this.push(element);
+  }
+};
+
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
