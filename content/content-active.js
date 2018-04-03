@@ -13,6 +13,8 @@ var lastContainer;
 var lastContainerStyle;
 var subfolders = [];
 
+var storedData = {};
+
 // colors
 var listTextColor = "rgba(30,30,30,1)"
 var bgColor = "#fff";
@@ -90,7 +92,7 @@ function prepareData() {
       subArray.forEach(item => (item != "") && subFolderArray.push(item));
       addFolderList();
       for (var i = 0; i < subFolderArray.length; i++) {
-        subFolderArray[i] = "/" + subFolderArray[i];
+        subFolderArray[i] = subFolderArray[i] + "/";
         showSubfolders(i + 1, subFolderArray[i]);
       }
     }
@@ -100,7 +102,7 @@ function prepareData() {
     saveData(host, page);
     clear();
   }
-  subfolders.push(window.location.hostname);
+  subfolders.push(window.location.hostname + "/");
 }
 
 function saveData(host, page) {
@@ -108,17 +110,16 @@ function saveData(host, page) {
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
   }
-  var markItem = {};
-  markItem[host] = {
-    hostname: host,
-    depth: subfoldersStr,
+  (subfoldersStr == "") && (subfoldersStr = "/");
+  var markItem = storedData;
+  !markItem[host] && (markItem[host] = {});
+  markItem[host][subfoldersStr] = {
     class: containers[index].class,
     href: link,
     title: linkText,
     page: page,
     date: getTime()
   };
-  // console.log(markItem);
   chrome.storage.local.set(markItem);
   styleContainer(containers[index].container);
 }
@@ -177,11 +178,11 @@ function findClasses() {
 }
 
 function selectClasses() {
-  chrome.storage.local.get(function (items) {
-    var host = window.location.hostname;
-    var markItem = items[host];
-    if (markItem) {
-      var classes = markItem.class;
+  chrome.storage.local.get([window.location.hostname], function (item) {
+    if (item) {
+      storedData = item;
+      
+      var classes = item.class;
       var containerClasses = [];
       var count = containers.length;
       for (var i = 0; i < count; i++) {
@@ -212,6 +213,8 @@ function clear() {
   lastContainer = undefined;
   lastContainerStyle = undefined;
   subfolders = [];
+  storedData = {};
   index = 0;
   toggle = false;
 }
+

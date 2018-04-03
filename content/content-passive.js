@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();
   } else if (message.event == "onActivated") {
-    checkMark()
+    // checkMark()
   }
 });
 
@@ -61,11 +61,8 @@ function checkMark()
   // initialize icon
   chrome.runtime.sendMessage({task: "icon", path: "icons/postmark.svg"});
   
-  chrome.storage.local.get(function (items) {
-    // console.log(items);
-    var host = window.location.hostname;
-    var markItem = items[host];
-    if (markItem) {
+  chrome.storage.local.get([window.location.hostname], function (item) {
+    if (item) {
       var title = markItem.title;
       var classes = markItem.class;
       var classArray = classes.split(" ");
@@ -107,7 +104,7 @@ function checkMark()
     }
   });
 }
-checkMark();
+// checkMark();
 
 function autoMark()
 {

@@ -226,7 +226,7 @@ function addHostnameButton() {
   
   $(hostItem).on("click", function (e) {
     subfolders = [];
-    subfolders.push(window.location.hostname);
+    subfolders.push(window.location.hostname + "/");
     var count = $("#markFolders").children().length;
     for (var i = 1; i <= count; i++) {
       var element = document.getElementById("folderItem" + i);
