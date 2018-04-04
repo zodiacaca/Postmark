@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();
   } else if (message.event == "onActivated") {
-    // checkMark()
+    checkMark()
   }
 });
 
@@ -63,48 +63,57 @@ function checkMark()
   
   chrome.storage.local.get([window.location.hostname], function (item) {
     if (item) {
-      var title = markItem.title;
-      var classes = markItem.class;
-      var classArray = classes.split(" ");
-      for (var i = 0; i < classArray.length; i++) {
-        classArray[i] = "." + classArray[i];
+      for (var site in item) {
+        for (var sub in item[site]) {
+          var title = item[site][sub].title;
+          var classes = item[site][sub].class;
+          var classArray;
+          if (classes.indexOf(" ") >= 0) {
+            classArray = classes.split(" ");
+            for (var i = 0; i < classArray.length; i++) {
+              classArray[i] = "." + classArray[i];
+            }
+          } else {
+            classArray = ["." + classes];
+          }
+          var classSelector = "";
+          for (var i = 0; i < classArray.length; i++) {
+            classSelector += classArray[i];
+          }
+          var matched = false;
+          if (title && title != "") {
+            $(classSelector).each(function (index, value) {
+              var match = false;
+              ($(value).innerText == title) && (match = true);
+              $(value).find("a").each(function (i, v) {
+                (v.innerText == title) && (match = true);
+              });
+              match && $(value).css("border", "thick solid #f00");
+              match && $(value).css("box-sizing", "border-box");
+              match && $(value).css("overflow", "hidden");
+              match && (matched = true);
+            });
+          } else {
+            $(classSelector).each(function (index, value) {
+              var match = false;
+              ($(value).attr("href") == item[site][sub].href) && (match = true);
+              $(value).find("a").each(function (i, v) {
+                ($(v).attr("href") == item[site][sub].href) && (match = true);
+              });
+              match && $(value).css("border", "thick solid #f00");
+              match && $(value).css("box-sizing", "border-box");
+              match && $(value).css("overflow", "hidden");
+              match && (matched = true);
+            });
+          }
+          // change icon to notice user
+          matched && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-r.svg"});
+        }
       }
-      var classSelector = "";
-      for (var i = 0; i < classArray.length; i++) {
-        classSelector += classArray[i];
-      }
-      var matched = false;
-      if (title && title != "") {
-        $(classSelector).each(function (index, value) {
-          var match = false;
-          ($(value).innerText == title) && (match = true);
-          $(value).find("a").each(function (i, v) {
-            (v.innerText == title) && (match = true);
-          });
-          match && $(value).css("border", "thick solid #f00");
-          match && $(value).css("box-sizing", "border-box");
-          match && $(value).css("overflow", "hidden");
-          match && (matched = true);
-        });
-      } else {
-        $(classSelector).each(function (index, value) {
-          var match = false;
-          ($(value).attr("href") == markItem.href) && (match = true);
-          $(value).find("a").each(function (i, v) {
-            ($(v).attr("href") == markItem.href) && (match = true);
-          });
-          match && $(value).css("border", "thick solid #f00");
-          match && $(value).css("box-sizing", "border-box");
-          match && $(value).css("overflow", "hidden");
-          match && (matched = true);
-        });
-      }
-      // change icon to notice user
-      matched && chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-r.svg"});
     }
   });
 }
-// checkMark();
+checkMark();
 
 function autoMark()
 {
