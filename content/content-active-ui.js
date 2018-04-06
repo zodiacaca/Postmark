@@ -24,7 +24,7 @@ function createBox() {
   var nodes = $("body").children();
   nodes.each(function () {
     var z = $(this).css("z-index");
-    (!isNaN(z)) && indexes.push(z);
+    (!isNaN(z)) && (indexes.push(z));
   });
   if (indexes.length > 0) {
     var max = indexes.reduce(function (a, b) {
@@ -294,7 +294,7 @@ function changeBackground() {
 }
 
 function colorBackground() {
-  lastContainer && $(lastContainer).css("background", lastContainerStyle);
+  (lastContainer) && ($(lastContainer).css("background", lastContainerStyle));
   var bg = $(containers[index].container).css("background");
   var bgIndex = bg.indexOf(")");
   var bgStyle = bg.substr(bgIndex + 1);

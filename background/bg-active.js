@@ -13,7 +13,7 @@ function onClickHandler(info, tab) {
     { event: "onRClicked" },  // messages
     callbackHandler
   );
-};
+}
 
 function callbackHandler(content) {
   

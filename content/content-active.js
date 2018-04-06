@@ -29,7 +29,7 @@ var zIndex;
 function checkDOM()
 {
   // popup box
-  if (!document.getElementById("markBox") && item) {
+  if ((!document.getElementById("markBox")) && (item)) {
     // chrome.runtime.sendMessage({ task: "css", file: "" });
     
     createBox();
@@ -58,7 +58,7 @@ function checkDOM()
     if (e.deltaY > 0) {
       if (index < containers.length - 1) { index += 1 }
     }
-    updateStyle();
+    (document.getElementById("markBox")) && (updateStyle());
     
     return !toggle;
   }
@@ -89,7 +89,7 @@ function prepareData() {
     if (subfoldersStr.indexOf("/") != subfoldersStr.lastIndexOf("/")) {
       var subArray = subfoldersStr.split("/");
       var subFolderArray = [];
-      subArray.forEach(item => (item != "") && subFolderArray.push(item));
+      subArray.forEach(item => (item != "") && (subFolderArray.push(item)));
       addFolderList();
       for (var i = 0; i < subFolderArray.length; i++) {
         subFolderArray[i] = subFolderArray[i] + "/";
@@ -97,7 +97,6 @@ function prepareData() {
       }
     }
   }
-  console.log(subfolders);
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
     saveData(host, page);
     clear();
@@ -110,16 +109,31 @@ function saveData(host, page) {
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
   }
-  (subfoldersStr == "") && (subfoldersStr = "/");
+  (subfoldersStr == "") ? (subfoldersStr = "/") : (subfoldersStr = "/" + subfoldersStr);
   var markItem = storedData;
-  !markItem[host] && (markItem[host] = {});
-  markItem[host][subfoldersStr] = {
+  (!markItem[host]) && (markItem[host] = {});
+  (!markItem[host][subfoldersStr]) && (markItem[host][subfoldersStr] = {});
+  (!markItem[host][subfoldersStr]["maxEntries"]) && (markItem[host][subfoldersStr]["maxEntries"] = 2);
+  var oldest;
+  var length = 0;
+  for (var key in markItem[host][subfoldersStr]) {
+    (!oldest) && (oldest = key);
+    length += 1;
+  }
+  length -= 1;
+  (isNaN(oldest)) && (oldest = 1);
+  if (length >= markItem[host][subfoldersStr]["maxEntries"]) {
+    delete markItem[host][subfoldersStr][oldest];
+  }
+  var number = parseInt(oldest) + length;
+  markItem[host][subfoldersStr][number] = {
     class: containers[index].class,
     href: link,
     title: linkText,
     page: page,
     date: getTime()
-  };
+  }
+  console.log(markItem);
   chrome.storage.local.set(markItem);
   styleContainer(containers[index].container);
 }
@@ -203,7 +217,7 @@ function selectClasses() {
   reset
 */
 function clear() {
-  lastContainer && $(lastContainer).css("background", lastContainerStyle);
+  (lastContainer) && ($(lastContainer).css("background", lastContainerStyle));
   $("#markBox").remove();
   $("#opBox").remove();
   item = undefined;
