@@ -8,6 +8,7 @@ chrome.storage.local.get(function (items) {
       for (var entry in items[site][sub]) {
         if (!isNaN(entry)) {
           var row = document.createElement("tr");
+          row.id = site + "(" + entry + ")";
           var host = document.createElement("th");
           $(host).attr("scope", "row");
           var subfolder = document.createElement("td");
@@ -46,8 +47,13 @@ chrome.storage.local.get(function (items) {
           
           $(removeIcon).on("click", function () {
             var parent = $(this).parent().parent();
-            var str = $(parent).children()[0].innerText;
-            
+            var host = $(parent).children()[0].innerText;
+            var subfolder = $(parent).children()[1].innerText;
+            var id = parent[0].id.substring(host.length + 1, parent[0].id.length - 1);
+            chrome.storage.local.get([host], function (item) {
+              delete item[host][subfolder][id];
+              chrome.storage.local.set(item);
+            });
             $(parent).remove();
           });
         }
