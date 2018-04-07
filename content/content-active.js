@@ -38,8 +38,6 @@ function checkDOM()
     addButtons();
     colorBackground();
     
-    subfolders = [];
-    
     toggle = true;
   }
   else {
@@ -140,7 +138,7 @@ function saveData(host, page, container, link, linkText) {
       page: page,
       date: getTime()
     }
-    // console.log(item);
+    console.log(item);
     chrome.storage.local.set(item);
     styleContainer(container.container);
   });
