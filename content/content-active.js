@@ -29,7 +29,7 @@ var zIndex;
 function checkDOM()
 {
   // popup box
-  if ((!document.getElementById("markBox")) && (item)) {
+  if (!document.getElementById("markBox") && item) {
     // chrome.runtime.sendMessage({ task: "css", file: "" });
     
     createBox();
@@ -39,8 +39,6 @@ function checkDOM()
     fillBox();
     addButtons();
     colorBackground();
-    
-    subfolders = [];
     
     toggle = true;
   }
@@ -86,14 +84,23 @@ function prepareData() {
   var page = window.location.href;
   if (!document.getElementById("markFolders")) {
     var subfoldersStr = page.substr(page.indexOf(host) + host.length);
-    if (subfoldersStr.indexOf("/") != subfoldersStr.lastIndexOf("/")) {
-      var subArray = subfoldersStr.split("/");
-      var subFolderArray = [];
-      subArray.forEach(item => (item != "") && (subFolderArray.push(item)));
+    if (subfoldersStr.indexOf("/") + 1 != subfoldersStr.length) {
+      var slashIndexes = [];
+      var pos = 0;
+      while (subfoldersStr.indexOf("/", pos) >= 0) {
+        slashIndexes.pushIfUnique(subfoldersStr.indexOf("/", pos));
+        pos += 1;
+      }
+      var subArray = [];
+      for (var i = 0; i < slashIndexes.length; i++) {
+        var a = slashIndexes[i] + 1;
+        var b = slashIndexes[i + 1];
+        b ? b++ : b = undefined;
+        (a < subfoldersStr.length) && (subArray.push(subfoldersStr.substring(a, b)));
+      }
       addFolderList();
-      for (var i = 0; i < subFolderArray.length; i++) {
-        subFolderArray[i] = subFolderArray[i] + "/";
-        showSubfolders(i + 1, subFolderArray[i]);
+      for (var i = 0; i < subArray.length; i++) {
+        showSubfolders(i + 1, subArray[i]);
       }
     }
   }
@@ -109,7 +116,7 @@ function saveData(host, page) {
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
   }
-  (subfoldersStr == "") ? (subfoldersStr = "/") : (subfoldersStr = "/" + subfoldersStr);
+  subfoldersStr = "/" + subfoldersStr;
   var markItem = storedData;
   (!markItem[host]) && (markItem[host] = {});
   (!markItem[host][subfoldersStr]) && (markItem[host][subfoldersStr] = {});

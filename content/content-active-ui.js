@@ -83,27 +83,20 @@ function createList() {
 function addItem(i) {
   // initialize
   var level = document.createElement("li");
-  var paragraph = document.createElement("p");
   // append
   var markList = document.getElementById("markList");
   markList.appendChild(level);
-  level.appendChild(paragraph);
-  paragraph.appendChild(document.createTextNode(containers[i].class));
+  level.appendChild(document.createTextNode(containers[i].class));
   // css properties
   $(level).css("all", "initial");
+  $(level).css("font-family", "Helvetica");
+  $(level).css("font-size", toPx(0.9));
+  $(level).css("line-height", "2.2");
+  $(level).css("color", listTextColor);
   $(level).css("width", toPx(16));
+  $(level).css("padding-left", toPx(0.75));
   $(level).css("border-bottom", "thin solid " + floorColor);
   $(level).css("display", "block");
-  
-  $(paragraph).css("all", "initial");
-  $(paragraph).css("font-family", "Helvetica");
-  $(paragraph).css("font-size", toPx(0.9));
-  $(paragraph).css("line-height", "2.2");
-  $(paragraph).css("color", listTextColor);
-  $(paragraph).css("margin-left", toPx(0.75));
-  $(paragraph).before().css("content", "");
-  $(paragraph).before().css("clear", "both");
-  $(paragraph).before().css("display", "table");
 }
 
 function addButtons() {
