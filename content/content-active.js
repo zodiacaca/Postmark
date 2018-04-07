@@ -13,8 +13,6 @@ var lastContainer;
 var lastContainerStyle;
 var subfolders = [];
 
-var storedData = {};
-
 // colors
 var listTextColor = "rgba(30,30,30,1)"
 var bgColor = "#fff";
@@ -105,44 +103,45 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page);
+    saveData(host, page, containers[index]);
     clear();
   }
   subfolders.push(window.location.hostname + "/");
 }
 
-function saveData(host, page) {
+function saveData(host, page, container) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
   }
   subfoldersStr = "/" + subfoldersStr;
-  var markItem = storedData;
-  (!markItem[host]) && (markItem[host] = {});
-  (!markItem[host][subfoldersStr]) && (markItem[host][subfoldersStr] = {});
-  (!markItem[host][subfoldersStr]["maxEntries"]) && (markItem[host][subfoldersStr]["maxEntries"] = 2);
-  var oldest;
-  var length = 0;
-  for (var key in markItem[host][subfoldersStr]) {
-    (!oldest) && (oldest = key);
-    length += 1;
-  }
-  length -= 1;
-  (isNaN(oldest)) && (oldest = 1);
-  if (length >= markItem[host][subfoldersStr]["maxEntries"]) {
-    delete markItem[host][subfoldersStr][oldest];
-  }
-  var number = parseInt(oldest) + length;
-  markItem[host][subfoldersStr][number] = {
-    class: containers[index].class,
-    href: link,
-    title: linkText,
-    page: page,
-    date: getTime()
-  }
-  console.log(markItem);
-  chrome.storage.local.set(markItem);
-  styleContainer(containers[index].container);
+  chrome.storage.local.get([window.location.hostname], function (item) {
+    (!item[host]) && (item[host] = {});
+    (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
+    (!item[host][subfoldersStr]["maxEntries"]) && (item[host][subfoldersStr]["maxEntries"] = 2);
+    var oldest;
+    var length = 0;
+    for (var key in item[host][subfoldersStr]) {
+      (!oldest) && (oldest = key);
+      length += 1;
+    }
+    length -= 1;
+    (isNaN(oldest)) && (oldest = 1);
+    if (length >= item[host][subfoldersStr]["maxEntries"]) {
+      delete item[host][subfoldersStr][oldest];
+    }
+    var number = parseInt(oldest) + length;
+    item[host][subfoldersStr][number] = {
+      class: container.class,
+      href: link,
+      title: linkText,
+      page: page,
+      date: getTime()
+    }
+    console.log(item);
+    chrome.storage.local.set(item);
+    styleContainer(container.container);
+  });
 }
 
 function getTime() {
@@ -201,8 +200,6 @@ function findClasses() {
 function selectClasses() {
   chrome.storage.local.get([window.location.hostname], function (item) {
     if (item) {
-      storedData = item;
-      
       var classes = item.class;
       var containerClasses = [];
       var count = containers.length;
@@ -234,7 +231,6 @@ function clear() {
   lastContainer = undefined;
   lastContainerStyle = undefined;
   subfolders = [];
-  storedData = {};
   index = 0;
   toggle = false;
 }

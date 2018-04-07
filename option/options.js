@@ -47,7 +47,7 @@ chrome.storage.local.get(function (items) {
           $(removeIcon).on("click", function () {
             var parent = $(this).parent().parent();
             var str = $(parent).children()[0].innerText;
-            chrome.storage.local.remove(str);
+            
             $(parent).remove();
           });
         }
