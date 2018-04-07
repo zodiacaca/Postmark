@@ -106,7 +106,7 @@ function prepareData() {
     saveData(host, page, containers[index], link, linkText);
     clear();
   }
-  subfolders.push(window.location.hostname + "/");
+  (document.getElementById("markFolders")) && (subfolders.push(window.location.hostname + "/"));
 }
 
 function saveData(host, page, container, link, linkText) {
