@@ -103,13 +103,13 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index]);
+    saveData(host, page, containers[index], link, linkText);
     clear();
   }
   subfolders.push(window.location.hostname + "/");
 }
 
-function saveData(host, page, container) {
+function saveData(host, page, container, link, linkText) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
