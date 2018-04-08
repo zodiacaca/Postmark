@@ -1,4 +1,13 @@
 
+Object.prototype.length = function() { 
+  var count = 0;
+  for (var key in this) {
+    count += 1;
+  }
+  
+  return count;
+}
+
 // chrome.storage.local.clear();
 chrome.storage.local.get(function (items) {
   console.log(items);
@@ -50,14 +59,27 @@ chrome.storage.local.get(function (items) {
             var host = $(parent).children()[0].innerText;
             var subfolder = $(parent).children()[1].innerText;
             var id = parent[0].id.substring(host.length + 1, parent[0].id.length - 1);
-            chrome.storage.local.get([host], function (item) {
-              delete item[host][subfolder][id];
-              chrome.storage.local.set(item);
-            });
+            removeEntry(host, subfolder, id);
             $(parent).remove();
+            (items[site][sub].length() == 1) && (removeEntry(site, sub));
+            (items[site].length() == 1) && (removeEntry(site));
           });
         }
       }
     }
   }
 });
+
+function removeEntry(host, subfolder, id) {
+  chrome.storage.local.get([host], function (item) {
+    if (host && subfolder && id) {
+      delete item[host][subfolder][id];
+    } else if (host && subfolder) {
+      delete item[host][subfolder];
+    } else {
+      chrome.storage.local.remove(host);
+    }
+    chrome.storage.local.set(item);
+  });
+}
+
