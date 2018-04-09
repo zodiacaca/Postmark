@@ -1,21 +1,19 @@
 
-Object.prototype.length = function() { 
-  var count = 0;
-  for (var key in this) {
-    count += 1;
-  }
-  
-  return count;
-}
-
 // chrome.storage.local.clear();
 chrome.storage.local.get(function (items) {
   console.log(items);
   var markList = document.getElementById("markList");
   for (var site in items) {
+    var emptySite = true;
+    
     for (var sub in items[site]) {
+      var emptySubfolder = true;
+      
       for (var entry in items[site][sub]) {
+        
         if (!isNaN(entry)) {
+          emptySite = false;
+          emptySubfolder = false;
           var row = document.createElement("tr");
           row.id = site + "(" + entry + ")";
           var host = document.createElement("th");
@@ -61,12 +59,12 @@ chrome.storage.local.get(function (items) {
             var id = parent[0].id.substring(host.length + 1, parent[0].id.length - 1);
             removeEntry(host, subfolder, id);
             $(parent).remove();
-            (items[site][sub].length() == 1) && (removeEntry(site, sub));
-            (items[site].length() == 1) && (removeEntry(site));
           });
         }
       }
+      (emptySubfolder) && (removeEntry(site, sub));
     }
+    (emptySite) && (removeEntry(site));
   }
 });
 
@@ -74,10 +72,13 @@ function removeEntry(host, subfolder, id) {
   chrome.storage.local.get([host], function (item) {
     if (host && subfolder && id) {
       delete item[host][subfolder][id];
+      console.log("Delete entry for " + host + subfolder);
     } else if (host && subfolder) {
       delete item[host][subfolder];
+      console.log("Delete empty category for " + host);
     } else {
       chrome.storage.local.remove(host);
+      console.log("Delete empty host " + host);
     }
     chrome.storage.local.set(item);
   });

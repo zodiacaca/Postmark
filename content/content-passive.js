@@ -6,15 +6,6 @@ Array.prototype.pushIfUnique = function(element) {
   }
 }
 
-Object.prototype.length = function() { 
-  var count = 0;
-  for (var key in this) {
-    count += 1;
-  }
-  
-  return count;
-}
-
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();
