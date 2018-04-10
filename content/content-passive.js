@@ -64,6 +64,7 @@ function checkMark()
     if (item) {
       for (var site in item) {
         for (var sub in item[site]) {
+          findAutoSelectSubfolder(sub, site);
           for (var entry in item[site][sub]) {
             if (!isNaN(entry)) {
               var title = item[site][sub][entry].title;
@@ -128,6 +129,16 @@ function findAutoSelectClass(classes, host) {
   var url = window.location.href;
   if (url.indexOf(host) >= 0) {
     rememberedClass = classes;
+  }
+}
+
+function findAutoSelectSubfolder(subfolder, host) {
+  var url = window.location.href;
+  if (url.indexOf(host) >= 0 && url.indexOf(subfolder) >= 0) {
+    if (subfolder.length > rememberedCategory.depth) {
+      rememberedCategory.category = subfolder;
+      rememberedCategory.depth = subfolder.length;
+    }
   }
 }
 

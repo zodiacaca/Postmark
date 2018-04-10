@@ -230,6 +230,7 @@ function addHostnameButton() {
 
 function showSubfolders(index, folder) {
   var folderItem = document.createElement("button");
+  folderItem.className = "folderButton";
   folderItem.id = "folderItem" + index;
   var folderList = document.getElementById("markFolders");
   folderList.appendChild(folderItem);
@@ -245,21 +246,32 @@ function showSubfolders(index, folder) {
   $(folderItem).css("background-color", "#eee");
   
   $(folderItem).on("click", function (e) {
-    var num = this.id.substring(10);
-    var index = parseInt(num);
-    for (var i = 1; i <= index; i++) {
-      var element = document.getElementById("folderItem" + i);
-      var folder = element.innerText;
-      subfolders.pushIfUnique(folder);
-      $(element).css("border-bottom", "medium solid #0f0");
-    }
-    var count = $("#markFolders").children().length;
-    for (var i = index + 1; i <= count; i++) {
-      var element = document.getElementById("folderItem" + i);
-      subfolders.splice(index + 1)
-      $(element).css("border-bottom", "medium solid grey");
-    }
+    selectCategory(this);
   });
+}
+
+function selectCategory(btn) {
+  var num = btn.id.substring(10);
+  var index = parseInt(num);
+  for (var i = 1; i <= index; i++) {
+    var element = document.getElementById("folderItem" + i);
+    var folder = element.innerText;
+    subfolders.pushIfUnique(folder);
+    $(element).css("border-bottom", "medium solid #0f0");
+  }
+  var count = $("#markFolders").children().length;
+  for (var i = index + 1; i <= count; i++) {
+    var element = document.getElementById("folderItem" + i);
+    subfolders.splice(index + 1)
+    $(element).css("border-bottom", "medium solid grey");
+  }
+}
+
+function selectButton(folder, index) {
+  if (rememberedCategory.category.indexOf(folder) >= 0) {
+    var button = document.getElementById("folderItem" + index);
+    selectCategory(button);
+  }
 }
 
 /*

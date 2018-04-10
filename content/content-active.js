@@ -13,6 +13,7 @@ var lastContainer;
 var lastContainerStyle;
 var subfolders = [];
 var rememberedClass;
+var rememberedCategory = { category: undefined, depth: 0 };
 
 // colors
 var listTextColor = "rgba(30,30,30,1)"
@@ -109,7 +110,18 @@ function prepareData() {
     saveData(host, page, containers[index], link, linkText);
     clear();
   }
-  (document.getElementById("markFolders")) && (subfolders.push(window.location.hostname + "/"));
+  if (document.getElementById("markFolders")) {
+    subfolders.push(window.location.hostname + "/");
+    if (rememberedCategory.category) {
+      for (var i = 0; i < $("." + "folderButton").length; i++) {
+        var depth = "";
+        for (var ii = 0; ii < i; ii++) {
+          depth += $("." + "folderButton")[ii].innerText;
+        }
+        selectButton(depth, i + 1);
+      }
+    }
+  }
 }
 
 function saveData(host, page, container, link, linkText) {
