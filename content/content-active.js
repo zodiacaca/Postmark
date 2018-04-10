@@ -12,6 +12,7 @@ var containers = [];
 var lastContainer;
 var lastContainerStyle;
 var subfolders = [];
+var rememberedClass;
 
 // colors
 var listTextColor = "rgba(30,30,30,1)"
@@ -37,6 +38,8 @@ function checkDOM()
     fillBox();
     addButtons();
     colorBackground();
+    
+    selectClasses();
     
     toggle = true;
   }
@@ -194,27 +197,21 @@ function findClasses() {
       containers.push(data);
     }
   }
-  selectClasses()
 }
 
 function selectClasses() {
-  chrome.storage.local.get([window.location.hostname], function (item) {
-    if (item) {
-      var classes = item.class;
-      var containerClasses = [];
-      var count = containers.length;
-      for (var i = 0; i < count; i++) {
-        containerClasses.push(containers[i].class)
-      }
-      var indexFound = containerClasses.findIndex(function (element) {
-        return element == classes;
-      });
-      if (indexFound >= 0) {
-        index = indexFound;
-        updateStyle();
-      }
-    }
+  var containerClasses = [];
+  var count = containers.length;
+  for (var i = 0; i < count; i++) {
+    containerClasses.push(containers[i].class)
+  }
+  var indexFound = containerClasses.findIndex(function (element) {
+    return element == rememberedClass;
   });
+  if (indexFound >= 0) {
+    index = indexFound;
+    updateStyle();
+  }
 }
 
 /*

@@ -68,6 +68,7 @@ function checkMark()
             if (!isNaN(entry)) {
               var title = item[site][sub][entry].title;
               var classes = item[site][sub][entry].class;
+              findAutoSelectClass(classes, site);
               var classArray;
               if (classes.indexOf(" ") >= 0) {
                 classArray = classes.split(" ");
@@ -122,4 +123,11 @@ function autoMark()
 {
   
 }
-autoMark();
+
+function findAutoSelectClass(classes, host) {
+  var url = window.location.href;
+  if (url.indexOf(host) >= 0) {
+    rememberedClass = classes;
+  }
+}
+
