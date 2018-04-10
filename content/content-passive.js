@@ -70,19 +70,7 @@ function checkMark()
               var title = item[site][sub][entry].title;
               var classes = item[site][sub][entry].class;
               findAutoSelectClass(classes, site);
-              var classArray;
-              if (classes.indexOf(" ") >= 0) {
-                classArray = classes.split(" ");
-                for (var i = 0; i < classArray.length; i++) {
-                  classArray[i] = "." + classArray[i];
-                }
-              } else {
-                classArray = ["." + classes];
-              }
-              var classSelector = "";
-              for (var i = 0; i < classArray.length; i++) {
-                classSelector += classArray[i];
-              }
+              var classSelector = getClassSelector(classes);
               var matched = false;
               if (title && title != "") {
                 $(classSelector).each(function (index, value) {
@@ -90,6 +78,7 @@ function checkMark()
                   ($(value).innerText == title) && (match = true);
                   $(value).find("a").each(function (i, v) {
                     (v.innerText == title) && (match = true);
+                    remembered.title.push(title);
                   });
                   (match) && ($(value).css("border", "thick solid #f00"));
                   (match) && ($(value).css("box-sizing", "border-box"));
@@ -102,6 +91,7 @@ function checkMark()
                   ($(value).attr("href") == item[site][sub][entry].href) && (match = true);
                   $(value).find("a").each(function (i, v) {
                     ($(v).attr("href") == item[site][sub][entry].href) && (match = true);
+                    remembered.link.push(item[site][sub][entry].href);
                   });
                   (match) && ($(value).css("border", "thick solid #f00"));
                   (match) && ($(value).css("box-sizing", "border-box"));
@@ -116,29 +106,111 @@ function checkMark()
         }
       }
     }
+    autoMark();
   });
 }
 checkMark();
 
 function autoMark()
 {
+  var host = window.location.hostname;
+  var page = window.location.href;
+  var home = false;
+  if (page.lastIndexOf("/") + 1 == page.length) {
+    home = isNaN(page.substr(page.lastIndexOf("/") - 1, 1))
+  } else {
+    home = isNaN(page.substr(page.length - 1, 1))
+  }
   
+  if (remembered.category.category && remembered.class && home) {
+    var classSelector = getClassSelector(remembered.class);
+    autoItem = $(classSelector)[0];
+    
+    chrome.storage.local.get([host], function (item) {
+      var subfoldersStr = remembered.category.category;
+      (!item[host]) && (item[host] = {});
+      (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
+      (!item[host][subfoldersStr]["maxEntries"]) && (item[host][subfoldersStr]["maxEntries"] = 2);
+      var oldest;
+      var length = 0;
+      for (var key in item[host][subfoldersStr]) {
+        (!oldest) && (oldest = key);
+        length += 1;
+      }
+      length -= 1;
+      (isNaN(oldest)) && (oldest = 1);
+      if (length >= item[host][subfoldersStr]["maxEntries"]) {
+        delete item[host][subfoldersStr][oldest];
+      }
+      var number = parseInt(oldest) + length;
+      var href;
+      var title;
+      var indexHREF = -1;
+      var indexTitle = -1;
+      $(autoItem).find("a").each(function (i, v) {
+        if (v.innerText) {
+          href = $(v).attr("href");
+          title = v.innerText;
+          if (indexHREF == -1) {
+            indexHREF = remembered.link.findIndex(function (element) {
+              return element == $(v).attr("href");
+            });
+          }
+          if (indexTitle == -1) {
+            indexTitle = remembered.title.findIndex(function (element) {
+              return element == v.innerText;
+            });
+          }
+        }
+      });
+      if (indexHREF = -1 && indexTitle == -1) {
+        item[host][subfoldersStr][number] = {
+          class: remembered.class,
+          href: href,
+          title: title,
+          page: page,
+          date: getTime()
+        }
+        console.log(item);
+        chrome.storage.local.set(item);
+        styleContainer(autoItem, "orange");
+      }
+    });
+  }
 }
 
 function findAutoSelectClass(classes, host) {
   var url = window.location.href;
   if (url.indexOf(host) >= 0) {
-    rememberedClass = classes;
+    remembered.class = classes;
   }
 }
 
 function findAutoSelectSubfolder(subfolder, host) {
   var url = window.location.href;
   if (url.indexOf(host) >= 0 && url.indexOf(subfolder) >= 0) {
-    if (subfolder.length > rememberedCategory.depth) {
-      rememberedCategory.category = subfolder;
-      rememberedCategory.depth = subfolder.length;
+    if (subfolder.length > remembered.category.depth) {
+      remembered.category.category = subfolder;
+      remembered.category.depth = subfolder.length;
     }
   }
+}
+
+function getClassSelector(classes) {
+  var classArray;
+  if (classes.indexOf(" ") >= 0) {
+    classArray = classes.split(" ");
+    for (var i = 0; i < classArray.length; i++) {
+      classArray[i] = "." + classArray[i];
+    }
+  } else {
+    classArray = ["." + classes];
+  }
+  var classSelector = "";
+  for (var i = 0; i < classArray.length; i++) {
+    classSelector += classArray[i];
+  }
+  
+  return classSelector;
 }
 

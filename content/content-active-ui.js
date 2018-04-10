@@ -268,7 +268,7 @@ function selectCategory(btn) {
 }
 
 function selectButton(folder, index) {
-  if (rememberedCategory.category.indexOf(folder) >= 0) {
+  if (remembered.category.category.indexOf(folder) >= 0) {
     var button = document.getElementById("folderItem" + index);
     selectCategory(button);
   }

@@ -6,14 +6,19 @@ var index = 0;
 
 // link right clicked
 var item;
+var autoItem;
 var link;
 var linkText;
 var containers = [];
 var lastContainer;
 var lastContainerStyle;
 var subfolders = [];
-var rememberedClass;
-var rememberedCategory = { category: undefined, depth: 0 };
+var remembered = {
+  class: undefined,
+  category: { category: undefined, depth: 0 },
+  link: [],
+  title: []
+}
 
 // colors
 var listTextColor = "rgba(30,30,30,1)"
@@ -112,7 +117,7 @@ function prepareData() {
   }
   if (document.getElementById("markFolders")) {
     subfolders.push(window.location.hostname + "/");
-    if (rememberedCategory.category) {
+    if (remembered.category.category) {
       for (var i = 0; i < $("." + "folderButton").length; i++) {
         var depth = "";
         for (var ii = 0; ii < i; ii++) {
@@ -155,7 +160,7 @@ function saveData(host, page, container, link, linkText) {
     }
     console.log(item);
     chrome.storage.local.set(item);
-    styleContainer(container.container);
+    styleContainer(container.container, "red");
   });
 }
 
@@ -172,8 +177,8 @@ function getTime() {
   return str;
 }
 
-function styleContainer(ctn) {
-  $(ctn).css("border", "thick solid #f00");
+function styleContainer(ctn, color) {
+  $(ctn).css("border", "thick solid " + color);
   $(ctn).css("box-sizing", "border-box");
   $(ctn).css("overflow", "hidden");
 }
@@ -218,7 +223,7 @@ function selectClasses() {
     containerClasses.push(containers[i].class)
   }
   var indexFound = containerClasses.findIndex(function (element) {
-    return element == rememberedClass;
+    return element == remembered.class;
   });
   if (indexFound >= 0) {
     index = indexFound;
