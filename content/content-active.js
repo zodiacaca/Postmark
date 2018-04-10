@@ -2,11 +2,13 @@
 // variables //
 // switch
 var toggle = false;
+var jumpToggle = 0;
 var index = 0;
 
 // link right clicked
 var item;
 var autoItem;
+var matchedItem = [];
 var link;
 var linkText;
 var containers = [];
@@ -232,6 +234,20 @@ function selectClasses() {
 }
 
 /*
+  jump
+*/
+function jump() {
+  if (matchedItem.length > 0) {
+    window.scrollTo(0, matchedItem[jumpToggle].offsetTop);
+    if (jumpToggle < matchedItem.length - 1) {
+      jumpToggle++;
+    } else {
+      jumpToggle = 0;
+    }
+  }
+}
+
+/*
   reset
 */
 function clear() {
@@ -246,6 +262,7 @@ function clear() {
   lastContainerStyle = undefined;
   subfolders = [];
   index = 0;
+  jumpToggle = 0;
   toggle = false;
 }
 

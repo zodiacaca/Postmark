@@ -10,7 +10,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();
   } else if (message.event == "onActivated") {
-    checkMark()
+    checkMark();
+  } else if (message.event == "onIconClicked") {
+    jump();
   }
 });
 
@@ -77,8 +79,11 @@ function checkMark()
                   var match = false;
                   ($(value).innerText == title) && (match = true);
                   $(value).find("a").each(function (i, v) {
-                    (v.innerText == title) && (match = true);
-                    remembered.title.push(title);
+                    if (v.innerText == title) {
+                      match = true;
+                      matchedItem.push(value);
+                      remembered.title.push(title);
+                    }
                   });
                   (match) && ($(value).css("border", "thick solid #f00"));
                   (match) && ($(value).css("box-sizing", "border-box"));
@@ -90,8 +95,11 @@ function checkMark()
                   var match = false;
                   ($(value).attr("href") == item[site][sub][entry].href) && (match = true);
                   $(value).find("a").each(function (i, v) {
-                    ($(v).attr("href") == item[site][sub][entry].href) && (match = true);
-                    remembered.link.push(item[site][sub][entry].href);
+                    if ($(v).attr("href") == item[site][sub][entry].href) {
+                      match = true;
+                      matchedItem.push(value);
+                      remembered.link.push(item[site][sub][entry].href);
+                    }
                   });
                   (match) && ($(value).css("border", "thick solid #f00"));
                   (match) && ($(value).css("box-sizing", "border-box"));

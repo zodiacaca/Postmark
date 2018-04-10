@@ -24,5 +24,8 @@ function callbackHandler(content) {
   icon click
 */
 chrome.browserAction.onClicked.addListener(function (tab) {
-  alert("icon clicked")
+  chrome.tabs.sendMessage(
+    tab.id,
+    { event: "onIconClicked" }
+  );
 });
