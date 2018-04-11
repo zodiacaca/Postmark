@@ -114,7 +114,7 @@ function checkMark()
         }
       }
     }
-    autoMark();
+    // autoMark();
   });
 }
 checkMark();
@@ -177,7 +177,7 @@ function autoMark()
           href: href,
           title: title,
           page: page,
-          date: getTime()
+          date: getFullDate()
         }
         console.log(item);
         chrome.storage.local.set(item);

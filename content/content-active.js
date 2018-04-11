@@ -156,9 +156,11 @@ function saveData(host, page, container, link, linkText) {
     item[host][subfoldersStr][number] = {
       class: container.class,
       href: link,
+      nth: getNth(container.container),
       title: linkText,
       page: page,
-      date: getTime()
+      date: getFullDate(),
+      time: getTimeValue()
     }
     console.log(item);
     chrome.storage.local.set(item);
@@ -166,7 +168,16 @@ function saveData(host, page, container, link, linkText) {
   });
 }
 
-function getTime() {
+function getNth(ctn) {
+  var num = 0;
+  $(ctn).find("a").each(function (i, v) {
+    num++;
+  });
+  
+  return num;
+}
+
+function getFullDate() {
   var d = new Date();
   var year = d.getFullYear();
   var month = d.getMonth() + 1;
@@ -177,6 +188,12 @@ function getTime() {
   var str = year + "/" + month + "/" + date + ", " + day;
   
   return str;
+}
+
+function getTimeValue() {
+  var d = new Date();
+  
+  return d.getTime();
 }
 
 function styleContainer(ctn, color) {
@@ -238,8 +255,12 @@ function selectClasses() {
 */
 function jump() {
   if (matchedItem.length > 0) {
-    window.scrollTo(0, matchedItem[jumpToggle].offsetTop);
-    if (jumpToggle < matchedItem.length - 1) {
+    if (jumpToggle == matchedItem.length) {
+      window.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, matchedItem[jumpToggle].offsetTop);
+    }
+    if (jumpToggle < matchedItem.length) {
       jumpToggle++;
     } else {
       jumpToggle = 0;

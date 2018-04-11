@@ -72,15 +72,16 @@ function removeEntry(host, subfolder, id) {
   chrome.storage.local.get([host], function (item) {
     if (host && subfolder && id) {
       delete item[host][subfolder][id];
+      chrome.storage.local.set(item);
       console.log("Delete entry for " + host + subfolder);
     } else if (host && subfolder) {
       delete item[host][subfolder];
+      chrome.storage.local.set(item);
       console.log("Delete empty category for " + host);
     } else {
       chrome.storage.local.remove(host);
       console.log("Delete empty host " + host);
     }
-    chrome.storage.local.set(item);
   });
 }
 
