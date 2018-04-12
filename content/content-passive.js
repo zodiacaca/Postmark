@@ -175,9 +175,12 @@ function autoMark()
         item[host][subfoldersStr][number] = {
           class: remembered.class,
           href: href,
+          nth: getNth(autoItem),
           title: title,
           page: page,
-          date: getFullDate()
+          date: getFullDate(),
+          time: getTimeValue(),
+          autoMarked: true
         }
         console.log(item);
         chrome.storage.local.set(item);

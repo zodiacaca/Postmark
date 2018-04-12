@@ -120,12 +120,12 @@ function prepareData() {
   if (document.getElementById("markFolders")) {
     subfolders.push(window.location.hostname + "/");
     if (remembered.category.category) {
-      for (var i = 0; i < $("." + "folderButton").length; i++) {
+      for (var i = 1; i <= $("." + "folderButton").length; i++) {
         var depth = "";
         for (var ii = 0; ii < i; ii++) {
           depth += $("." + "folderButton")[ii].innerText;
         }
-        selectButton(depth, i + 1);
+        selectButton(depth, i);
       }
     }
   }
@@ -160,11 +160,13 @@ function saveData(host, page, container, link, linkText) {
       title: linkText,
       page: page,
       date: getFullDate(),
-      time: getTimeValue()
+      time: getTimeValue(),
+      autoMarked: false
     }
     console.log(item);
     chrome.storage.local.set(item);
     styleContainer(container.container, "red");
+    matchedItem.push(container.container);
   });
 }
 
@@ -257,8 +259,10 @@ function jump() {
   if (matchedItem.length > 0) {
     if (jumpToggle == matchedItem.length) {
       window.scrollTo(0, 0);
+      console.log("Jump to TOP");
     } else {
       window.scrollTo(0, matchedItem[jumpToggle].offsetTop);
+      console.log("Jump to " + matchedItem[jumpToggle]);
     }
     if (jumpToggle < matchedItem.length) {
       jumpToggle++;
