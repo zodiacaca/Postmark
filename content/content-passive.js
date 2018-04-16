@@ -77,14 +77,29 @@ function checkMark()
               if (title && title != "") {
                 $(classSelector).each(function (index, value) {
                   var match = false;
-                  ($(value).innerText == title) && (match = true);
+                  if (value.innerText == title) {
+                    match = true;
+                    pushElements(value, title, undefined);
+                  }
                   $(value).find("a").each(function (i, v) {
                     if (v.innerText == title) {
                       match = true;
-                      matchedItem.push(value);
-                      remembered.title.push(title);
+                      pushElements(value, title, undefined);
                     }
                   });
+                  // further search
+                  if (!match) {
+                    if (value.childNodes[0].innerText == title) {
+                      match = true;
+                      pushElements(value, title, undefined);
+                    }
+                    $(value).find("a").each(function (i, v) {
+                      if (v.childNodes[0].innerText == title) {
+                        match = true;
+                        pushElements(value, title, undefined);
+                      }
+                    });
+                  }
                   (match) && ($(value).css("border", "thick solid #f00"));
                   (match) && ($(value).css("box-sizing", "border-box"));
                   (match) && ($(value).css("overflow", "hidden"));
@@ -93,12 +108,14 @@ function checkMark()
               } else {
                 $(classSelector).each(function (index, value) {
                   var match = false;
-                  ($(value).attr("href") == item[site][sub][entry].href) && (match = true);
+                  if ($(value).attr("href") == item[site][sub][entry].href) {
+                    match = true;
+                    pushElements(value, undefined, item[site][sub][entry].href);
+                  }
                   $(value).find("a").each(function (i, v) {
                     if ($(v).attr("href") == item[site][sub][entry].href) {
                       match = true;
-                      matchedItem.push(value);
-                      remembered.link.push(item[site][sub][entry].href);
+                      pushElements(value, undefined, item[site][sub][entry].href);
                     }
                   });
                   (match) && ($(value).css("border", "thick solid #f00"));
@@ -118,6 +135,16 @@ function checkMark()
   });
 }
 checkMark();
+
+function pushElements(item, title, link) {
+  matchedItem.pushIfUnique(item);
+  if (title) {
+    remembered.title.push(title);
+  }
+  if (link) {
+    remembered.link.push(link);
+  }
+}
 
 function autoMark()
 {

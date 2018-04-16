@@ -166,7 +166,7 @@ function saveData(host, page, container, link, linkText) {
     console.log(item);
     chrome.storage.local.set(item);
     styleContainer(container.container, "red");
-    matchedItem.push(container.container);
+    matchedItem.pushIfUnique(container.container);
   });
 }
 
@@ -261,7 +261,7 @@ function jump() {
       window.scrollTo(0, 0);
       console.log("Jump to TOP");
     } else {
-      window.scrollTo(0, matchedItem[jumpToggle].offsetTop);
+      window.scrollTo(0, matchedItem[matchedItem.length - jumpToggle - 1].offsetTop);
       console.log("Jump to " + matchedItem[jumpToggle]);
     }
     if (jumpToggle < matchedItem.length) {
