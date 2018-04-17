@@ -89,14 +89,18 @@ function checkMark()
                   });
                   // further search
                   if (!match) {
-                    if (value.childNodes[0].innerText == title) {
-                      match = true;
-                      pushElements(value, title, undefined);
-                    }
-                    $(value).find("a").each(function (i, v) {
-                      if (v.childNodes[0].innerText == title) {
+                    if (value.childNodes[0]) {
+                      if (value.childNodes[0].innerText == title) {
                         match = true;
                         pushElements(value, title, undefined);
+                      }
+                    }
+                    $(value).find("a").each(function (i, v) {
+                      if (v.childNodes[0]) {
+                        if (v.childNodes[0].innerText == title) {
+                          match = true;
+                          pushElements(value, title, undefined);
+                        }
                       }
                     });
                   }
