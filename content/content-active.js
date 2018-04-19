@@ -49,7 +49,7 @@ function checkDOM()
     colorBackground();
     
     selectClasses();
-    
+    seek();
     toggle = true;
   }
   else {
@@ -294,3 +294,61 @@ function clear() {
   toggle = false;
 }
 
+function seek() {
+  $.ajax({
+    url: "http://javxspot.com/category/uncensored/page/2/",
+    dataType: "html",
+    success: extractBody
+  });
+  
+  var comment = [];
+  var script = [];
+  
+  function extractBody(html)
+  {
+    var start = html.indexOf("<body");
+    var end = html.indexOf("</body>");
+    var body = html.substring(start, end+7);
+    var pair = { st: start, ed: start }
+    comment.push(pair);
+    findComments(body);
+    script.push(pair);
+    findScripts(body);
+    // phaseXML(body);
+    // console.log(body);
+  }
+    
+  function findComments(body) {
+    var index = 0;
+    while (body.indexOf("<!--", comment[index].st + 4) != -1) {
+      var pair = {};
+      pair.st = body.indexOf("<!--", comment[index].st + 4);
+      pair.ed = body.indexOf("-->", pair.st) + 3;
+      comment.push(pair);
+      index++;
+    }
+  }
+  
+  function findScripts(body) {
+    var index = 0;
+    while (body.indexOf("<script", script[index].st + 7) != -1) {
+      var pair = {};
+      pair.st = body.indexOf("<script", script[index].st + 7);
+      pair.ed = body.indexOf("</script>", pair.st) + 9;
+      script.push(pair);
+      index++;
+    }
+  }
+  
+  function phaseXML(body)
+  {
+    var xmlDoc = $.parseXML(body);
+    findLink(xmlDoc);
+  }
+  
+  function findLink(xml)
+  {
+    var container = $(xml).find("");
+    console.log(container);
+  }
+}

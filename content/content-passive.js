@@ -30,36 +30,6 @@ document.oncontextmenu = function (e) {
 */
 function checkMark()
 {
-/*   $.ajax({
-    url: "",
-    dataType: "html",
-    success: extractBody
-  });
-  
-  function extractBody(html)
-  {
-    var start = html.indexOf("<body");
-    var newStart = html.indexOf(">", start)
-    newStart += 1;
-    var end = html.indexOf("</body>");
-    var body = html.substring(newStart, end+7);
-    body = "<body>" + body;
-    phaseXML(body);
-    console.log(body);
-  }
-  
-  function phaseXML(body)
-  {
-    var xmlDoc = $.parseXML(body);
-    findLink(xmlDoc);
-  }
-  
-  function findLink(xml)
-  {
-    var container = $(xml).find("");
-    console.log(container);
-  } */
-  
   // initialize icon
   chrome.runtime.sendMessage({task: "icon", path: "icons/postmark.svg"});
   
