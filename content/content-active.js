@@ -11,6 +11,7 @@ var autoItem;
 var matchedItem = [];
 var link;
 var linkText;
+var textOuterTag;
 var containers = [];
 var lastContainer;
 var lastContainerStyle;
@@ -114,7 +115,7 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index], link, linkText);
+    saveData(host, page, containers[index], link, linkText, textOuterTag);
     clear();
   }
   if (document.getElementById("markFolders")) {
@@ -131,7 +132,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, link, linkText) {
+function saveData(host, page, container, link, linkText, tag) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -158,6 +159,7 @@ function saveData(host, page, container, link, linkText) {
       href: link,
       nth: getNth(container.container),
       title: linkText,
+      outer: tag,
       page: page,
       date: getFullDate(),
       time: getTimeValue(),
@@ -282,6 +284,7 @@ function clear() {
   item = undefined;
   link = undefined;
   linkText = undefined;
+  textOuterTag = undefined;
   containers = [];
   lastContainer = undefined;
   lastContainerStyle = undefined;

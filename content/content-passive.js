@@ -21,6 +21,7 @@ document.oncontextmenu = function (e) {
   item = e.target;
   link = $(item).attr("href");
   linkText = item.innerText;
+  textOuterTag = item.tagName;
 }
 
 
@@ -73,6 +74,9 @@ function checkMark()
               var classes = item[site][sub][entry].class;
               findAutoSelectClass(classes, site);
               var classSelector = getClassSelector(classes);
+              var outer = item[site][sub][entry].outer;
+              var tag;
+              (outer) ? (tag = outer) : (tag = "a");
               var matched = false;
               if (title && title != "") {
                 $(classSelector).each(function (index, value) {
@@ -81,29 +85,12 @@ function checkMark()
                     match = true;
                     pushElements(value, title, undefined);
                   }
-                  $(value).find("a").each(function (i, v) {
+                  $(value).find(tag).each(function (i, v) {
                     if (v.innerText == title) {
                       match = true;
                       pushElements(value, title, undefined);
                     }
                   });
-                  // further search
-                  if (!match) {
-                    if (value.childNodes[0]) {
-                      if (value.childNodes[0].innerText == title) {
-                        match = true;
-                        pushElements(value, title, undefined);
-                      }
-                    }
-                    $(value).find("a").each(function (i, v) {
-                      if (v.childNodes[0]) {
-                        if (v.childNodes[0].innerText == title) {
-                          match = true;
-                          pushElements(value, title, undefined);
-                        }
-                      }
-                    });
-                  }
                   (match) && ($(value).css("border", "thick solid #f00"));
                   (match) && ($(value).css("box-sizing", "border-box"));
                   (match) && ($(value).css("overflow", "hidden"));
@@ -178,6 +165,7 @@ function autoMark()
       }
       length -= 1;
       (isNaN(oldest)) && (oldest = 1);
+      var outer = item[host][subfoldersStr][oldest].outer;
       if (length >= item[host][subfoldersStr]["maxEntries"]) {
         delete item[host][subfoldersStr][oldest];
       }
@@ -208,6 +196,7 @@ function autoMark()
           href: href,
           nth: getNth(autoItem),
           title: title,
+          outer: outer,
           page: page,
           date: getFullDate(),
           time: getTimeValue(),
