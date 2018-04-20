@@ -73,7 +73,7 @@ function checkMark()
                     match = true;
                     pushElements(value, undefined, item[site][sub][entry].href);
                   }
-                  $(value).find("a").each(function (i, v) {
+                  $(value).find(tag).each(function (i, v) {
                     if ($(v).attr("href") == item[site][sub][entry].href) {
                       match = true;
                       pushElements(value, undefined, item[site][sub][entry].href);

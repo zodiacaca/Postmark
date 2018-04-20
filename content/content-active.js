@@ -348,7 +348,7 @@ function seek(page) {
                     if ($(containers[i]).attr("href") == item[site][sub][entry].href) {
                       match = true;
                     }
-                    $(containers[i]).find("a").each(function (i, v) {
+                    $(containers[i]).find(tag).each(function (i, v) {
                       if ($(v).attr("href") == item[site][sub][entry].href) {
                         match = true;
                       }
