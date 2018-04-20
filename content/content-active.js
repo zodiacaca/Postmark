@@ -49,7 +49,7 @@ function checkDOM()
     colorBackground();
     
     selectClasses();
-    seek();
+    // seekMark();
     toggle = true;
   }
   else {
@@ -243,7 +243,7 @@ function selectClasses() {
   var containerClasses = [];
   var count = containers.length;
   for (var i = 0; i < count; i++) {
-    containerClasses.push(containers[i].class)
+    containerClasses.push(containers[i].class);
   }
   var indexFound = containerClasses.findIndex(function (element) {
     return element == remembered.class;
@@ -294,61 +294,75 @@ function clear() {
   toggle = false;
 }
 
-function seek() {
+function seekMark() {
+  for (var i = 2; i < 10; i++) {
+    seek(i);
+  }
+}
+
+function seek(page) {
   $.ajax({
-    url: "http://javxspot.com/category/uncensored/page/2/",
+    url: "http://javxspot.com/category/uncensored/page/" + page + "/",
     dataType: "html",
-    success: extractBody
+    success: phaseHTML
   });
   
-  var comment = [];
-  var script = [];
-  
-  function extractBody(html)
+  function phaseHTML(html)
   {
-    var start = html.indexOf("<body");
-    var end = html.indexOf("</body>");
-    var body = html.substring(start, end+7);
-    var pair = { st: start, ed: start }
-    comment.push(pair);
-    findComments(body);
-    script.push(pair);
-    findScripts(body);
-    // phaseXML(body);
-    // console.log(body);
-  }
-    
-  function findComments(body) {
-    var index = 0;
-    while (body.indexOf("<!--", comment[index].st + 4) != -1) {
-      var pair = {};
-      pair.st = body.indexOf("<!--", comment[index].st + 4);
-      pair.ed = body.indexOf("-->", pair.st) + 3;
-      comment.push(pair);
-      index++;
-    }
+    var parser = new DOMParser();
+    var htmlDoc = parser.parseFromString(html, "text/html");
+    findMark(htmlDoc);
   }
   
-  function findScripts(body) {
-    var index = 0;
-    while (body.indexOf("<script", script[index].st + 7) != -1) {
-      var pair = {};
-      pair.st = body.indexOf("<script", script[index].st + 7);
-      pair.ed = body.indexOf("</script>", pair.st) + 9;
-      script.push(pair);
-      index++;
-    }
-  }
-  
-  function phaseXML(body)
+  function findMark(html)
   {
-    var xmlDoc = $.parseXML(body);
-    findLink(xmlDoc);
-  }
-  
-  function findLink(xml)
-  {
-    var container = $(xml).find("");
-    console.log(container);
+    chrome.storage.local.get(["javxspot.com"], function (item) {
+      if (item) {
+        var matched = false;
+        for (var site in item) {
+          for (var sub in item[site]) {
+            for (var entry in item[site][sub]) {
+              if (!isNaN(entry)) {
+                var title = item[site][sub][entry].title;
+                var classes = item[site][sub][entry].class;
+                var outer = item[site][sub][entry].outer;
+                var tag;
+                (outer) ? (tag = outer) : (tag = "a");
+                var containers = html.getElementsByClassName(classes);
+                if (title && title != "") {
+                  for (var i = 0; i < containers.length; i++) {
+                    var match = false;
+                    if (containers[i].innerText == title) {
+                      match = true;
+                    }
+                    $(containers[i]).find(tag).each(function (i, v) {
+                      if (v.innerText == title) {
+                        match = true;
+                      }
+                    });
+                    (match) && (matched = true);
+                  }
+                } else {
+                  for (var i = 0; i < containers.length; i++) {
+                    var match = false;
+                    if ($(containers[i]).attr("href") == item[site][sub][entry].href) {
+                      match = true;
+                    }
+                    $(containers[i]).find("a").each(function (i, v) {
+                      if ($(v).attr("href") == item[site][sub][entry].href) {
+                        match = true;
+                      }
+                    });
+                    (match) && (matched = true);
+                  }
+                }
+              }
+            }
+          }
+        }
+        console.log(page);
+        console.log(matched);
+      }
+    });
   }
 }

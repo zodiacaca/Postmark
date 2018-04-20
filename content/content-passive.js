@@ -92,8 +92,8 @@ function checkMark()
         }
       }
     }
-    // autoMark();
   });
+  // autoMark();
 }
 checkMark();
 
