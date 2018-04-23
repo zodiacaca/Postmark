@@ -8,7 +8,6 @@ var index = 0;
 // link right clicked
 var item;
 var autoItem;
-var matchedItem = [];
 var link;
 var linkText;
 var textOuterTag;

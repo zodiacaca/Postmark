@@ -32,16 +32,15 @@ thead th:nth-child(2) {
 }
 
 thead th:nth-child(3) {
-  width: 15%;
+  width: 10%;
 }
 
 thead th:nth-child(4) {
-  width: 35%;
+  width: 3%;
 }
 
 thead th:nth-child(5) {
-  padding: 0.5rem 0rem;
-  width: 5%;
+  width: 32%;
 }
 
 thead th:nth-child(6) {
@@ -50,10 +49,20 @@ thead th:nth-child(6) {
 }
 
 thead th:nth-child(7) {
-  width: 10%;
+  padding: 0.5rem 0rem;
+  width: 5%;
 }
 
 thead th:nth-child(8) {
+  padding: 0.5rem 0rem;
+  width: 5%;
+}
+
+thead th:nth-child(9) {
+  width: 10%;
+}
+
+thead th:nth-child(10) {
   padding: 0.5rem 0rem;
   width: 5%;
 }
@@ -62,9 +71,8 @@ tbody tr:hover {
   background-color: #ddd;
 }
 
-tr td:nth-child(5) {
-  padding: 0.5rem 0rem;
-  text-align: center;
+tr td:nth-child(4) {
+  text-align: right;
 }
 
 tr td:nth-child(6) {
@@ -73,10 +81,20 @@ tr td:nth-child(6) {
 }
 
 tr td:nth-child(7) {
+  padding: 0.5rem 0rem;
   text-align: center;
 }
 
 tr td:nth-child(8) {
+  padding: 0.5rem 0rem;
+  text-align: center;
+}
+
+tr td:nth-child(9) {
+  text-align: center;
+}
+
+tr td:nth-child(10) {
   padding: 0.5rem 0rem;
   text-align: center;
 }
