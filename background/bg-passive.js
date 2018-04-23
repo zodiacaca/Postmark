@@ -29,7 +29,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 /*
   tab switch
 */
-chrome.tabs.onActiveChanged.addListener(function (tabId, selectInfo) {
+chrome.tabs.onActivated.addListener(function (tabId, selectInfo) {
+  chrome.browserAction.setIcon({path: "icons/postmark.svg"});
   chrome.tabs.sendMessage(
     tabId,
     { event: "onActivated" },  // messages

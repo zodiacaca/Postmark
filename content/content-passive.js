@@ -28,7 +28,7 @@ var checkStatus = {
   checked: false,
   matched: false
 }
-var matchedItem = [1];
+var matchedItem = [];
 /*
   passive mark action
 */
@@ -41,50 +41,48 @@ function checkMark()
     chrome.storage.local.get([window.location.hostname], function (item) {
       if (item) {
         for (var site in item) {
-          if (site == window.location.hostname) {
-            for (var sub in item[site]) {
-              if (window.location.href.indexOf(sub) >= 0) {
-                findAutoSelectSubfolder(sub, site);
-                for (var entry in item[site][sub]) {
-                  if (!isNaN(entry)) {
-                    var title = item[site][sub][entry].title;
-                    var classes = item[site][sub][entry].class;
-                    findAutoSelectClass(classes, site);
-                    var classSelector = getClassSelector(classes);
-                    var outer = item[site][sub][entry].outer;
-                    var tag;
-                    (outer) ? (tag = outer) : (tag = "a");
-                    if (title && title != "") {
-                      $(classSelector).each(function (index, value) {
-                        var match = false;
-                        if (value.innerText == title) {
+          for (var sub in item[site]) {
+            if (window.location.href.indexOf(sub) >= 0) {
+              findAutoSelectSubfolder(sub, site);
+              for (var entry in item[site][sub]) {
+                if (!isNaN(entry)) {
+                  var title = item[site][sub][entry].title;
+                  var classes = item[site][sub][entry].class;
+                  findAutoSelectClass(classes, site);
+                  var classSelector = getClassSelector(classes);
+                  var outer = item[site][sub][entry].outer;
+                  var tag;
+                  (outer) ? (tag = outer) : (tag = "a");
+                  if (title && title != "") {
+                    $(classSelector).each(function (index, value) {
+                      var match = false;
+                      if (value.innerText == title) {
+                        match = true;
+                        pushElements(value, title, undefined);
+                      }
+                      $(value).find(tag).each(function (i, v) {
+                        if (v.innerText == title) {
                           match = true;
                           pushElements(value, title, undefined);
                         }
-                        $(value).find(tag).each(function (i, v) {
-                          if (v.innerText == title) {
-                            match = true;
-                            pushElements(value, title, undefined);
-                          }
-                        });
-                        (match) && (checkStatus.matched = true);
                       });
-                    } else {
-                      $(classSelector).each(function (index, value) {
-                        var match = false;
-                        if ($(value).attr("href") == item[site][sub][entry].href) {
+                      (match) && (checkStatus.matched = true);
+                    });
+                  } else {
+                    $(classSelector).each(function (index, value) {
+                      var match = false;
+                      if ($(value).attr("href") == item[site][sub][entry].href) {
+                        match = true;
+                        pushElements(value, undefined, item[site][sub][entry].href);
+                      }
+                      $(value).find(tag).each(function (i, v) {
+                        if ($(v).attr("href") == item[site][sub][entry].href) {
                           match = true;
                           pushElements(value, undefined, item[site][sub][entry].href);
                         }
-                        $(value).find(tag).each(function (i, v) {
-                          if ($(v).attr("href") == item[site][sub][entry].href) {
-                            match = true;
-                            pushElements(value, undefined, item[site][sub][entry].href);
-                          }
-                        });
-                        (match) && (checkStatus.matched = true);
                       });
-                    }
+                      (match) && (checkStatus.matched = true);
+                    });
                   }
                 }
               }
@@ -122,8 +120,7 @@ function markItems() {
   });
 }
 
-function autoMark()
-{
+function autoMark() {
   var host = window.location.hostname;
   var page = window.location.href;
   var home = false;
