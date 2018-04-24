@@ -114,7 +114,7 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index], link, linkText, textOuterTag);
+    saveData(host, page, containers[index], link, linkText, textOuterTag);  // pass variables to local ones, storageArea has a delay
     clear();
   }
   if (document.getElementById("markFolders")) {
