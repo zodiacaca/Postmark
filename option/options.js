@@ -1,4 +1,7 @@
 
+/*
+  list
+*/
 // chrome.storage.local.clear();
 chrome.storage.local.get(function (items) {
   console.log(items);
@@ -90,4 +93,24 @@ function removeEntry(host, subfolder, id) {
     }
   });
 }
+
+
+/*
+  ui control
+*/
+$("#nav-auto").on("click", function (e) {
+  $("#slider").css("transform", "translateX(0vw)");
+  $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
+  $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
+});
+$("#nav-marks").on("click", function (e) {
+  $("#slider").css("transform", "translateX(-98vw)");
+  $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
+  $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
+});
+$("#nav-seek").on("click", function (e) {
+  $("#slider").css("transform", "translateX(-196vw)");
+  $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
+  $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
+});
 

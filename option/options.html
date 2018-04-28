@@ -6,36 +6,63 @@
 </head>
 
 <body>
-  <div class="options">
-    <p>Postmarks</p>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Hostname</th>
-        <th scope="col">Category</th>
-        <th scope="col">Class(es)</th>
-        <th scope="col">Max</th>
-        <th scope="col">Title</th>
-        <th scope="col">Post Link</th>
-        <th scope="col">Page Link</th>
-        <th scope="col">Seek</th>
-        <th scope="col">Date</th>
-        <th scope="col">Delete</th>
-      </tr>
-    </thead>
-    <tbody id="markList">
-      
-    </tbody>
-    <!-- <tfoot> -->
-      <!-- <tr> -->
-        <!-- <th scope="row"></th> -->
-        <!-- <td id="clearAll">Clear All</td> -->
-      <!-- </tr> -->
-    <!-- </tfoot> -->
-  </table>
 
+  <nav>
+    <div class="nav-btn" id="nav-auto">
+      <h2>Automark</h2>
+    </div>
+    <div class="nav-btn" id="nav-marks">
+      <h2>Postmarks</h2>
+    </div>
+    <div class="nav-btn" id="nav-seek">
+      <h2>Seek</h2>
+    </div>
+  </nav>
+
+  <div class="crop">
+    <div id="slider">
+      
+      <div id="slider-auto">
+        
+      </div>
+      
+      <div id="slider-marks">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Hostname</th>
+              <th scope="col">Category</th>
+              <th scope="col">Class(es)</th>
+              <th scope="col">Max</th>
+              <th scope="col">Title</th>
+              <th scope="col">Post Link</th>
+              <th scope="col">Page Link</th>
+              <th scope="col">Seek</th>
+              <th scope="col">Date</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="markList">
+            
+          </tbody>
+          <!-- <tfoot> -->
+            <!-- <tr> -->
+              <!-- <th scope="row"></th> -->
+              <!-- <td id="clearAll">Clear All</td> -->
+            <!-- </tr> -->
+          <!-- </tfoot> -->
+        </table>
+      </div>
+      
+      <div id="slider-seek">
+        
+      </div>
+      
+    </div>
+  </div>
+  
   <script src="/library/jquery-3.2.1.min.js"></script>
   <script src="/option/options.js"></script>
+  
 </body>
 </html>
