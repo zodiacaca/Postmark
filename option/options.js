@@ -99,18 +99,39 @@ function removeEntry(host, subfolder, id) {
   ui control
 */
 $("#nav-auto").on("click", function (e) {
-  $("#slider").css("transform", "translateX(0vw)");
+  $("#slider").css("transform", "translateX(0)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
 $("#nav-marks").on("click", function (e) {
-  $("#slider").css("transform", "translateX(-98vw)");
+  var innerWidth = document.body.clientWidth;
+  $("#slider").css("transform", "translateX(" + (-innerWidth) + "px" + ")");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
 $("#nav-seek").on("click", function (e) {
-  $("#slider").css("transform", "translateX(-196vw)");
+  var innerWidth = document.body.clientWidth;
+  $("#slider").css("transform", "translateX(" + (-innerWidth) * 2 + "px" + ")");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
 
+function adjustSectionSize() {
+  var innerWidth = document.body.clientWidth;
+  $("nav").css("width", innerWidth + "px");
+  $(".crop").css("width", innerWidth + "px");
+  $("#slider").children().css("width", innerWidth + "px");
+  $("#slider").css("transform", "translateX(" + (-innerWidth) + "px" + ")");
+  $("#slider-marks").css("left", innerWidth + "px");
+  $("#slider-seek").css("left", innerWidth * 2 + "px");
+  
+  var innerHeight = window.innerHeight;
+  var marginTop = $("body").css("margin-top");
+  marginTop = marginTop.replace("px", "");
+  marginTop = parseInt(marginTop);
+  $("body").css("height", innerHeight - marginTop + "px");
+  var navHeight = $("nav").height();
+  var height = innerHeight - marginTop - navHeight;
+  $("#slider").children().css("height", height + "px");
+}
+adjustSectionSize();

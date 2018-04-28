@@ -1,6 +1,9 @@
 
+body {
+  overflow: hidden;
+}
+
 nav {
-  width: 98vw;
   display: flex;
 }
 
@@ -13,35 +16,29 @@ nav {
 }
 
 .crop {
-  width: 98vw;
   overflow: hidden;
 }
 
 #slider {
   position: relative;
-  transform: translateX(-98vw);
   transition: all 600ms cubic-bezier(0.77, 0, 0.18, 1);
 }
 
 #slider-auto {
-  width: 98vw;
-  height: 100vh;
+  background-color: rgba(255, 0, 0, 0.5);
   position: relative;
 }
 
 #slider-marks {
-  width: 98vw;
   position: absolute;
   top: 0;
-  left: 98vw;
+  overflow: auto;
 }
 
 #slider-seek {
-  width: 98vw;
-  height: 100vh;
+  background-color: rgba(0, 0, 255, 0.5);
   position: absolute;
   top: 0;
-  left: 196vw;
 }
 
 table {
