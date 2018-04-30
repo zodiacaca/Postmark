@@ -98,6 +98,7 @@ function removeEntry(host, subfolder, id) {
 /*
   ui control
 */
+$("#nav-marks").css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 $("#nav-auto").on("click", function (e) {
   $("#slider").css("transform", "translateX(0)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
@@ -126,12 +127,9 @@ function adjustSectionSize() {
   $("#slider-seek").css("left", innerWidth * 2 + "px");
   
   var innerHeight = window.innerHeight;
-  var marginTop = $("body").css("margin-top");
-  marginTop = marginTop.replace("px", "");
-  marginTop = parseInt(marginTop);
-  $("body").css("height", innerHeight - marginTop + "px");
+  $("body").css("height", innerHeight + "px");
   var navHeight = $("nav").height();
-  var height = innerHeight - marginTop - navHeight;
+  var height = innerHeight - navHeight;
   $("#slider").children().css("height", height + "px");
 }
 adjustSectionSize();
