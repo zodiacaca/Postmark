@@ -98,21 +98,30 @@ function removeEntry(host, subfolder, id) {
 /*
   ui control
 */
-$("#nav-marks").css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
+function selectSection() {
+  var innerWidth = document.body.clientWidth;
+  $("#slider").css("transform", "translateX(" + (-innerWidth) + "px" + ")");
+  $("#nav-marks").css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
+}
+selectSection();
+
 $("#nav-auto").on("click", function (e) {
   $("#slider").css("transform", "translateX(0)");
+  $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
 $("#nav-marks").on("click", function (e) {
   var innerWidth = document.body.clientWidth;
   $("#slider").css("transform", "translateX(" + (-innerWidth) + "px" + ")");
+  $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
 $("#nav-seek").on("click", function (e) {
   var innerWidth = document.body.clientWidth;
   $("#slider").css("transform", "translateX(" + (-innerWidth) * 2 + "px" + ")");
+  $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
@@ -122,7 +131,6 @@ function adjustSectionSize() {
   $("nav").css("width", innerWidth + "px");
   $(".crop").css("width", innerWidth + "px");
   $("#slider").children().css("width", innerWidth + "px");
-  $("#slider").css("transform", "translateX(" + (-innerWidth) + "px" + ")");
   $("#slider-marks").css("left", innerWidth + "px");
   $("#slider-seek").css("left", innerWidth * 2 + "px");
   

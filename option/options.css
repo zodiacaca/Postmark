@@ -22,7 +22,6 @@ nav {
 
 #slider {
   position: relative;
-  transition: all 600ms cubic-bezier(0.77, 0, 0.18, 1);
 }
 
 #slider-auto {
