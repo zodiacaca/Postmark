@@ -121,7 +121,7 @@ function addButtons() {
   $(confirm).css("box-sizing", "content-box");
   $(confirm).css("display", "inline");
   var checkIcon = document.createElement("img");
-  url = chrome.runtime.getURL("/icons/check.svg");
+  var url = chrome.runtime.getURL("/icons/check.svg");
   $(checkIcon).attr("src", url);
   confirm.appendChild(checkIcon);
   $(checkIcon).css("all", "initial");

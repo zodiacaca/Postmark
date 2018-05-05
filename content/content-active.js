@@ -48,7 +48,6 @@ function checkDOM()
     colorBackground();
     
     selectClasses();
-    // seekMark();
     toggle = true;
   }
   else {
@@ -293,75 +292,3 @@ function clear() {
   toggle = false;
 }
 
-function seekMark() {
-  for (var i = 2; i < 10; i++) {
-    seek(i);
-  }
-}
-
-function seek(page) {
-  $.ajax({
-    url: "http://javxspot.com/category/uncensored/page/" + page + "/",
-    dataType: "html",
-    success: phaseHTML
-  });
-  
-  function phaseHTML(html)
-  {
-    var parser = new DOMParser();
-    var htmlDoc = parser.parseFromString(html, "text/html");
-    findMark(htmlDoc);
-  }
-  
-  function findMark(html)
-  {
-    chrome.storage.local.get(["javxspot.com"], function (item) {
-      if (item) {
-        var matched = false;
-        for (var site in item) {
-          for (var sub in item[site]) {
-            for (var entry in item[site][sub]) {
-              if (!isNaN(entry)) {
-                var title = item[site][sub][entry].title;
-                var classes = item[site][sub][entry].class;
-                var outer = item[site][sub][entry].outer;
-                var tag;
-                (outer) ? (tag = outer) : (tag = "a");
-                var containers = html.getElementsByClassName(classes);
-                if (title && title != "") {
-                  for (var i = 0; i < containers.length; i++) {
-                    var match = false;
-                    if (containers[i].innerText == title) {
-                      match = true;
-                    }
-                    $(containers[i]).find(tag).each(function (i, v) {
-                      if (v.innerText == title) {
-                        match = true;
-                      }
-                    });
-                    (match) && (matched = true);
-                  }
-                } else {
-                  for (var i = 0; i < containers.length; i++) {
-                    var match = false;
-                    if ($(containers[i]).attr("href") == item[site][sub][entry].href) {
-                      match = true;
-                    }
-                    $(containers[i]).find(tag).each(function (i, v) {
-                      if ($(v).attr("href") == item[site][sub][entry].href) {
-                        match = true;
-                      }
-                    });
-                    (match) && (matched = true);
-                  }
-                }
-              }
-            }
-          }
-        }
-        console.log(page);
-        console.log(matched);
-      }
-    });
-  }
-}

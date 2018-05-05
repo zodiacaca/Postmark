@@ -3,10 +3,16 @@
   on installed
 */
 chrome.runtime.onInstalled.addListener(function () {
-  var id = chrome.contextMenus.create({
-    "title": "Inspect Containers",
+  var id_link = chrome.contextMenus.create({
+    "title": "Inspect containers",
     "contexts":["link"],
-    "id": "postmark"
+    "id": "postmark_link"
+  });
+  
+  var id_page = chrome.contextMenus.create({
+    "title": "Seek through pages",
+    "contexts":["page"],
+    "id": "postmark_page"
   });
   
   // change icon to svg format

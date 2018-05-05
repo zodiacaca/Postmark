@@ -16,12 +16,17 @@ nav {
   user-select: none;
 }
 
+#nav-marks {
+  border-bottom: thick solid rgba(0, 0, 0, 0.5);
+}
+
 .crop {
   overflow: hidden;
 }
 
 #slider {
   position: relative;
+  transform: translateX(-100%);
 }
 
 #slider-auto {
@@ -36,7 +41,7 @@ nav {
 }
 
 #slider-seek {
-  background-color: rgba(0, 0, 255, 0.5);
+  border-top: thin solid rgba(0, 0, 0, 1);
   position: absolute;
   top: 0;
 }
@@ -131,3 +136,57 @@ tr td:nth-child(10) {
   padding: 0.5rem 0rem;
   text-align: center;
 }
+
+form {
+  margin-left: 1rem;
+  width: 80%;
+}
+
+.input-text {
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.input-text span {
+  padding: 0.6rem;
+  border-left: thick solid rgba(0, 0, 0, 0.6);
+}
+
+.input-text input {
+  width: 80%;
+  height: 2rem;
+}
+
+#slider-seek-range {
+  margin: 1rem 0;
+  padding: 0.5rem 0 0 0.6rem;
+  border-left: thick solid rgba(0, 0, 0, 0.6);
+}
+
+#slider-seek-slider {
+  margin-bottom: 0.5rem;
+  width: 80%;
+}
+
+#slider-seek-btn-seek {
+  width: 12rem;
+  height: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#slider-seek-pages {
+  margin: 1rem;
+  width: 60%;
+  min-height: 2rem;
+  border: thin solid rgba(0, 0, 0, 1);
+}
+
+#slider-seek-pages a {
+  margin: 0.2rem;
+  padding: 0.1rem;
+  width: 1rem;
+  height: 1rem;
+  border: medium solid rgba(0, 0, 0, 0.8);
+  display: inline-block;
+}
+

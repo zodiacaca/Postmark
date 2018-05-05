@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Postmarks</title>
+  <link rel="stylesheet" href="/library/jquery-ui-1.12.1/jquery-ui.css">
   <link rel="stylesheet" href="/option/options.css">
 </head>
 
@@ -55,6 +56,28 @@
       </div>
       
       <div id="slider-seek">
+      
+        <form>
+        
+          <div class="input-text">
+            <span>URL Pattern:</span>
+            <input type="url" name="urlPattern">
+          </div>
+          
+          <div id="slider-seek-range">
+            <div id="slider-seek-slider"></div>
+            <span>Range:</span>
+            <span id="slider-seek-range-from">2</span>
+            <span>-</span>
+            <span id="slider-seek-range-to">10</span>
+          </div>
+          
+          <div class="div-btn" id="slider-seek-btn-seek">Seek</div>
+          
+        </form>
+        
+        <div id="slider-seek-pages">
+        </div>
         
       </div>
       
@@ -62,6 +85,7 @@
   </div>
   
   <script src="/library/jquery-3.2.1.min.js"></script>
+  <script src="/library/jquery-ui-1.12.1/jquery-ui.js"></script>
   <script src="/option/options.js"></script>
   
 </body>
