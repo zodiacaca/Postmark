@@ -6,7 +6,7 @@ $("#slider-seek-slider").slider({
   range: true,
   min: 0,
   max: 100,
-  values: [2, 10],
+  values: [2, 20],
   slide: function(event, ui) {
     $("#slider-seek-range-from").text(ui.values[0]);
     $("#slider-seek-range-to").text(ui.values[1]);
@@ -19,12 +19,13 @@ $("#slider-seek-btn-seek").on("click", function (e) {
 function seekMark() {
   var start = parseInt($("#slider-seek-range-from").text());
   var end = parseInt($("#slider-seek-range-to").text());
+  progressBar(end - start + 1);
   for (var i = start; i <= end; i++) {
-    seek(i);
+    seek(i, start);
   }
 }
 
-function seek(num) {
+function seek(num, startPage) {
   var page = $("input[name='urlPattern']").val();
   page = page.replace("*num*", num)
   var st = page.indexOf("//");
@@ -91,6 +92,7 @@ function seek(num) {
             }
           }
         }
+        $(progressCells[num - startPage]).css("background-color", "rgba(0, 255, 0, 0.6)");
         console.log("page:" + num + " " + matched);
         if (matched) {
           var foundPages = document.getElementById("slider-seek-pages");
@@ -101,6 +103,17 @@ function seek(num) {
         }
       }
     });
+  }
+}
+
+var progressCells = [];
+
+function progressBar(count) {
+  var cells = document.getElementById("slider-seek-cells");
+  for (var i = 0; i < count; i++) {
+    var cell = document.createElement("span");
+    cells.appendChild(cell);
+    progressCells.push(cell);
   }
 }
 
