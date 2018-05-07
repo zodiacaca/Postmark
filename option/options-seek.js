@@ -19,13 +19,19 @@ $("#slider-seek-btn-seek").on("click", function (e) {
 function seekMark() {
   var start = parseInt($("#slider-seek-range-from").text());
   var end = parseInt($("#slider-seek-range-to").text());
+  
+  $("#slider-seek-cells").children().remove();
+  $("#slider-seek-pages").children().remove();
+  
+  var cells = document.getElementById("slider-seek-cells");
+  
   progressBar(end - start + 1);
   for (var i = start; i <= end; i++) {
-    seek(i, start);
+    seek(i, cells.children[i - start]);
   }
 }
 
-function seek(num, startPage) {
+function seek(num, cell) {
   var page = $("input[name='urlPattern']").val();
   page = page.replace("*num*", num)
   var st = page.indexOf("//");
@@ -92,7 +98,7 @@ function seek(num, startPage) {
             }
           }
         }
-        $(progressCells[num - startPage]).css("background-color", "rgba(0, 255, 0, 0.6)");
+        $(cell).css("background-color", "rgba(0, 255, 0, 0.6)");
         console.log("page:" + num + " " + matched);
         if (matched) {
           var foundPages = document.getElementById("slider-seek-pages");
@@ -106,14 +112,11 @@ function seek(num, startPage) {
   }
 }
 
-var progressCells = [];
-
 function progressBar(count) {
   var cells = document.getElementById("slider-seek-cells");
   for (var i = 0; i < count; i++) {
     var cell = document.createElement("span");
     cells.appendChild(cell);
-    progressCells.push(cell);
   }
 }
 
