@@ -29,7 +29,6 @@ chrome.storage.local.get(function (items) {
           var postLink = document.createElement("a");
           var page = document.createElement("td");
           var pageLink = document.createElement("a");
-          var seek = document.createElement("td");
           var date = document.createElement("td");
           var remove = document.createElement("td");
           var removeIcon = document.createElement("img");
@@ -43,7 +42,6 @@ chrome.storage.local.get(function (items) {
           post.appendChild(postLink);
           row.appendChild(page);
           page.appendChild(pageLink);
-          row.appendChild(seek);
           row.appendChild(date);
           row.appendChild(remove);
           remove.appendChild(removeIcon);
@@ -56,7 +54,6 @@ chrome.storage.local.get(function (items) {
           $(postLink).attr("href", items[site][sub][entry].href);
           pageLink.appendChild(document.createTextNode("page"));
           $(pageLink).attr("href", items[site][sub][entry].page);
-          seek.appendChild(document.createTextNode("Seek"));
           date.appendChild(document.createTextNode(items[site][sub][entry].date));
           $(removeIcon).attr("src", "/icons/cross-remove-sign.svg");
           $(removeIcon).attr("alt", "remove");
@@ -122,7 +119,7 @@ selectSection();
 
 function fillSeekForm(url) {
   url += "page/*num*/";
-  $("input[name='urlPattern']").val(url);
+  $("#slider-seek-textfield-url").val(url);
 }
 
 $("#nav-auto").on("click", function (e) {

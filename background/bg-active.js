@@ -17,7 +17,7 @@ function onClickHandler(info, tab) {
     var url = chrome.runtime.getURL("/option/options.html");
     url += "?section=3";
     url += "&url=" + tab.url;
-    var win = window.open(url, "_blank");
+    window.open(url, "_blank");
   }
 }
 

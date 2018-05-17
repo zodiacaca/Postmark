@@ -38,7 +38,6 @@
               <th scope="col">Title</th>
               <th scope="col">Post Link</th>
               <th scope="col">Page Link</th>
-              <th scope="col">Seek</th>
               <th scope="col">Date</th>
               <th scope="col">Delete</th>
             </tr>
@@ -61,7 +60,7 @@
         
           <div class="input-text">
             <span>URL Pattern:</span>
-            <input type="url" name="urlPattern">
+            <input type="url" id="slider-seek-textfield-url">
           </div>
           
           <div id="slider-seek-range">
@@ -69,7 +68,7 @@
             <span>Range:</span>
             <span id="slider-seek-range-from">2</span>
             <span>-</span>
-            <span id="slider-seek-range-to">20</span>
+            <span id="slider-seek-range-to">5</span>
           </div>
           
           <div class="div-btn" id="slider-seek-btn-seek">Seek</div>
@@ -82,6 +81,10 @@
           </div>
           <div id="slider-seek-cells">
           </div>
+          <input type="checkbox" id="slider-seek-chk-open">
+          <label for="slider-seek-chk-open">Open pages from start to clicked result</label>
+          <input type="checkbox" id="slider-seek-chk-window">
+          <label for="slider-seek-chk-window">in new window?</label>
           
         </div>
         

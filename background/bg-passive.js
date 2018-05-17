@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(function () {
   });
   
   // change icon to svg format
-  chrome.browserAction.setIcon({path: "icons/postmark.svg"});
+  chrome.browserAction.setIcon({path: "icons/i-2.svg"});
 });
 
 /*
@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   tab switch
 */
 chrome.tabs.onActivated.addListener(function (activeInfo) {
-  chrome.browserAction.setIcon({path: "icons/postmark.svg"});
+  chrome.browserAction.setIcon({path: "icons/i-2.svg"});
   chrome.tabs.sendMessage(
     activeInfo.tabId,
     { event: "onActivated" },  // messages

@@ -35,7 +35,7 @@ var matchedItem = [];
 function checkMark()
 {
   // initialize icon
-  chrome.runtime.sendMessage({task: "icon", path: "icons/postmark.svg"});
+  chrome.runtime.sendMessage({task: "icon", path: "icons/i-2.svg"});
   
   if (!checkStatus.checked) {
     chrome.storage.local.get([window.location.hostname], function (item) {
@@ -110,7 +110,7 @@ function pushElements(item, title, link) {
 }
 
 function markItems() {
-  (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/postmark-r.svg"}));
+  (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   matchedItem.forEach(function (element) {
     $(element).css("border", "thick solid #f00");
     $(element).css("box-sizing", "border-box");

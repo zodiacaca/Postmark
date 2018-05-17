@@ -5,8 +5,8 @@
 $("#slider-seek-slider").slider({
   range: true,
   min: 0,
-  max: 100,
-  values: [2, 20],
+  max: 99,
+  values: [2, 5],
   slide: function(event, ui) {
     $("#slider-seek-range-from").text(ui.values[0]);
     $("#slider-seek-range-to").text(ui.values[1]);
@@ -30,9 +30,9 @@ function seekMark() {
     seek(i, cells.children[i - start]);
   }
 }
-
+ 
 function seek(num, cell) {
-  var page = $("input[name='urlPattern']").val();
+  var page = $("#slider-seek-textfield-url").val();
   page = page.replace("*num*", num)
   var st = page.indexOf("//");
   st += 2;
@@ -106,6 +106,39 @@ function seek(num, cell) {
           foundPages.appendChild(pageBox);
           pageBox.appendChild(document.createTextNode(num));
           $(pageBox).attr("href", page);
+          $(pageBox).on("click", function (e) {
+            return false;
+          });
+          $(pageBox).mousedown(function (e) {
+            switch(e.which)
+            {
+              case 1:
+                var openChecked = $("#slider-seek-chk-open").is(":checked");
+                var windowChecked = $("#slider-seek-chk-window").is(":checked");
+                if (openChecked) {
+                  var pages = [];
+                  var start = parseInt($("#slider-seek-range-from").text());
+                  for (var i = start; i <= num; i++) {
+                    var page = $("#slider-seek-textfield-url").val();
+                    page = page.replace("*num*", i)
+                    if (windowChecked) {
+                      pages.push(page);
+                    } else {
+                      window.open(page, "_blank");
+                    }
+                  }
+                  (windowChecked) && (chrome.windows.create({url: pages, state: "maximized"}));
+                } else {
+                  window.open($(this).attr("href"), "_self");
+                }
+                break;
+              case 2:
+                break;
+              case 3:
+                break;
+            }
+            return true;
+          });
         }
       }
     });
