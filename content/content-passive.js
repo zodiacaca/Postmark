@@ -112,9 +112,15 @@ function pushElements(item, title, link) {
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   matchedItem.forEach(function (element) {
-    $(element).css("border", "thick solid #f00");
+    var originSize = {
+      w: element.offsetWidth,
+      h: element.offsetHeight
+    }
+    $(element).css("border", "5px solid #f00");
     $(element).css("box-sizing", "border-box");
     $(element).css("overflow", "hidden");
+    $(element).css("width", originSize.w + "px");
+    $(element).css("height", originSize.h + "px");
   });
 }
 
