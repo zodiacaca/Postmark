@@ -113,9 +113,9 @@ function seek(num, cell) {
             switch(e.which)
             {
               case 1:
-                var openChecked = $("#slider-seek-chk-open").is(":checked");
+                var batchChecked = $("#slider-seek-chk-batch").is(":checked");
                 var windowChecked = $("#slider-seek-chk-window").is(":checked");
-                if (openChecked) {
+                if (batchChecked) {
                   var pages = [];
                   var start = parseInt($("#slider-seek-range-from").text());
                   for (var i = start; i <= num; i++) {
@@ -127,7 +127,15 @@ function seek(num, cell) {
                       window.open(page, "_blank");
                     }
                   }
-                  (windowChecked) && (chrome.windows.create({url: pages, state: "maximized"}));
+                  if (windowChecked) {
+                    var url = window.location.href.indexOf("url=");
+                    url = window.location.href.substr(url + 4);
+                    pages.unshift(url);
+                    chrome.windows.create({
+                      url: pages,
+                      state: "maximized"
+                    });
+                  }
                 } else {
                   window.open($(this).attr("href"), "_self");
                 }
