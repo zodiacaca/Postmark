@@ -199,9 +199,15 @@ function getTimeValue() {
 }
 
 function styleContainer(ctn, color) {
-  $(ctn).css("border", "thick solid " + color);
+  var originSize = {
+    w: ctn.offsetWidth,
+    h: ctn.offsetHeight
+  }
+  $(ctn).css("border", "5px solid " + color);
   $(ctn).css("box-sizing", "border-box");
   $(ctn).css("overflow", "hidden");
+  $(ctn).css("width", originSize.w + "px");
+  $(ctn).css("height", originSize.h + "px");
 }
 
 /*
@@ -261,6 +267,7 @@ function jump() {
       window.scrollTo(0, 0);
       console.log("Jump to TOP");
     } else {
+      var item = matchedItem[matchedItem.length - jumpToggle - 1];
       window.scrollTo(0, $(item).offset().top);
       console.log("Jump to " + item);
     }
