@@ -1,5 +1,7 @@
 
 // variables //
+var checkedStatus = 0;  // 0 not checked; 10 checked and none; 11 checked and hit
+
 // switch
 var toggle = false;
 var jumpToggle = 0;
@@ -165,7 +167,7 @@ function saveData(host, page, container, link, linkText, tag) {
     }
     console.log(item);
     chrome.storage.local.set(item);
-    styleContainer(container.container, "red");
+    styleMark(container.container, "red");
     matchedItem.pushIfUnique(container.container);
   });
 }
@@ -198,16 +200,28 @@ function getTimeValue() {
   return d.getTime();
 }
 
-function styleContainer(ctn, color) {
-  var originSize = {
-    w: ctn.offsetWidth,
-    h: ctn.offsetHeight
+function styleMark(ctn, color) {
+  if (!$(ctn).children(".postmark-marks").length) {
+    var containerSize = {
+      w: ctn.offsetWidth,
+      h: ctn.offsetHeight
+    }
+    if ($(ctn).css("position") == "static") {
+      $(ctn).css("position", "relative");
+    }
+    var mark = document.createElement("div");
+    mark.className = "postmark-marks";
+    ctn.appendChild(mark);
+    $(mark).css("all", "initial");
+    $(mark).css("width", containerSize.w + "px");
+    $(mark).css("height", containerSize.h + "px");
+    $(mark).css("border", "medium solid " + color);
+    $(mark).css("box-sizing", "border-box");
+    $(mark).css("position", "absolute");
+    $(mark).css("top", 0);
+    $(mark).css("left", 0);
+    $(mark).css("pointer-events", "none");
   }
-  $(ctn).css("border", "5px solid " + color);
-  $(ctn).css("box-sizing", "border-box");
-  $(ctn).css("overflow", "hidden");
-  $(ctn).css("width", originSize.w + "px");
-  $(ctn).css("height", originSize.h + "px");
 }
 
 /*

@@ -112,7 +112,7 @@ function pushElements(item, title, link) {
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   matchedItem.forEach(function (element) {
-    styleContainer(element, "red")
+    styleMark(element, "red")
   });
 }
 
@@ -182,7 +182,7 @@ function autoMark() {
         }
         console.log(item);
         chrome.storage.local.set(item);
-        styleContainer(autoItem, "orange");
+        styleMark(autoItem, "orange");
       }
     });
   }
