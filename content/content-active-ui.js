@@ -46,7 +46,7 @@ function updateBox() {
   $("#markBox").position({
     my: "left top",
     at: "right top",
-    of: item,
+    of: linkItem.element,
     collision: "fit"
   });
 }
@@ -92,7 +92,13 @@ function addItem(i) {
   // append
   var markList = document.getElementById("markList");
   markList.appendChild(level);
-  level.appendChild(document.createTextNode(containers[i].class));
+  var itemText;
+  if (containers[i].class.length) {
+    itemText = containers[i].tag + ":" + containers[i].class;
+  } else {
+    itemText = containers[i].tag;
+  }
+  level.appendChild(document.createTextNode(itemText));
   // css properties
   $(level).css("all", "initial");
   $(level).css("font-family", "Helvetica");
@@ -305,13 +311,13 @@ function changeBackground() {
 }
 
 function colorBackground() {
-  (lastContainer) && ($(lastContainer).css("background", lastContainerStyle));
+  (lastContainer.container) && ($(lastContainer.container).css("background", lastContainer.style));
   var bg = $(containers[index].container).css("background");
   var bgIndex = bg.indexOf(")");
   var bgStyle = bg.substr(bgIndex + 1);
   $(containers[index].container).css("background", "rgba(0,0,255,0.2)" + bgStyle);
-  lastContainer = containers[index].container;
-  lastContainerStyle = bg;
+  lastContainer.container = containers[index].container;
+  lastContainer.style = bg;
 }
 
 /*

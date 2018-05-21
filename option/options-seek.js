@@ -67,7 +67,7 @@ function seek(num, cell) {
                 var tag;
                 (outer) ? (tag = outer) : (tag = "a");
                 var containers = html.getElementsByClassName(classes);
-                if (title && title != "") {
+                if (title.length) {
                   for (var i = 0; i < containers.length; i++) {
                     var match = false;
                     if (containers[i].innerText == title) {

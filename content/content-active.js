@@ -6,17 +6,19 @@ var jumpToggle = 0;
 var index = 0;
 
 // link right clicked
-var item;
-var autoItem;
-var link;
-var linkText;
-var textOuterTag;
+var linkItem = {
+  element: undefined,
+  title: undefined,
+  link: undefined
+}
 var containers = [];
-var lastContainer;
-var lastContainerStyle;
+var lastContainer = {
+  container: undefined,
+  style: undefined
+}
 var subfolders = [];
 var remembered = {
-  class: undefined,
+  depth: undefined,
   category: { category: undefined, depth: 0 },
   link: [],
   title: []
@@ -36,18 +38,18 @@ var zIndex;
 function checkDOM()
 {
   // popup box
-  if (!document.getElementById("markBox") && item) {
+  if (!document.getElementById("markBox") && linkItem.element) {
     // chrome.runtime.sendMessage({ task: "css", file: "" });
     
     createBox();
     updateBox();
     addStick();
-    findClasses()
+    getContainers()
     fillBox();
     addButtons();
     colorBackground();
     
-    selectClasses();
+    selectContainer();
     toggle = true;
   }
   else {
@@ -56,7 +58,7 @@ function checkDOM()
     toggle = false;
   }
   
-  // use wheel for selecting class
+  // use wheel for selecting container
   window.onwheel = function (e) {
     if (e.deltaY < 0) {
       if (index > 0) { index -= 1 }
@@ -113,7 +115,7 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index], link, linkText, textOuterTag);  // pass variables to local ones, storageArea has a delay
+    saveData(host, page, containers[index], linkItem.link, linkItem.title);  // pass variables to local ones, storageArea has a delay
     clear();
   }
   if (document.getElementById("markFolders")) {
@@ -130,7 +132,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, link, linkText, tag) {
+function saveData(host, page, container, link, linkTitle) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -153,11 +155,12 @@ function saveData(host, page, container, link, linkText, tag) {
     }
     var number = parseInt(oldest) + length;
     item[host][subfoldersStr][number] = {
-      class: container.class,
+      title: linkTitle,
       href: link,
+      tag: container.tag,
+      class: container.class,
+      depth: container.depth,
       nth: getNth(container.container),
-      title: linkText,
-      outer: tag,
       page: page,
       date: getFullDate(),
       time: getTimeValue(),
@@ -226,49 +229,33 @@ function styleMark(ctn, c) {
 }
 
 /*
-  find classes
+  get containers
 */
-function findClasses() {
-  var itemClass = item.className;
-  if (itemClass) {
-    var data = {
-      container: undefined,
-      class: undefined
-    }
-    data.container = item;
-    data.class = itemClass;
-    
-    containers.push(data);
+function getContainers() {
+  var data = {
+    container: linkItem.element,
+    tag: linkItem.element.tagName.toLowerCase(),
+    class: linkItem.element.className,
+    depth: 0
   }
+  containers.push(data);
   
-  var parents = $(item).parents();
+  var parents = $(linkItem.element).parents();
   var count = parents.length - 2;
   for (var i = 0; i < count; i++) {
-    var classNames = parents.get(i).className;
-    if (classNames) {
-      var data = {
-        container: undefined,
-        class: undefined
-      }
-      data.container = parents.get(i);
-      data.class = classNames;
-      
-      containers.push(data);
+    var data = {
+      container: parents.get(i),
+      tag: parents.get(i).tagName.toLowerCase(),
+      class: parents.get(i).className,
+      depth: i + 1
     }
+    containers.push(data);
   }
 }
 
-function selectClasses() {
-  var containerClasses = [];
-  var count = containers.length;
-  for (var i = 0; i < count; i++) {
-    containerClasses.push(containers[i].class);
-  }
-  var indexFound = containerClasses.findIndex(function (element) {
-    return element == remembered.class;
-  });
-  if (indexFound >= 0) {
-    index = indexFound;
+function selectContainer() {
+  if (remembered.depth) {
+    index = remembered.depth;
     updateStyle();
   }
 }
@@ -298,16 +285,15 @@ function jump() {
   reset
 */
 function clear() {
-  (lastContainer) && ($(lastContainer).css("background", lastContainerStyle));
+  (lastContainer.container) && ($(lastContainer.container).css("background", lastContainer.style));
   $("#markBox").remove();
   $("#opBox").remove();
-  item = undefined;
-  link = undefined;
-  linkText = undefined;
-  textOuterTag = undefined;
+  linkItem.element = undefined;
+  linkItem.link = undefined;
+  linkItem.title = undefined;
   containers = [];
-  lastContainer = undefined;
-  lastContainerStyle = undefined;
+  lastContainer.container = undefined;
+  lastContainer.style = undefined;
   subfolders = [];
   index = 0;
   jumpToggle = 0;

@@ -18,10 +18,20 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 
 document.oncontextmenu = function (e) {
-  item = e.target;
-  link = $(item).attr("href");
-  linkText = item.innerText;
-  textOuterTag = item.tagName;
+  if (e.target.tagName == "A") {
+    linkItem.element = e.target;
+  } else {
+    var parents = $(e.target).parents();
+    var count = parents.length - 2;
+    for (var i = 0; i < count; i++) {
+      if (parents.get(i).tagName == "A") {
+        linkItem.element = parents.get(i);
+        break
+      }
+    }
+  }
+  linkItem.title = e.target.innerText;
+  linkItem.link = $(linkItem.element).attr("href");
 }
 
 var checkStatus = {
@@ -45,42 +55,45 @@ function checkMark()
             findAutoSelectSubfolder(sub, site);
             for (var entry in item[site][sub]) {
               if (!isNaN(entry)) {
+                var depth = item[site][sub][entry].depth;
+                findAutoSelectLevel(depth, site);
                 var title = item[site][sub][entry].title;
+                var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
-                findAutoSelectClass(classes, site);
                 var classSelector = getClassSelector(classes);
-                var outer = item[site][sub][entry].outer;
-                var tag;
-                (outer) ? (tag = outer) : (tag = "a");
-                if (title && title != "") {
-                  $(classSelector).each(function (index, value) {
+                if (title.length) {
+                  $(tag + classSelector).each(function (index, value) {
                     var match = false;
                     if (value.innerText == title) {
                       match = true;
                       pushElements(value, title, undefined);
                     }
-                    $(value).find(tag).each(function (i, v) {
-                      if (v.innerText == title) {
-                        match = true;
-                        pushElements(value, title, undefined);
-                      }
-                    });
+                    if (!match) {
+                      $(value).find("*").each(function (i, v) {
+                        if (v.innerText == title) {
+                          match = true;
+                          pushElements(value, title, undefined);
+                        }
+                      });
+                    }
                     (match) && (checkStatus.matched = true);
                   });
                 } else {
-                  $(classSelector).each(function (index, value) {
+                  $(tag + classSelector).each(function (index, value) {
                     var match = false;
                     if ($(value).attr("href") == item[site][sub][entry].href) {
                       match = true;
                       pushElements(value, undefined, item[site][sub][entry].href);
                     }
-                    $(value).find(tag).each(function (i, v) {
-                      if ($(v).attr("href") == item[site][sub][entry].href) {
-                        match = true;
-                        pushElements(value, undefined, item[site][sub][entry].href);
-                      }
-                    });
-                    (match) && (checkStatus.matched = true);
+                    if (!match) {
+                      $(value).find("*").each(function (i, v) {
+                        if ($(v).attr("href") == item[site][sub][entry].href) {
+                          match = true;
+                          pushElements(value, undefined, item[site][sub][entry].href);
+                        }
+                      });
+                      (match) && (checkStatus.matched = true);
+                    }
                   });
                 }
               }
@@ -128,7 +141,7 @@ function autoMark() {
   
   if (remembered.category.category && remembered.class && home) {
     var classSelector = getClassSelector(remembered.class);
-    autoItem = $(classSelector)[0];
+    var autoItem = $(classSelector)[0];
     
     chrome.storage.local.get([host], function (item) {
       var subfoldersStr = remembered.category.category;
@@ -188,10 +201,10 @@ function autoMark() {
   }
 }
 
-function findAutoSelectClass(classes, host) {
+function findAutoSelectLevel(depth, host) {
   var url = window.location.href;
   if (url.indexOf(host) >= 0) {
-    remembered.class = classes;
+    remembered.depth = depth;
   }
 }
 
@@ -206,13 +219,13 @@ function findAutoSelectSubfolder(subfolder, host) {
 }
 
 function getClassSelector(classes) {
-  var classArray;
+  var classArray = [];
   if (classes.indexOf(" ") >= 0) {
     classArray = classes.split(" ");
     for (var i = 0; i < classArray.length; i++) {
       classArray[i] = "." + classArray[i];
     }
-  } else {
+  } else if (classes) {
     classArray = ["." + classes];
   }
   var classSelector = "";
