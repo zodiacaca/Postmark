@@ -20,8 +20,13 @@ function createBox() {
   $(markBox).css("overflow", "hidden");
   
   // find top level
+  zIndex = findMaxZ($("body").children());
+  (zIndex) && ($(markBox).css("z-index", zIndex));
+}
+
+function findMaxZ(nodes) {
   var indexes = [];
-  var nodes = $("body").children();
+  var level = undefined;
   nodes.each(function () {
     var z = $(this).css("z-index");
     (!isNaN(z)) && (indexes.push(z));
@@ -30,9 +35,10 @@ function createBox() {
     var max = indexes.reduce(function (a, b) {
       return Math.max(a, b);
     });
-    zIndex = max + 1;
-    $(markBox).css("z-index", zIndex);
+    level = max + 1;
   }
+  
+  return level;
 }
 
 function updateBox() {
@@ -106,7 +112,7 @@ function addButtons() {
   document.body.appendChild(opBox);
   $(opBox).css("all", "initial");
   $(opBox).css("position", "fixed");
-  $(opBox).css("z-index", zIndex);
+  (zIndex) && ($(opBox).css("z-index", zIndex));
   
   var confirm = document.createElement("button");
   confirm.id = "markConfirm";
