@@ -169,7 +169,7 @@ function saveData(host, page, container, linkTitle, href) {
     }
     console.log(item);
     chrome.storage.local.set(item);
-    styleMark(container.container, { r:255, g:0, b:0, a:1 });
+    styleMark(container.container, "#ff0000", "ff");
     matchedItem.pushIfUnique(container.container);
   });
 }
@@ -202,8 +202,17 @@ function getTimeValue() {
   return d.getTime();
 }
 
-function styleMark(ctn, c) {
+function styleMark(ctn, c, a) {
   if (!$(ctn).children(".postmark-marks").length) {
+    
+    var a_b = parseInt(a, 16) / 5;
+    a_b = Math.round(a_b);
+    a_b = a_b.toString(16);
+    var a_s = parseInt(a, 16) / 3;
+    a_s = Math.round(a_s);
+    a_s = a_s.toString(16);
+    var c_s = c + a_s;
+    
     var containerSize = {
       w: ctn.offsetWidth,
       h: ctn.offsetHeight
@@ -218,8 +227,10 @@ function styleMark(ctn, c) {
     $(mark).css("all", "initial");
     $(mark).css("width", containerSize.w + "px");
     $(mark).css("height", containerSize.h + "px");
-    $(mark).css("border", "thin solid " + "rgba(" + c.r + "," + c.g + "," + c.b + "," + c.a + ")");
-    $(mark).css("background-color", "rgba(" + c.r + "," + c.g + "," + c.b + "," + c.a * 0.2 + ")");
+    $(mark).css("border", "thin solid " + c + a);
+    mark.style.backgroundColor = c + a_b;
+    mark.style.backgroundImage = "linear-gradient(-45deg," + c_s + " 5.56%,transparent 5.56%,transparent 50%," + c_s + " 50%," + c_s + " 55.56%,transparent 55.56%,transparent 100%)";
+    $(mark).css("background-size", "9px 9px");
     $(mark).css("box-sizing", "border-box");
     $(mark).css("position", "absolute");
     $(mark).css("top", 0);

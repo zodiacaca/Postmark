@@ -126,7 +126,7 @@ function pushElements(item, title, href) {
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   matchedItem.forEach(function (element) {
-    styleMark(element, { r:255, g:0, b:0, a:1 });
+    styleMark(element, "#ff0000", "ff");
   });
 }
 
