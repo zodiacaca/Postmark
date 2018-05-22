@@ -9,7 +9,7 @@ var index = 0;
 var linkItem = {
   element: undefined,
   title: undefined,
-  link: undefined
+  href: undefined
 }
 var containers = [];
 var lastContainer = {
@@ -18,10 +18,10 @@ var lastContainer = {
 }
 var subfolders = [];
 var remembered = {
-  depth: undefined,
+  level: undefined,
   category: { category: undefined, depth: 0 },
-  link: [],
-  title: []
+  title: [],
+  href: []
 }
 
 // colors
@@ -115,7 +115,7 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index], linkItem.link, linkItem.title);  // pass variables to local ones, storageArea has a delay
+    saveData(host, page, containers[index], linkItem.title, linkItem.href);  // pass variables to local ones, storageArea has a delay
     clear();
   }
   if (document.getElementById("markFolders")) {
@@ -132,7 +132,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, link, linkTitle) {
+function saveData(host, page, container, linkTitle, href) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -156,10 +156,11 @@ function saveData(host, page, container, link, linkTitle) {
     var number = parseInt(oldest) + length;
     item[host][subfoldersStr][number] = {
       title: linkTitle,
-      href: link,
+      href: href,
       tag: container.tag,
       class: container.class,
-      depth: container.depth,
+      depth: $(container).parents().length,
+      level: container.level,
       nth: getNth(container.container),
       page: page,
       date: getFullDate(),
@@ -236,7 +237,7 @@ function getContainers() {
     container: linkItem.element,
     tag: linkItem.element.tagName.toLowerCase(),
     class: linkItem.element.className,
-    depth: 0
+    level: 0
   }
   containers.push(data);
   
@@ -247,15 +248,15 @@ function getContainers() {
       container: parents.get(i),
       tag: parents.get(i).tagName.toLowerCase(),
       class: parents.get(i).className,
-      depth: i + 1
+      level: i + 1
     }
     containers.push(data);
   }
 }
 
 function selectContainer() {
-  if (remembered.depth) {
-    index = remembered.depth;
+  if (remembered.level) {
+    index = remembered.level;
     updateStyle();
   }
 }
@@ -289,8 +290,8 @@ function clear() {
   $("#markBox").remove();
   $("#opBox").remove();
   linkItem.element = undefined;
-  linkItem.link = undefined;
   linkItem.title = undefined;
+  linkItem.href = undefined;
   containers = [];
   lastContainer.container = undefined;
   lastContainer.style = undefined;

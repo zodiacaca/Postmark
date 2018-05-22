@@ -62,37 +62,40 @@ function seek(num, cell) {
             for (var entry in item[site][sub]) {
               if (!isNaN(entry)) {
                 var title = item[site][sub][entry].title;
+                var href = item[site][sub][entry].href;
+                var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
-                var outer = item[site][sub][entry].outer;
-                var tag;
-                (outer) ? (tag = outer) : (tag = "a");
-                var containers = html.getElementsByClassName(classes);
-                if (title.length) {
-                  for (var i = 0; i < containers.length; i++) {
+                var classSelector = getClassSelector(classes);
+                if (title && title.length) {
+                  $(html).find(tag+classSelector).each(function (index, value) {
                     var match = false;
-                    if (containers[i].innerText == title) {
+                    if (value.innerText == title) {
                       match = true;
                     }
-                    $(containers[i]).find(tag).each(function (i, v) {
-                      if (v.innerText == title) {
-                        match = true;
-                      }
-                    });
+                    if (!match) {
+                      $(value).find("*").each(function (i, v) {
+                        if (v.innerText == title) {
+                          match = true;
+                        }
+                      });
+                    }
                     (match) && (matched = true);
-                  }
+                  });
                 } else {
-                  for (var i = 0; i < containers.length; i++) {
+                  $(html).find(tag+classSelector).each(function (index, value) {
                     var match = false;
-                    if ($(containers[i]).attr("href") == item[site][sub][entry].href) {
+                    if ($(value).attr("href") == href) {
                       match = true;
                     }
-                    $(containers[i]).find(tag).each(function (i, v) {
-                      if ($(v).attr("href") == item[site][sub][entry].href) {
-                        match = true;
-                      }
-                    });
-                    (match) && (matched = true);
-                  }
+                    if (!match) {
+                      $(value).find("*").each(function (i, v) {
+                        if ($(v).attr("href") == href) {
+                          match = true;
+                        }
+                      });
+                      (match) && (matched = true);
+                    }
+                  });
                 }
               }
             }
