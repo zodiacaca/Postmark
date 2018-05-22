@@ -12,10 +12,7 @@ var linkItem = {
   href: undefined
 }
 var containers = [];
-var lastContainer = {
-  container: undefined,
-  style: undefined
-}
+var lastContainer;
 var subfolders = [];
 var remembered = {
   level: undefined,
@@ -47,7 +44,7 @@ function checkDOM()
     getContainers()
     fillBox();
     addButtons();
-    colorBackground();
+    showArea();
     
     selectContainer();
     toggle = true;
@@ -169,7 +166,7 @@ function saveData(host, page, container, linkTitle, href) {
     }
     console.log(item);
     chrome.storage.local.set(item);
-    styleMark(container.container, "#ff0000", "ff");
+    styleMark(container.container, "#0000ff", "ff");
     matchedItem.pushIfUnique(container.container);
   });
 }
@@ -297,15 +294,16 @@ function jump() {
   reset
 */
 function clear() {
-  (lastContainer.container) && ($(lastContainer.container).css("background", lastContainer.style));
+  if (lastContainer) {
+    $(lastContainer).find(".postmark-marks").remove();
+  }
   $("#markBox").remove();
   $("#opBox").remove();
   linkItem.element = undefined;
   linkItem.title = undefined;
   linkItem.href = undefined;
   containers = [];
-  lastContainer.container = undefined;
-  lastContainer.style = undefined;
+  lastContainer = undefined;
   subfolders = [];
   index = 0;
   jumpToggle = 0;

@@ -289,7 +289,7 @@ function updateStyle() {
   // change item background color
   changeBackground()
   // color selected container background
-  colorBackground();
+  showArea();
 }
 
 function moveStick() {
@@ -304,14 +304,12 @@ function changeBackground() {
   $("#markList").children().eq(index).css("background-color", bgColorSelected);
 }
 
-function colorBackground() {
-  (lastContainer.container) && ($(lastContainer.container).css("background", lastContainer.style));
-  var bg = $(containers[index].container).css("background");
-  var bgIndex = bg.indexOf(")");
-  var bgStyle = bg.substr(bgIndex + 1);
-  $(containers[index].container).css("background", "rgba(0,0,255,0.2)" + bgStyle);
-  lastContainer.container = containers[index].container;
-  lastContainer.style = bg;
+function showArea() {
+  if (lastContainer) {
+    $(lastContainer).find(".postmark-marks").remove();
+  }
+  styleMark(containers[index].container, "#0000ff", "ff");
+  lastContainer = containers[index].container;
 }
 
 /*
