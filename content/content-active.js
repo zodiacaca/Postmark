@@ -238,11 +238,12 @@ function styleMark(ctn, c, a, dsp) {
     $(mark).css("left", 0);
     (z) && ($(mark).css("z-index", z));
     $(mark).css("pointer-events", "none");
+    $(mark).css("transition", "opacity 0.4s");
     $(mark).parent().hover(
       function () {
-        $(this).find(".postmark-mark").css("display", "none");
+        $(this).find(".postmark-mark").css("opacity", 0);
       }, function () {
-        $(this).find(".postmark-mark").css("display", "block");
+        $(this).find(".postmark-mark").css("opacity", 1);
       }
     );
   }
