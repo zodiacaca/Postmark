@@ -15,7 +15,12 @@ function getClassSelector(classes) {
   if (classes.indexOf(" ") >= 0) {
     classArray = classes.split(" ");
     for (var i = 0; i < classArray.length; i++) {
-      classArray[i] = "." + classArray[i];
+      if (classArray[i]) {
+        classArray[i] = "." + classArray[i];
+      } else {
+        classArray.splice(i, 1);
+      }
+      
     }
   } else if (classes) {
     classArray = ["." + classes];
