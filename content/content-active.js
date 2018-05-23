@@ -200,7 +200,7 @@ function getTimeValue() {
 }
 
 function styleMark(ctn, c, a, dsp) {
-  if (!$(ctn).children(".postmark-mark").length) {
+  if (!$(ctn).children(".postmark-mark").length || dsp) {
     
     var a_b = parseInt(a, 16) / 5;
     a_b = Math.round(a_b);
@@ -238,6 +238,13 @@ function styleMark(ctn, c, a, dsp) {
     $(mark).css("left", 0);
     (z) && ($(mark).css("z-index", z));
     $(mark).css("pointer-events", "none");
+    $(mark).parent().hover(
+      function () {
+        $(this).find(".postmark-mark").css("display", "none");
+      }, function () {
+        $(this).find(".postmark-mark").css("display", "block");
+      }
+    );
   }
 }
 
@@ -301,6 +308,7 @@ function clear() {
   if (lastContainer) {
     $(lastContainer).find(".postmark-area").remove();
   }
+  $(document).find(".postmark-mark").css("display", "block");
   $("#markBox").remove();
   $("#opBox").remove();
   linkItem.element = undefined;

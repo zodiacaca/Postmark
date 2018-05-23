@@ -308,6 +308,7 @@ function showArea() {
   if (lastContainer) {
     $(lastContainer).find(".postmark-area").remove();
   }
+  $(document).find(".postmark-mark").css("display", "none");
   styleMark(containers[index].container, "#0000ff", "ff", true);
   lastContainer = containers[index].container;
 }
