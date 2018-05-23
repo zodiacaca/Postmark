@@ -34,10 +34,7 @@ function seekMark() {
 function seek(num, cell) {
   var page = $("#slider-seek-textfield-url").val();
   page = page.replace("*num*", num)
-  var st = page.indexOf("//");
-  st += 2;
-  var ed = page.indexOf("/", st);
-  var host = page.substr(st, ed - st);
+  var host = getHostname(page);
   
   $.ajax({
     url: page,

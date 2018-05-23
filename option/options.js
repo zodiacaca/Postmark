@@ -12,6 +12,7 @@ chrome.storage.local.get(function (items) {
     for (var sub in items[site]) {
       var emptySubfolder = true;
       
+      var count = 0;
       for (var entry in items[site][sub]) {
         
         if (!isNaN(entry)) {
@@ -23,7 +24,8 @@ chrome.storage.local.get(function (items) {
           $(host).attr("scope", "row");
           var subfolder = document.createElement("td");
           var container = document.createElement("td");
-          var length = document.createElement("td");
+          var slot = document.createElement("td");
+          count++;
           var title = document.createElement("td");
           var post = document.createElement("td");
           var postLink = document.createElement("a");
@@ -36,7 +38,7 @@ chrome.storage.local.get(function (items) {
           row.appendChild(host);
           row.appendChild(subfolder);
           row.appendChild(container);
-          row.appendChild(length);
+          row.appendChild(slot);
           row.appendChild(title);
           row.appendChild(post);
           post.appendChild(postLink);
@@ -48,7 +50,7 @@ chrome.storage.local.get(function (items) {
           host.appendChild(document.createTextNode(site));
           subfolder.appendChild(document.createTextNode(sub));
           container.appendChild(document.createTextNode(getElementString(items[site][sub][entry].tag, items[site][sub][entry].class)));
-          length.appendChild(document.createTextNode(items[site][sub].maxEntries));
+          slot.appendChild(document.createTextNode(count + "/" + items[site][sub].maxEntries));
           title.appendChild(document.createTextNode(items[site][sub][entry].title));
           postLink.appendChild(document.createTextNode("post"));
           $(postLink).attr("href", items[site][sub][entry].href);
@@ -72,6 +74,7 @@ chrome.storage.local.get(function (items) {
     }
     (emptySite) && (removeEntry(site));
   }
+  listComplete = true;
 });
 
 function removeEntry(host, subfolder, id) {
@@ -113,6 +116,8 @@ function selectSection() {
     $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
     $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
     $("#nav-auto").css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
+  } else {
+    findMarks(url);
   }
 }
 selectSection();
@@ -120,6 +125,32 @@ selectSection();
 function fillSeekForm(url) {
   url += "page/*num*/";
   $("#slider-seek-textfield-url").val(url);
+}
+
+function findMarks(url) {
+  var host = getHostname(url);
+  var headers = document.getElementsByTagName("th");
+  var data =[];
+  $(headers).each(function (index, value) {
+    if (value.innerText.indexOf(host) >= 0) {
+      $(value).parent().css("background-color", "#b4b7ff");
+      data.push(value);
+    }
+  });
+  if (data.length) {
+    var pos = $(data[0]).offset().top - $("#slider-marks").offset().top;
+    document.getElementById("slider-marks").scroll({
+      top: pos,
+      left: 0,
+      behavior: "smooth"
+    });
+  }
+  
+  if (headers.length <= 9) {
+    setTimeout(function () {
+      findMarks(url);
+    }, 100);
+  }
 }
 
 $("#nav-auto").on("click", function (e) {
@@ -156,4 +187,12 @@ function adjustSectionSize() {
   $("#slider").children().css("height", height + "px");
 }
 adjustSectionSize();
+
+function getHostname(url) {
+  var st = url.indexOf("//");
+  st += 2;
+  var ed = url.indexOf("/", st);
+  
+  return url.substr(st, ed - st);
+}
 

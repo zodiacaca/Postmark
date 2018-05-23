@@ -166,7 +166,7 @@ function saveData(host, page, container, linkTitle, href) {
     }
     console.log(item);
     chrome.storage.local.set(item);
-    styleMark(container.container, "#0000ff", "ff");
+    styleMark(container.container, "#48929B", "ff");
     matchedItem.pushIfUnique(container.container);
   });
 }
@@ -199,8 +199,8 @@ function getTimeValue() {
   return d.getTime();
 }
 
-function styleMark(ctn, c, a) {
-  if (!$(ctn).children(".postmark-marks").length) {
+function styleMark(ctn, c, a, dsp) {
+  if (!$(ctn).children(".postmark-mark").length) {
     
     var a_b = parseInt(a, 16) / 5;
     a_b = Math.round(a_b);
@@ -219,7 +219,11 @@ function styleMark(ctn, c, a) {
       $(ctn).css("position", "relative");
     }
     var mark = document.createElement("div");
-    mark.className = "postmark-marks";
+    if (dsp) {
+      mark.className = "postmark-area";
+    } else {
+      mark.className = "postmark-mark";
+    }
     ctn.appendChild(mark);
     $(mark).css("all", "initial");
     $(mark).css("width", containerSize.w + "px");
@@ -295,7 +299,7 @@ function jump() {
 */
 function clear() {
   if (lastContainer) {
-    $(lastContainer).find(".postmark-marks").remove();
+    $(lastContainer).find(".postmark-area").remove();
   }
   $("#markBox").remove();
   $("#opBox").remove();

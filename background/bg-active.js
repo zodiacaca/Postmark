@@ -29,9 +29,21 @@ function callbackHandler(content) {
 /*
   icon click
 */
+var lastClicked;
 chrome.browserAction.onClicked.addListener(function (tab) {
-  chrome.tabs.sendMessage(
-    tab.id,
-    { event: "onIconClicked" }
-  );
+  
+  var d = new Date();
+  
+  if (d.getTime() - lastClicked > 200) {
+    chrome.tabs.sendMessage(
+      tab.id,
+      { event: "onIconClicked" }
+    );
+  } else {
+    var url = chrome.runtime.getURL("/option/options.html");
+    url += "?section=2";
+    url += "&url=" + tab.url;
+    window.open(url, "_blank");
+  }
+  lastClicked = d.getTime();
 });

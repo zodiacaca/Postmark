@@ -306,9 +306,9 @@ function changeBackground() {
 
 function showArea() {
   if (lastContainer) {
-    $(lastContainer).find(".postmark-marks").remove();
+    $(lastContainer).find(".postmark-area").remove();
   }
-  styleMark(containers[index].container, "#0000ff", "ff");
+  styleMark(containers[index].container, "#0000ff", "ff", true);
   lastContainer = containers[index].container;
 }
 
