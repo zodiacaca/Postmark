@@ -1,10 +1,4 @@
 
-// prototype
-Array.prototype.pushIfUnique = function(element) { 
-  if (this.indexOf(element) == -1) {
-    this.push(element);
-  }
-}
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.event == "onRClicked") {
@@ -30,7 +24,12 @@ document.oncontextmenu = function (e) {
       }
     }
   }
-  linkItem.title = e.target.innerText;
+  var title = $(linkItem.element).attr("title");
+  if (title && title.length > 0) {
+    linkItem.title = title;
+  } else {
+    linkItem.title = e.target.innerText;
+  }
   linkItem.href = $(linkItem.element).attr("href");
 }
 
@@ -47,6 +46,27 @@ function checkMark()
   // initialize icon
   chrome.runtime.sendMessage({task: "icon", path: "icons/i-2.svg"});
   
+/*   // Select the node that will be observed for mutations
+  var targetNode = $("body")[0];
+
+  // Options for the observer (which mutations to observe)
+  var config = { childList: true };
+
+  // Callback function to execute when mutations are observed
+  var callback = function (mutationsList) {
+    for (var mutation of mutationsList) {
+      if (mutation.type == "childList") {
+        
+      }
+    }
+  };
+
+  // Create an observer instance linked to the callback function
+  var observer = new MutationObserver(callback);
+
+  // Start observing the target node for configured mutations
+  observer.observe(targetNode, config); */
+
   if (!checkStatus.checked) {
     chrome.storage.local.get([window.location.hostname], function (item) {
       for (var site in item) {
@@ -116,10 +136,10 @@ checkMark();
 function pushElements(item, title, href) {
   matchedItem.pushIfUnique(item);
   if (title) {
-    remembered.title.push(title);
+    remembered.title.pushIfUnique(title);
   }
   if (href) {
-    remembered.href.push(href);
+    remembered.href.pushIfUnique(href);
   }
 }
 
@@ -217,5 +237,19 @@ function findAutoSelectSubfolder(subfolder, host) {
       remembered.category.depth = subfolder.length;
     }
   }
+}
+
+// recheck size
+document.getElementsByTagName("body")[0].onload = function() {
+  $("body").find(".postmark-mark").each(function (index, value) {
+    var parentSize = {
+      w: value.parentElement.offsetWidth,
+      h: value.parentElement.offsetHeight
+    }
+    $(value).css("width", parentSize.w + "px");
+    $(value).css("height", parentSize.h + "px");
+    $(value).css("transition", "width 0.5s");
+    $(value).css("transition", "height 0.5s");
+  });
 }
 

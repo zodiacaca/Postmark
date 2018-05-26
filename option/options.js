@@ -66,7 +66,10 @@ chrome.storage.local.get(function (items) {
             var subfolder = $(parent).children()[1].innerText;
             var id = parent[0].id.substring(host.length + 1, parent[0].id.length - 1);
             removeEntry(host, subfolder, id);
-            $(parent).remove();
+            $(parent).css("opacity", 0)
+            setTimeout(function () {
+              $(parent).remove();
+            }, 500);
           });
         }
       }

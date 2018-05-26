@@ -129,7 +129,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, linkTitle, href) {
+function saveData(host, page, container, title, href) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -152,7 +152,7 @@ function saveData(host, page, container, linkTitle, href) {
     }
     var number = parseInt(oldest) + length;
     item[host][subfoldersStr][number] = {
-      title: linkTitle,
+      title: title,
       href: href,
       tag: container.tag,
       class: container.class,

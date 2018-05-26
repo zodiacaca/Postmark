@@ -61,6 +61,10 @@ table {
   z-index: 0;
 }
 
+tr {
+  transition: all 0.5s;
+}
+
 th, td {
   padding: 0.5rem 0.5rem;
   border: thin solid #555;

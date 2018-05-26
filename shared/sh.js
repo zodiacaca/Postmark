@@ -1,4 +1,12 @@
 
+// prototype
+Array.prototype.pushIfUnique = function(element) { 
+  if (this.indexOf(element) == -1) {
+    this.push(element);
+  }
+}
+
+// method
 function getElementString(tag, classes, id) {
   var str;
   if (classes && classes.length) {
