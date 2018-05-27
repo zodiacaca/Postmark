@@ -14,6 +14,7 @@ var linkItem = {
 var containers = [];
 var lastContainer;
 var subfolders = [];
+var markTime = 0;
 var remembered = {
   level: undefined,
   category: { category: undefined, depth: 0 },
@@ -173,6 +174,7 @@ function saveData(host, page, container, title, href) {
     chrome.storage.local.set(item);
     styleMark(container.container, "#48929B", "ff");
     matchedItem.pushIfUnique(container.container);
+    markTime = getTimeValue();
   });
 }
 
@@ -246,7 +248,9 @@ function styleMark(ctn, c, a, dsp) {
     $(mark).css("transition", "opacity 0.4s");
     $(mark).parent().hover(
       function () {
-        $(this).find(".postmark-mark").css("opacity", 0);
+        if (getTimeValue() - markTime > 3000) {
+          $(this).find(".postmark-mark").css("opacity", 0);
+        }
       }, function () {
         $(this).find(".postmark-mark").css("opacity", 1);
       }

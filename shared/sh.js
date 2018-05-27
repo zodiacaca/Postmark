@@ -41,3 +41,9 @@ function getClassSelector(classes) {
   return classSelector;
 }
 
+function attributeValid(item, name) {
+  var attr = $(item).attr(name);
+  
+  return typeof attr == "string";
+}
+

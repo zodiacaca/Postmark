@@ -66,12 +66,12 @@ function seek(num, cell) {
                 if (href) {
                   $(html).find(tag+classSelector).each(function (index, value) {
                     var match = false;
-                    if ($(value).attr("href") == href) {
+                    if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
                       match = true;
                     }
                     if (!match) {
-                      $(value).find("*").each(function (i, v) {
-                        if ($(v).attr("href") == href) {
+                      $(value).find("a").each(function (i, v) {
+                        if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
                           match = true;
                         }
                       });

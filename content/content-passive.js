@@ -30,7 +30,11 @@ document.oncontextmenu = function (e) {
   } else {
     linkItem.title = e.target.innerText;
   }
-  linkItem.href = $(linkItem.element).attr("href");
+  if (attributeValid(linkItem.element, "href")) {
+    linkItem.href = $(linkItem.element).attr("href");
+    var question = linkItem.href.indexOf("?");
+    linkItem.href = linkItem.href.substring(0, question);
+  }
 }
 
 var checkStatus = {
@@ -41,11 +45,7 @@ var matchedItem = [];
 /*
   passive mark action
 */
-function checkMark()
-{
-  // initialize icon
-  chrome.runtime.sendMessage({task: "icon", path: "icons/i-2.svg"});
-  
+function registerObserver() {
   // Select the node that will be observed for mutations
   var targetNode = $("body")[0];
 
@@ -56,7 +56,7 @@ function checkMark()
   var callback = function (mutationsList) {
     for (var mutation of mutationsList) {
       if (mutation.type == "childList") {
-        // console.log($(".WB_cardwrap").length);
+        lookupElements();
       }
     }
   };
@@ -66,72 +66,81 @@ function checkMark()
 
   // Start observing the target node for configured mutations
   observer.observe(targetNode, config);
+}
+registerObserver();
 
+function checkMark()
+{
+  // initialize icon
+  chrome.runtime.sendMessage({task: "icon", path: "icons/i-2.svg"});
+  
   if (!checkStatus.checked) {
-    chrome.storage.local.get([window.location.hostname], function (item) {
-      for (var site in item) {
-        for (var sub in item[site]) {
-          if (window.location.href.indexOf(sub) >= 0) {
-            findAutoSelectSubfolder(sub, site);
-            for (var entry in item[site][sub]) {
-              if (!isNaN(entry)) {
-                var level = item[site][sub][entry].level;
-                findAutoSelectLevel(level, site);
-                var title = item[site][sub][entry].title;
-                var href = item[site][sub][entry].href;
-                var tag = item[site][sub][entry].tag;
-                var classes = item[site][sub][entry].class;
-                var classSelector = getClassSelector(classes);
-                if (href) {
-                  $(tag+classSelector).each(function (index, value) {
-                    var match = false;
-                    if ($(value).attr("href") == href) {
-                      match = true;
-                      pushElements(value, undefined, href);
-                    }
-                    if (!match) {
-                      $(value).find("*").each(function (i, v) {
-                        if ($(v).attr("href") == href) {
-                          match = true;
-                          pushElements(value, undefined, href);
-                        }
-                      });
-                      (match) && (checkStatus.matched = true);
-                    }
-                  });
-                } else {
-                  $(tag+classSelector).each(function (index, value) {
-                    var match = false;
-                    if (value.innerText == title) {
-                      match = true;
-                      pushElements(value, title, undefined);
-                    }
-                    if (!match) {
-                      $(value).find("*").each(function (i, v) {
-                        if (v.innerText == title) {
-                          match = true;
-                          pushElements(value, title, undefined);
-                        }
-                      });
-                    }
+    lookupElements();
+  }
+  
+  markItems();
+}
+checkMark();
+
+function lookupElements() {
+  chrome.storage.local.get([window.location.hostname], function (item) {
+    for (var site in item) {
+      for (var sub in item[site]) {
+        if (window.location.href.indexOf(sub) >= 0) {
+          findAutoSelectSubfolder(sub, site);
+          for (var entry in item[site][sub]) {
+            if (!isNaN(entry)) {
+              var level = item[site][sub][entry].level;
+              findAutoSelectLevel(level, site);
+              var title = item[site][sub][entry].title;
+              var href = item[site][sub][entry].href;
+              var tag = item[site][sub][entry].tag;
+              var classes = item[site][sub][entry].class;
+              var classSelector = getClassSelector(classes);
+              if (href) {
+                $(tag+classSelector).each(function (index, value) {
+                  var match = false;
+                  if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
+                    match = true;
+                    pushElements(value, undefined, href);
+                  }
+                  if (!match) {
+                    $(value).find("a").each(function (i, v) {
+                      if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
+                        match = true;
+                        pushElements(value, undefined, href);
+                      }
+                    });
                     (match) && (checkStatus.matched = true);
-                  });
-                }
+                  }
+                });
+              } else {
+                $(tag+classSelector).each(function (index, value) {
+                  var match = false;
+                  if (value.innerText == title) {
+                    match = true;
+                    pushElements(value, title, undefined);
+                  }
+                  if (!match) {
+                    $(value).find("*").each(function (i, v) {
+                      if (v.innerText == title) {
+                        match = true;
+                        pushElements(value, title, undefined);
+                      }
+                    });
+                  }
+                  (match) && (checkStatus.matched = true);
+                });
               }
             }
           }
         }
-        markItems();
-        checkStatus.checked = true;
       }
-    });
-  }
-  
-  markItems();
-  
-  // autoMark();
+      markItems();
+      checkStatus.checked = true;
+    }
+  });
 }
-checkMark();
 
 function pushElements(item, title, href) {
   matchedItem.pushIfUnique(item);
