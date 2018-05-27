@@ -14,7 +14,6 @@ var linkItem = {
 var containers = [];
 var lastContainer;
 var subfolders = [];
-var markTime = 0;
 var remembered = {
   level: undefined,
   category: { category: undefined, depth: 0 },
@@ -174,7 +173,6 @@ function saveData(host, page, container, title, href) {
     chrome.storage.local.set(item);
     styleMark(container.container, "#48929B", "ff");
     matchedItem.pushIfUnique(container.container);
-    markTime = getTimeValue();
   });
 }
 
@@ -231,6 +229,7 @@ function styleMark(ctn, c, a, dsp) {
     } else {
       mark.className = "postmark-mark";
     }
+    $(mark).attr("at", getTimeValue()); // added time
     ctn.appendChild(mark);
     $(mark).css("all", "initial");
     $(mark).css("width", containerSize.w + "px");
@@ -245,12 +244,14 @@ function styleMark(ctn, c, a, dsp) {
     $(mark).css("left", 0);
     (z) && ($(mark).css("z-index", z));
     $(mark).css("pointer-events", "none");
-    $(mark).css("transition", "opacity 0.4s");
+    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s");
     $(mark).parent().hover(
       function () {
-        if (getTimeValue() - markTime > 3000) {
-          $(this).find(".postmark-mark").css("opacity", 0);
-        }
+        $(this).find(".postmark-mark").each(function (i, v) {
+          if (getTimeValue() - $(v).attr("at") > 2000) {
+            $(v).css("opacity", 0);
+          }
+        });
       }, function () {
         $(this).find(".postmark-mark").css("opacity", 1);
       }

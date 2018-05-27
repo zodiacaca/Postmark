@@ -257,8 +257,6 @@ document.getElementsByTagName("body")[0].onload = function() {
     }
     $(value).css("width", parentSize.w + "px");
     $(value).css("height", parentSize.h + "px");
-    $(value).css("transition", "width 0.5s");
-    $(value).css("transition", "height 0.5s");
   });
 }
 

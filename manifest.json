@@ -39,7 +39,7 @@
     "js": [
       "library/jquery-3.2.1.min.js",
       "library/jquery-ui-1.12.1/jquery-ui.js",
-      "shared/sh.js",
+      "shared/basic.js",
       "content/content-passive.js",
       "content/content-active.js",
       "content/content-active-ui.js"
