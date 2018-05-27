@@ -46,7 +46,7 @@ function checkMark()
   // initialize icon
   chrome.runtime.sendMessage({task: "icon", path: "icons/i-2.svg"});
   
-/*   // Select the node that will be observed for mutations
+  // Select the node that will be observed for mutations
   var targetNode = $("body")[0];
 
   // Options for the observer (which mutations to observe)
@@ -56,7 +56,7 @@ function checkMark()
   var callback = function (mutationsList) {
     for (var mutation of mutationsList) {
       if (mutation.type == "childList") {
-        
+        // console.log($(".WB_cardwrap").length);
       }
     }
   };
@@ -65,7 +65,7 @@ function checkMark()
   var observer = new MutationObserver(callback);
 
   // Start observing the target node for configured mutations
-  observer.observe(targetNode, config); */
+  observer.observe(targetNode, config);
 
   if (!checkStatus.checked) {
     chrome.storage.local.get([window.location.hostname], function (item) {
@@ -82,24 +82,7 @@ function checkMark()
                 var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
-                if (title && title.length) {
-                  $(tag+classSelector).each(function (index, value) {
-                    var match = false;
-                    if (value.innerText == title) {
-                      match = true;
-                      pushElements(value, title, undefined);
-                    }
-                    if (!match) {
-                      $(value).find("*").each(function (i, v) {
-                        if (v.innerText == title) {
-                          match = true;
-                          pushElements(value, title, undefined);
-                        }
-                      });
-                    }
-                    (match) && (checkStatus.matched = true);
-                  });
-                } else {
+                if (href) {
                   $(tag+classSelector).each(function (index, value) {
                     var match = false;
                     if ($(value).attr("href") == href) {
@@ -115,6 +98,23 @@ function checkMark()
                       });
                       (match) && (checkStatus.matched = true);
                     }
+                  });
+                } else {
+                  $(tag+classSelector).each(function (index, value) {
+                    var match = false;
+                    if (value.innerText == title) {
+                      match = true;
+                      pushElements(value, title, undefined);
+                    }
+                    if (!match) {
+                      $(value).find("*").each(function (i, v) {
+                        if (v.innerText == title) {
+                          match = true;
+                          pushElements(value, title, undefined);
+                        }
+                      });
+                    }
+                    (match) && (checkStatus.matched = true);
                   });
                 }
               }

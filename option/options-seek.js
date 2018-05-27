@@ -63,22 +63,7 @@ function seek(num, cell) {
                 var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
-                if (title && title.length) {
-                  $(html).find(tag+classSelector).each(function (index, value) {
-                    var match = false;
-                    if (value.innerText == title) {
-                      match = true;
-                    }
-                    if (!match) {
-                      $(value).find("*").each(function (i, v) {
-                        if (v.innerText == title) {
-                          match = true;
-                        }
-                      });
-                    }
-                    (match) && (matched = true);
-                  });
-                } else {
+                if (href) {
                   $(html).find(tag+classSelector).each(function (index, value) {
                     var match = false;
                     if ($(value).attr("href") == href) {
@@ -92,6 +77,21 @@ function seek(num, cell) {
                       });
                       (match) && (matched = true);
                     }
+                  });
+                } else {
+                  $(html).find(tag+classSelector).each(function (index, value) {
+                    var match = false;
+                    if (value.innerText == title) {
+                      match = true;
+                    }
+                    if (!match) {
+                      $(value).find("*").each(function (i, v) {
+                        if (v.innerText == title) {
+                          match = true;
+                        }
+                      });
+                    }
+                    (match) && (matched = true);
                   });
                 }
               }

@@ -140,26 +140,31 @@ function saveData(host, page, container, title, href) {
     (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
     (!item[host][subfoldersStr]["maxEntries"]) && (item[host][subfoldersStr]["maxEntries"] = 2);
     var oldest;
+    var newest = 1;
     var length = 0;
     for (var key in item[host][subfoldersStr]) {
-      (!oldest) && (oldest = key);
+      if (!oldest && !isNaN(key)) {
+        oldest = key;
+      }
+      if (!isNaN(key)) {
+        newest = key;
+      }
       length += 1;
     }
-    length -= 1;
-    (isNaN(oldest)) && (oldest = 1);
+    length -= 1;  // maxEntries takes one place
     if (length >= item[host][subfoldersStr]["maxEntries"]) {
       delete item[host][subfoldersStr][oldest];
     }
-    var number = parseInt(oldest) + length;
+    var number = parseInt(newest) + 1;
     item[host][subfoldersStr][number] = {
-      title: title,
+      title: title, // from the title attribute or the inner text
       href: href,
-      tag: container.tag,
-      class: container.class,
-      depth: $(container).parents().length,
-      level: container.level,
-      nth: getNth(container.container),
-      page: page,
+      tag: container.tag, // tag name
+      class: container.class, // class name
+      depth: $(container).parents().length, // depth in the DOM tree
+      level: container.level, // chosen selector's position, relative to depth
+      nth: getNth(container.container), // position among the many anchors within
+      page: page, // at the page where marked
       date: getFullDate(),
       time: getTimeValue(),
       autoMarked: false
