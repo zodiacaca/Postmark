@@ -102,13 +102,13 @@ function lookupElements() {
                   var match = false;
                   if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
                     match = true;
-                    pushElements(value, undefined, href);
+                    pushElements(value, value, undefined, href);
                   }
                   if (!match) {
                     $(value).find("a").each(function (i, v) {
                       if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
                         match = true;
-                        pushElements(value, undefined, href);
+                        pushElements(value, v, undefined, href);
                       }
                     });
                     (match) && (checkStatus.matched = true);
@@ -119,13 +119,13 @@ function lookupElements() {
                   var match = false;
                   if (value.innerText == title) {
                     match = true;
-                    pushElements(value, title, undefined);
+                    pushElements(value, value, title, undefined);
                   }
                   if (!match) {
-                    $(value).find("*").each(function (i, v) {
+                    $(value).find("a").each(function (i, v) {
                       if (v.innerText == title) {
                         match = true;
-                        pushElements(value, title, undefined);
+                        pushElements(value, v, title, undefined);
                       }
                     });
                   }
@@ -142,8 +142,12 @@ function lookupElements() {
   });
 }
 
-function pushElements(item, title, href) {
-  matchedItem.pushIfUnique(item);
+function pushElements(container, anchor, title, href) {
+  var data = {
+    container: container,
+    anchor: anchor
+  }
+  matchedItem.pushIfUnique(data);
   if (title) {
     remembered.title.pushIfUnique(title);
   }
@@ -154,8 +158,8 @@ function pushElements(item, title, href) {
 
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
-  matchedItem.forEach(function (element) {
-    styleMark(element, "#48929B", "ff");
+  matchedItem.forEach(function (item) {
+    styleMark(item.container, "#48929B", "ff");
   });
 }
 

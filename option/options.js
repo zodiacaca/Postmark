@@ -57,6 +57,7 @@ chrome.storage.local.get(function (items) {
           pageLink.appendChild(document.createTextNode("page"));
           $(pageLink).attr("href", items[site][sub][entry].page);
           date.appendChild(document.createTextNode(items[site][sub][entry].date));
+          removeIcon.className = "graph-remove";
           $(removeIcon).attr("src", "/icons/cross-remove-sign.svg");
           $(removeIcon).attr("alt", "remove");
           
@@ -66,9 +67,13 @@ chrome.storage.local.get(function (items) {
             var subfolder = $(parent).children()[1].innerText;
             var id = parent[0].id.substring(host.length + 1, parent[0].id.length - 1);
             removeEntry(host, subfolder, id);
-            $(parent).css("opacity", 0)
+            $(parent).css("opacity", 0);
+            $(".graph-remove").css("opacity", 0.2);
+            $(".graph-remove").css("pointer-events", "none");
             setTimeout(function () {
               $(parent).remove();
+              $(".graph-remove").css("opacity", 1);
+              $(".graph-remove").css("pointer-events", "auto");
             }, 500);
           });
         }
@@ -77,7 +82,6 @@ chrome.storage.local.get(function (items) {
     }
     (emptySite) && (removeEntry(site));
   }
-  listComplete = true;
 });
 
 function removeEntry(host, subfolder, id) {

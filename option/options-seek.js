@@ -85,7 +85,7 @@ function seek(num, cell) {
                       match = true;
                     }
                     if (!match) {
-                      $(value).find("*").each(function (i, v) {
+                      $(value).find("a").each(function (i, v) {
                         if (v.innerText == title) {
                           match = true;
                         }

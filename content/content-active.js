@@ -77,6 +77,8 @@ function checkDOM()
     if (document.getElementById("markFolders")) {
       $("#markFolders").remove();
       subfolders = [];
+    // } else if () {
+        
     } else {
       clear();
     }
@@ -112,7 +114,7 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index], linkItem.title, linkItem.href);  // pass variables to local ones, storageArea has a delay
+    saveData(host, page, containers[index], linkItem);  // pass variables to local ones, storageArea has a delay
     clear();
   }
   if (document.getElementById("markFolders")) {
@@ -129,7 +131,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, title, href) {
+function saveData(host, page, container, target) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -157,8 +159,8 @@ function saveData(host, page, container, title, href) {
     }
     var number = parseInt(newest) + 1;
     item[host][subfoldersStr][number] = {
-      title: title, // from the title attribute or the inner text
-      href: href,
+      title: target.title, // from the title attribute or the inner text
+      href: target.href,
       tag: container.tag, // tag name
       class: container.class, // class name
       depth: $(container).parents().length, // depth in the DOM tree
@@ -172,7 +174,11 @@ function saveData(host, page, container, title, href) {
     console.log(item);
     chrome.storage.local.set(item);
     styleMark(container.container, "#48929B", "ff");
-    matchedItem.pushIfUnique(container.container);
+    var data = {
+      container: container.container,
+      anchor: target.element
+    }
+    matchedItem.pushIfUnique(data);
   });
 }
 
@@ -235,7 +241,7 @@ function styleMark(ctn, c, a, dsp) {
     $(mark).css("width", containerSize.w + "px");
     $(mark).css("height", containerSize.h + "px");
     $(mark).css("border", "thin solid " + c + a);
-    mark.style.backgroundColor = c + a_b;
+    mark.style.backgroundColor = c + "00";
     mark.style.backgroundImage = "linear-gradient(-45deg," + c_s + " 5.56%,transparent 5.56%,transparent 50%," + c_s + " 50%," + c_s + " 55.56%,transparent 55.56%,transparent 100%)";
     $(mark).css("background-size", "9px 9px");
     $(mark).css("box-sizing", "border-box");
@@ -244,7 +250,7 @@ function styleMark(ctn, c, a, dsp) {
     $(mark).css("left", 0);
     (z) && ($(mark).css("z-index", z));
     $(mark).css("pointer-events", "none");
-    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s");
+    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 1s");
     $(mark).parent().hover(
       function () {
         $(this).find(".postmark-mark").each(function (i, v) {
@@ -256,6 +262,9 @@ function styleMark(ctn, c, a, dsp) {
         $(this).find(".postmark-mark").css("opacity", 1);
       }
     );
+    setTimeout(function () {
+      mark.style.backgroundColor = c + a_b;
+    }, 1000);
   }
 }
 
@@ -300,7 +309,7 @@ function jump() {
       window.scrollTo(0, 0);
       console.log("Jump to TOP");
     } else {
-      var item = matchedItem[matchedItem.length - jumpToggle - 1];
+      var item = matchedItem[matchedItem.length - jumpToggle - 1].container;
       window.scrollTo(0, $(item).offset().top);
       console.log("Jump to " + item);
     }
