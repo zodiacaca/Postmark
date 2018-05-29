@@ -46,7 +46,7 @@ function updateBox() {
   $("#markBox").position({
     my: "left top",
     at: "right top",
-    of: linkItem.element,
+    of: linkData.item,
     collision: "fit"
   });
 }
@@ -309,7 +309,8 @@ function showArea() {
     $(lastContainer).find(".postmark-area").remove();
   }
   $(document).find(".postmark-mark").css("display", "none");
-  styleMark(containers[index].container, "#0000ff", "ff", true);
+  styleMark(containers[index].container, "#0000ff", "ff", true, false);
+  // container, color, alpha, for displaying area, newly added
   lastContainer = containers[index].container;
 }
 

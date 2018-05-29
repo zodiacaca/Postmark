@@ -60,38 +60,43 @@ function seek(num, cell) {
               if (!isNaN(entry)) {
                 var title = item[site][sub][entry].title;
                 var href = item[site][sub][entry].href;
+                var depth = item[site][sub][entry].depth;
                 var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
                 if (href) {
                   $(html).find(tag+classSelector).each(function (index, value) {
-                    var match = false;
-                    if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
-                      match = true;
-                    }
-                    if (!match) {
-                      $(value).find("a").each(function (i, v) {
-                        if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
-                          match = true;
-                        }
-                      });
+                    if ($(value).parents().length == depth) {
+                      var match = false;
+                      if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
+                        match = true;
+                      }
+                      if (!match) {
+                        $(value).find("a").each(function (i, v) {
+                          if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
+                            match = true;
+                          }
+                        });
+                      }
                       (match) && (matched = true);
                     }
                   });
                 } else {
                   $(html).find(tag+classSelector).each(function (index, value) {
-                    var match = false;
-                    if (value.innerText == title) {
-                      match = true;
+                    if ($(value).parents().length == depth) {
+                      var match = false;
+                      if (value.innerText == title) {
+                        match = true;
+                      }
+                      if (!match) {
+                        $(value).find("a").each(function (i, v) {
+                          if (v.innerText == title) {
+                            match = true;
+                          }
+                        });
+                      }
+                      (match) && (matched = true);
                     }
-                    if (!match) {
-                      $(value).find("a").each(function (i, v) {
-                        if (v.innerText == title) {
-                          match = true;
-                        }
-                      });
-                    }
-                    (match) && (matched = true);
                   });
                 }
               }

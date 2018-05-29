@@ -13,39 +13,52 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 document.oncontextmenu = function (e) {
   if (e.target.tagName == "A") {
-    linkItem.element = e.target;
+    linkData.item = e.target;
   } else {
     var parents = $(e.target).parents();
     var count = parents.length - 2;
     for (var i = 0; i < count; i++) {
       if (parents.get(i).tagName == "A") {
-        linkItem.element = parents.get(i);
+        linkData.item = parents.get(i);
         break
       }
     }
   }
-  var title = $(linkItem.element).attr("title");
+  var title = $(linkData.item).attr("title");
   if (title && title.length > 0) {
-    linkItem.title = title;
+    linkData.title = title;
   } else {
-    linkItem.title = e.target.innerText;
+    linkData.title = e.target.innerText;
   }
-  if (attributeValid(linkItem.element, "href")) {
-    linkItem.href = $(linkItem.element).attr("href");
-    var question = linkItem.href.indexOf("?");
-    linkItem.href = linkItem.href.substring(0, question);
+  if (attributeValid(linkData.item, "href")) {
+    linkData.href = $(linkData.item).attr("href");
+    var question = linkData.href.indexOf("?");
+    if (question > 0) {
+      linkData.href = linkData.href.substring(0, question);
+    }
   }
 }
 
+
+// variables //
 var checkStatus = {
   checked: false,
   matched: false
 }
+var remembered = {
+  selector: undefined,
+  level: undefined,
+  category: { category: undefined, depth: 0 },
+  title: [],
+  href: []
+}
 var matchedItem = [];
+
 /*
   passive mark action
 */
-function registerObserver() {
+// nah, only seem to response to elements added with different structure, not length change, so I write my own one
+/* function registerObserver() {
   // Select the node that will be observed for mutations
   var targetNode = $("body")[0];
 
@@ -66,8 +79,17 @@ function registerObserver() {
 
   // Start observing the target node for configured mutations
   observer.observe(targetNode, config);
+} */
+var lastContainerCount = 0;
+function registerObserver() {
+  if ($(remembered.selector).length > lastContainerCount) {
+    lookupElements();
+    lastContainerCount = $(remembered.selector).length;
+  }
+  setTimeout(function () {
+    registerObserver();
+  }, 500);
 }
-registerObserver();
 
 function checkMark()
 {
@@ -76,6 +98,7 @@ function checkMark()
   
   if (!checkStatus.checked) {
     lookupElements();
+    registerObserver();
   }
   
   markItems();
@@ -94,42 +117,50 @@ function lookupElements() {
               findAutoSelectLevel(level, site);
               var title = item[site][sub][entry].title;
               var href = item[site][sub][entry].href;
+              var depth = item[site][sub][entry].depth;
               var tag = item[site][sub][entry].tag;
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
+              remembered.selector = tag+classSelector;
               if (href) {
                 $(tag+classSelector).each(function (index, value) {
-                  var match = false;
-                  if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
-                    match = true;
-                    pushElements(value, value, undefined, href);
-                  }
-                  if (!match) {
-                    $(value).find("a").each(function (i, v) {
-                      if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
-                        match = true;
-                        pushElements(value, v, undefined, href);
-                      }
-                    });
+                  if ($(value).parents().length == depth) {
+                    $(value).attr("post", true); // don't check the checked element again
+                    var match = false;
+                    if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
+                      match = true;
+                      pushElements(value, value, undefined, href);
+                    }
+                    if (!match && $(value).attr("post") != true) {
+                      $(value).find("a").each(function (i, v) {
+                        if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
+                          match = true;
+                          pushElements(value, v, undefined, href);
+                        }
+                      });
+                    }
                     (match) && (checkStatus.matched = true);
                   }
                 });
               } else {
                 $(tag+classSelector).each(function (index, value) {
-                  var match = false;
-                  if (value.innerText == title) {
-                    match = true;
-                    pushElements(value, value, title, undefined);
+                  if ($(value).parents().length == depth) {
+                    $(value).attr("post", true);
+                    var match = false;
+                    if (value.innerText == title) {
+                      match = true;
+                      pushElements(value, value, title, undefined);
+                    }
+                    if (!match && $(value).attr("post") != true) {
+                      $(value).find("a").each(function (i, v) {
+                        if (v.innerText == title) {
+                          match = true;
+                          pushElements(value, v, title, undefined);
+                        }
+                      });
+                    }
+                    (match) && (checkStatus.matched = true);
                   }
-                  if (!match) {
-                    $(value).find("a").each(function (i, v) {
-                      if (v.innerText == title) {
-                        match = true;
-                        pushElements(value, v, title, undefined);
-                      }
-                    });
-                  }
-                  (match) && (checkStatus.matched = true);
                 });
               }
             }
@@ -159,7 +190,8 @@ function pushElements(container, anchor, title, href) {
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   matchedItem.forEach(function (item) {
-    styleMark(item.container, "#48929B", "ff");
+    styleMark(item.container, "#48929B", "ff", false, false);
+    // container, color, alpha, for displaying area, newly added
   });
 }
 

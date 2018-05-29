@@ -6,20 +6,14 @@ var jumpToggle = 0;
 var index = 0;
 
 // link right clicked
-var linkItem = {
-  element: undefined,
+var linkData = {
+  item: undefined,
   title: undefined,
   href: undefined
 }
 var containers = [];
 var lastContainer;
 var subfolders = [];
-var remembered = {
-  level: undefined,
-  category: { category: undefined, depth: 0 },
-  title: [],
-  href: []
-}
 
 // colors
 var listTextColor = "rgba(30,30,30,1)"
@@ -35,7 +29,7 @@ var zIndex;
 function checkDOM()
 {
   // popup box
-  if (!document.getElementById("markBox") && linkItem.element) {
+  if (!document.getElementById("markBox") && linkData.item) {
     // chrome.runtime.sendMessage({ task: "css", file: "" });
     
     createBox();
@@ -114,7 +108,13 @@ function prepareData() {
     }
   }
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
-    saveData(host, page, containers[index], linkItem);  // pass variables to local ones, storageArea has a delay
+    // storage doesn't seem to be able to read object defined in the global scope
+    var data = {
+      item: linkData.item,
+      title: linkData.title,
+      href: linkData.href
+    }
+    saveData(host, page, containers[index], data);  // pass variables to local ones, storageArea has a delay
     clear();
   }
   if (document.getElementById("markFolders")) {
@@ -131,7 +131,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, target) {
+function saveData(host, page, container, link) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -159,11 +159,11 @@ function saveData(host, page, container, target) {
     }
     var number = parseInt(newest) + 1;
     item[host][subfoldersStr][number] = {
-      title: target.title, // from the title attribute or the inner text
-      href: target.href,
+      title: link.title, // from the title attribute or the inner text
+      href: link.href,
       tag: container.tag, // tag name
       class: container.class, // class name
-      depth: $(container).parents().length, // depth in the DOM tree
+      depth: $(container.container).parents().length, // depth of "container" in the DOM tree
       level: container.level, // chosen selector's position, relative to depth
       nth: getNth(container.container), // position among the many anchors within
       page: page, // at the page where marked
@@ -173,10 +173,11 @@ function saveData(host, page, container, target) {
     }
     console.log(item);
     chrome.storage.local.set(item);
-    styleMark(container.container, "#48929B", "ff");
+    styleMark(container.container, "#48929B", "ff", false, true);
+    // container, color, alpha, for displaying area, newly added
     var data = {
       container: container.container,
-      anchor: target.element
+      anchor: link.anchor
     }
     matchedItem.pushIfUnique(data);
   });
@@ -210,7 +211,7 @@ function getTimeValue() {
   return d.getTime();
 }
 
-function styleMark(ctn, c, a, dsp) {
+function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for displaying area, newly added
   if (!$(ctn).children(".postmark-mark").length || dsp) {
     
     var a_b = parseInt(a, 16) / 5;
@@ -235,13 +236,21 @@ function styleMark(ctn, c, a, dsp) {
     } else {
       mark.className = "postmark-mark";
     }
-    $(mark).attr("at", getTimeValue()); // added time
+    if (added) {
+      $(mark).attr("at", getTimeValue()); // added time value only for new mark
+    } else {
+      $(mark).attr("at", 0);
+    }
     ctn.appendChild(mark);
     $(mark).css("all", "initial");
     $(mark).css("width", containerSize.w + "px");
     $(mark).css("height", containerSize.h + "px");
     $(mark).css("border", "thin solid " + c + a);
-    mark.style.backgroundColor = c + "00";
+    if (added) {
+      mark.style.backgroundColor = c + "00";
+    } else {
+      mark.style.backgroundColor = c + a_b;
+    }
     mark.style.backgroundImage = "linear-gradient(-45deg," + c_s + " 5.56%,transparent 5.56%,transparent 50%," + c_s + " 50%," + c_s + " 55.56%,transparent 55.56%,transparent 100%)";
     $(mark).css("background-size", "9px 9px");
     $(mark).css("box-sizing", "border-box");
@@ -273,14 +282,14 @@ function styleMark(ctn, c, a, dsp) {
 */
 function getContainers() {
   var data = {
-    container: linkItem.element,
-    tag: linkItem.element.tagName.toLowerCase(),
-    class: linkItem.element.className,
+    container: linkData.item,
+    tag: linkData.item.tagName.toLowerCase(),
+    class: linkData.item.className,
     level: 0
   }
   containers.push(data);
   
-  var parents = $(linkItem.element).parents();
+  var parents = $(linkData.item).parents();
   var count = parents.length - 2;
   for (var i = 0; i < count; i++) {
     var data = {
@@ -331,9 +340,9 @@ function clear() {
   $(document).find(".postmark-mark").css("display", "block");
   $("#markBox").remove();
   $("#opBox").remove();
-  linkItem.element = undefined;
-  linkItem.title = undefined;
-  linkItem.href = undefined;
+  linkData.item = undefined;
+  linkData.title = undefined;
+  linkData.href = undefined;
   containers = [];
   lastContainer = undefined;
   subfolders = [];
