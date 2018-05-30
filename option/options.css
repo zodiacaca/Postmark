@@ -58,7 +58,6 @@ table {
   border-collapse: collapse;
   border: thin solid #555;
   position: relative;
-  z-index: 0;
 }
 
 tr {

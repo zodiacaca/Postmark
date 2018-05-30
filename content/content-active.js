@@ -23,7 +23,6 @@ var floorColor = "grey";
 var stickColor = "#111";
 
 var size = 16;
-var zIndex;
 
 
 function checkDOM()
@@ -163,7 +162,7 @@ function saveData(host, page, container, link) {
       href: link.href,
       tag: container.tag, // tag name
       class: container.class, // class name
-      depth: $(container.container).parents().length, // depth of "container" in the DOM tree
+      depth: $(link.item).parents().length, // depth in the DOM tree
       level: container.level, // chosen selector's position, relative to depth
       nth: getNth(container.container), // position among the many anchors within
       page: page, // at the page where marked
@@ -177,7 +176,7 @@ function saveData(host, page, container, link) {
     // container, color, alpha, for displaying area, newly added
     var data = {
       container: container.container,
-      anchor: link.anchor
+      anchor: link.item
     }
     matchedItem.pushIfUnique(data);
   });
@@ -226,7 +225,6 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
       w: ctn.offsetWidth,
       h: ctn.offsetHeight
     }
-    var z = findMaxZ($(ctn).children());
     if ($(ctn).css("position") == "static") {
       $(ctn).css("position", "relative");
     }
@@ -257,11 +255,7 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
     $(mark).css("position", "absolute");
     $(mark).css("top", 0);
     $(mark).css("left", 0);
-    if (z) {
-      $(mark).css("z-index", z);
-    } else if ($(ctn).before().length || $(ctn).after().length) {
-      $(mark).css("z-index", 1);
-    }
+    $(mark).css("z-index", Math.pow(2, 31) - 1);
     $(mark).css("pointer-events", "none");
     $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 1s");
     $(mark).parent().hover(
