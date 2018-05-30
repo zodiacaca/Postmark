@@ -257,7 +257,11 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
     $(mark).css("position", "absolute");
     $(mark).css("top", 0);
     $(mark).css("left", 0);
-    (z) && ($(mark).css("z-index", z));
+    if (z) {
+      $(mark).css("z-index", z);
+    } else if ($(ctn).before().length || $(ctn).after().length) {
+      $(mark).css("z-index", 1);
+    }
     $(mark).css("pointer-events", "none");
     $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 1s");
     $(mark).parent().hover(

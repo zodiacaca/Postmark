@@ -122,7 +122,7 @@ function lookupElements() {
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
               remembered.selector = tag+classSelector;
-              if (href) {
+              if (href && href.length) {
                 $(tag+classSelector).each(function (index, value) {
                   if ($(value).parents().length == depth) {
                     $(value).attr("post", true); // don't check the checked element again

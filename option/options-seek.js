@@ -64,7 +64,7 @@ function seek(num, cell) {
                 var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
-                if (href) {
+                if (href && href.length) {
                   $(html).find(tag+classSelector).each(function (index, value) {
                     if ($(value).parents().length == depth) {
                       var match = false;

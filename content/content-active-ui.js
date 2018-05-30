@@ -35,7 +35,7 @@ function findMaxZ(nodes) {
     var max = indexes.reduce(function (a, b) {
       return Math.max(a, b);
     });
-    level = max + 1;
+    level = parseInt(max) + 1;
   }
   
   return level;
