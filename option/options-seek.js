@@ -61,12 +61,14 @@ function seek(num, cell) {
                 var title = item[site][sub][entry].title;
                 var href = item[site][sub][entry].href;
                 var depth = item[site][sub][entry].depth;
+                var level = item[site][sub][entry].level;
+                var generation = depth - level;
                 var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
                 if (href && href.length) {
                   $(html).find(tag+classSelector).each(function (index, value) {
-                    if ($(value).parents().length == depth) {
+                    if ($(value).parents().length == generation) {
                       var match = false;
                       if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
                         match = true;
@@ -83,7 +85,7 @@ function seek(num, cell) {
                   });
                 } else {
                   $(html).find(tag+classSelector).each(function (index, value) {
-                    if ($(value).parents().length == depth) {
+                    if ($(value).parents().length == generation) {
                       var match = false;
                       if (value.innerText == title) {
                         match = true;
