@@ -69,7 +69,7 @@ var matchedItem = [];
   var callback = function (mutationsList) {
     for (var mutation of mutationsList) {
       if (mutation.type == "childList") {
-        lookupElements();
+        lookupElements(true);
       }
     }
   };
@@ -83,7 +83,7 @@ var matchedItem = [];
 var lastContainerCount = 0;
 function registerObserver() {
   if ($(remembered.selector).length > lastContainerCount) {
-    lookupElements();
+    lookupElements(true);
     lastContainerCount = $(remembered.selector).length;
   }
   setTimeout(function () {
@@ -105,7 +105,7 @@ function checkMark()
 }
 checkMark();
 
-function lookupElements() {
+function lookupElements(dynamic) {
   chrome.storage.local.get([window.location.hostname], function (item) {
     for (var site in item) {
       for (var sub in item[site]) {
@@ -125,7 +125,7 @@ function lookupElements() {
               remembered.selector = tag+classSelector;
               if (href && href.length && window.location.href.indexOf(href) == -1) {
                 $(tag+classSelector).each(function (index, value) {
-                  if ($(value).parents().length == generation) {
+                  if (dynamic || $(value).parents().length == generation) {
                     $(value).attr("post", true); // don't check the checked element again
                     var match = false;
                     if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
@@ -137,6 +137,7 @@ function lookupElements() {
                         if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
                           match = true;
                           pushElements(value, v, undefined, href);
+                          return false;
                         }
                       });
                     }
@@ -145,7 +146,7 @@ function lookupElements() {
                 });
               } else {
                 $(tag+classSelector).each(function (index, value) {
-                  if ($(value).parents().length == generation) {
+                  if (dynamic || $(value).parents().length == generation) {
                     $(value).attr("post", true);
                     var match = false;
                     if (value.innerText == title) {
@@ -157,6 +158,7 @@ function lookupElements() {
                         if (v.innerText == title) {
                           match = true;
                           pushElements(value, v, title, undefined);
+                          return false;
                         }
                       });
                     }

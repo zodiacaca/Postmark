@@ -77,6 +77,7 @@ function seek(num, cell) {
                         $(value).find("a").each(function (i, v) {
                           if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
                             match = true;
+                            return false;
                           }
                         });
                       }
@@ -94,6 +95,7 @@ function seek(num, cell) {
                         $(value).find("a").each(function (i, v) {
                           if (v.innerText == title) {
                             match = true;
+                            return false;
                           }
                         });
                       }
