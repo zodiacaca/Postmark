@@ -1,6 +1,6 @@
 
 // prototype
-Array.prototype.pushIfUnique = function(element) { 
+Array.prototype.pushIfUnique = function(element) {
   if (this.indexOf(element) == -1) {
     this.push(element);
   }
@@ -39,11 +39,5 @@ function getClassSelector(classes) {
   }
   
   return classSelector;
-}
-
-function attributeValid(item, name) {
-  var attr = $(item).attr(name);
-  
-  return typeof attr == "string";
 }
 

@@ -30,7 +30,7 @@ document.oncontextmenu = function (e) {
   } else {
     linkData.title = e.target.innerText;
   }
-  if (attributeValid(linkData.item, "href")) {
+  if (linkData.item.hasAttribute("href")) {
     linkData.href = $(linkData.item).attr("href");
     var question = linkData.href.indexOf("?");
     if (question > 0) {
@@ -110,6 +110,7 @@ function lookupElements(dynamic) {
     for (var site in item) {
       for (var sub in item[site]) {
         if (window.location.href.indexOf(sub) >= 0) {
+          var loadedElements = [];
           findAutoSelectSubfolder(sub, site);
           for (var entry in item[site][sub]) {
             if (!isNaN(entry)) {
@@ -119,6 +120,7 @@ function lookupElements(dynamic) {
               var href = item[site][sub][entry].href;
               var depth = item[site][sub][entry].depth;
               var generation = depth - level;
+              var nth = item[site][sub][entry].nth;
               var tag = item[site][sub][entry].tag;
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
@@ -126,34 +128,43 @@ function lookupElements(dynamic) {
               if (href && href.length && window.location.href.indexOf(href) == -1) {
                 $(tag+classSelector).each(function (index, value) {
                   if (dynamic || $(value).parents().length == generation) {
-                    $(value).attr("post", true); // don't check the checked element again
                     var match = false;
-                    if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
+                    if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
                       match = true;
                       pushElements(value, value, undefined, href);
                     }
-                    if (!match && $(value).attr("post") != true) {
+                    if (!match && !(value.hasAttribute("post"))) {
+                      var num = 1;
                       $(value).find("a").each(function (i, v) {
-                        if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
-                          match = true;
-                          pushElements(value, v, undefined, href);
-                          return false;
+                        if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
+                          if (dynamic) {
+                            if (num == nth && v.getAttribute("title") == title) {
+                              match = true;
+                              pushElements(value, v, undefined, href);
+                              return false;
+                            }
+                          } else {
+                            match = true;
+                            pushElements(value, v, undefined, href);
+                            return false;
+                          }
                         }
+                        num++;
                       });
                     }
                     (match) && (checkStatus.matched = true);
                   }
+                  loadedElements.pushIfUnique(value); // don't check the checked element again
                 });
               } else {
                 $(tag+classSelector).each(function (index, value) {
                   if (dynamic || $(value).parents().length == generation) {
-                    $(value).attr("post", true);
                     var match = false;
                     if (value.innerText == title) {
                       match = true;
                       pushElements(value, value, title, undefined);
                     }
-                    if (!match && $(value).attr("post") != true) {
+                    if (!match) {
                       $(value).find("a").each(function (i, v) {
                         if (v.innerText == title) {
                           match = true;
@@ -168,6 +179,9 @@ function lookupElements(dynamic) {
               }
             }
           }
+          loadedElements.forEach(function (item) {
+            item.setAttribute("post", "checked"); 
+          });
         }
       }
       markItems();

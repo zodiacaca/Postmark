@@ -164,7 +164,7 @@ function saveData(host, page, container, link) {
       class: container.class, // class name
       depth: $(link.item).parents().length, // depth in the DOM tree
       level: container.level, // chosen selector's position, relative to depth
-      nth: getNth(container.container), // position among the many anchors within
+      nth: getNth(container.container, link.item), // position among the many anchors within
       page: page, // at the page where marked
       date: getFullDate(),
       time: getTimeValue(),
@@ -182,10 +182,13 @@ function saveData(host, page, container, link) {
   });
 }
 
-function getNth(ctn) {
+function getNth(ctn, a) {
   var num = 0;
   $(ctn).find("a").each(function (i, v) {
     num++;
+    if (v == a) {
+      return false;
+    }
   });
   
   return num;
