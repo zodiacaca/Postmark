@@ -248,7 +248,7 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
     $(mark).css("height", containerSize.h + "px");
     $(mark).css("border", "thin solid " + c + a);
     if (added) {
-      mark.style.backgroundColor = c + "00";
+      mark.style.backgroundColor = c + "11";
     } else {
       mark.style.backgroundColor = c + a_b;
     }
@@ -260,7 +260,7 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
     $(mark).css("left", 0);
     $(mark).css("z-index", Math.pow(2, 31) - 1);
     $(mark).css("pointer-events", "none");
-    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 1s");
+    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 2s cubic-bezier(0.25, -0.35, 0.4, 1)");
     $(mark).parent().hover(
       function () {
         $(this).find(".postmark-mark").each(function (i, v) {
@@ -274,7 +274,7 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
     );
     setTimeout(function () {
       mark.style.backgroundColor = c + a_b;
-    }, 1000);
+    }, 0);
   }
 }
 

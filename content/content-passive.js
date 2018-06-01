@@ -12,29 +12,31 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 
 document.oncontextmenu = function (e) {
-  if (e.target.tagName == "A") {
-    linkData.item = e.target;
-  } else {
-    var parents = $(e.target).parents();
-    var count = parents.length - 2;
-    for (var i = 0; i < count; i++) {
-      if (parents.get(i).tagName == "A") {
-        linkData.item = parents.get(i);
-        break
+  if (e.target) {
+    if (e.target.tagName == "A") {
+      linkData.item = e.target;
+    } else {
+      var parents = $(e.target).parents();
+      var count = parents.length - 2;
+      for (var i = 0; i < count; i++) {
+        if (parents.get(i).tagName == "A") {
+          linkData.item = parents.get(i);
+          break
+        }
       }
     }
-  }
-  var title = $(linkData.item).attr("title");
-  if (title && title.length > 0) {
-    linkData.title = title;
-  } else {
-    linkData.title = e.target.innerText;
-  }
-  if (linkData.item.hasAttribute("href")) {
-    linkData.href = $(linkData.item).attr("href");
-    var question = linkData.href.indexOf("?");
-    if (question > 0) {
-      linkData.href = linkData.href.substring(0, question);
+    var title = $(linkData.item).attr("title");
+    if (title && title.length > 0) {
+      linkData.title = title;
+    } else {
+      linkData.title = e.target.innerText;
+    }
+    if (linkData.item.hasAttribute("href")) {
+      linkData.href = $(linkData.item).attr("href");
+      var question = linkData.href.indexOf("?");
+      if (question > 0) {
+        linkData.href = linkData.href.substring(0, question);
+      }
     }
   }
 }
@@ -83,6 +85,7 @@ var matchedItem = [];
 var lastContainerCount = 0;
 function registerObserver() {
   if ($(remembered.selector).length > lastContainerCount) {
+    console.log("selected count: " + $(remembered.selector).length);
     lookupElements(true);
     lastContainerCount = $(remembered.selector).length;
   }
@@ -110,7 +113,7 @@ function lookupElements(dynamic) {
     for (var site in item) {
       for (var sub in item[site]) {
         if (window.location.href.indexOf(sub) >= 0) {
-          var loadedElements = [];
+          var checkedElements = [];
           findAutoSelectSubfolder(sub, site);
           for (var entry in item[site][sub]) {
             if (!isNaN(entry)) {
@@ -125,36 +128,41 @@ function lookupElements(dynamic) {
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
               remembered.selector = tag+classSelector;
+              lastContainerCount = $(tag+classSelector).length;
               if (href && href.length && window.location.href.indexOf(href) == -1) {
                 $(tag+classSelector).each(function (index, value) {
                   if (dynamic || $(value).parents().length == generation) {
-                    var match = false;
-                    if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
-                      match = true;
-                      pushElements(value, value, undefined, href);
-                    }
-                    if (!match && !(value.hasAttribute("post"))) {
-                      var num = 1;
-                      $(value).find("a").each(function (i, v) {
-                        if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
-                          if (dynamic) {
-                            if (num == nth && v.getAttribute("title") == title) {
+                    if (!(value.hasAttribute("_post"))) {
+                      var match = false;
+                      if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
+                        match = true;
+                        pushElements(value, value, undefined, href);
+                      }
+                      if (!match) {
+                        var num = 1;
+                        $(value).find("a").each(function (i, v) {
+                          if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
+                            if (dynamic) {
+                              if (num == nth && v.getAttribute("title") == title) {
+                                match = true;
+                                pushElements(value, v, undefined, href);
+                                return false;
+                              }
+                            } else {
                               match = true;
                               pushElements(value, v, undefined, href);
                               return false;
                             }
-                          } else {
-                            match = true;
-                            pushElements(value, v, undefined, href);
-                            return false;
                           }
-                        }
-                        num++;
-                      });
+                          num++;
+                        });
+                      }
+                      (match) && (checkStatus.matched = true);
                     }
-                    (match) && (checkStatus.matched = true);
+                    // don't check the checked element again
+                    // put it outside this block will cause execute sequence disorder
+                    checkedElements.pushIfUnique(value);
                   }
-                  loadedElements.pushIfUnique(value); // don't check the checked element again
                 });
               } else {
                 $(tag+classSelector).each(function (index, value) {
@@ -179,8 +187,8 @@ function lookupElements(dynamic) {
               }
             }
           }
-          loadedElements.forEach(function (item) {
-            item.setAttribute("post", "checked"); 
+          checkedElements.forEach(function (item) {
+            item.setAttribute("_post", "checked"); 
           });
         }
       }
