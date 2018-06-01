@@ -158,7 +158,17 @@ function lookupElements(dynamic) {
                         $(value).find("a").each(function (i, v) {
                           if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
                             if (dynamic) {
-                              if (num == nth && v.getAttribute("title") == title) {
+                              var titleMatch;
+                              if (v.hasAttribute("title")) {
+                                if (v.getAttribute("title") == title) {
+                                  titleMatch = true;
+                                } else {
+                                  titleMatch = false;
+                                }
+                              } else {
+                                titleMatch = true;
+                              }
+                              if (num == nth && titleMatch) {
                                 match = true;
                                 pushElements(value, v, undefined, href);
                                 return false;
