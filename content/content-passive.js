@@ -31,7 +31,7 @@ document.oncontextmenu = function (e) {
     } else {
       linkData.title = e.target.innerText;
     }
-    if (linkData.item.hasAttribute("href")) {
+    if (linkData.item && linkData.item.hasAttribute("href")) {
       linkData.href = $(linkData.item).attr("href");
       var question = linkData.href.indexOf("?");
       if (question > 0) {
@@ -82,12 +82,24 @@ var matchedItem = [];
   // Start observing the target node for configured mutations
   observer.observe(targetNode, config);
 } */
-var lastContainerCount = 0;
+var pageData = {
+  containerCount: 0,
+  href: ""
+}
 function registerObserver() {
-  if ($(remembered.selector).length > lastContainerCount) {
-    console.log("selected count: " + $(remembered.selector).length);
+  if ($(remembered.selector).length > pageData.containerCount) {
+    console.log("container count: " + $(remembered.selector).length);
     lookupElements(true);
-    lastContainerCount = $(remembered.selector).length;
+    pageData.containerCount = $(remembered.selector).length;
+  }
+  if (window.location.href != pageData.href) {
+    console.log("current href: " + window.location.href);
+    $(remembered.selector).each(function (index, value) {
+      value.removeAttribute("_post");
+    });
+    pageData.containerCount = 0;
+    matchedItem = [];
+    pageData.href = window.location.href;
   }
   setTimeout(function () {
     registerObserver();
@@ -102,6 +114,7 @@ function checkMark()
   if (!checkStatus.checked) {
     lookupElements();
     registerObserver();
+    console.log("current href: " + window.location.href);
   }
   
   markItems();
@@ -128,7 +141,9 @@ function lookupElements(dynamic) {
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
               remembered.selector = tag+classSelector;
-              lastContainerCount = $(tag+classSelector).length;
+              // set initial values for observer
+              pageData.containerCount = $(tag+classSelector).length;
+              pageData.href = window.location.href;
               if (href && href.length && window.location.href.indexOf(href) == -1) {
                 $(tag+classSelector).each(function (index, value) {
                   if (dynamic || $(value).parents().length == generation) {
@@ -203,7 +218,7 @@ function pushElements(container, anchor, title, href) {
     container: container,
     anchor: anchor
   }
-  matchedItem.pushIfUnique(data);
+  matchedItem.push(data);
   if (title) {
     remembered.title.pushIfUnique(title);
   }
@@ -214,6 +229,7 @@ function pushElements(container, anchor, title, href) {
 
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
+  console.log("matched item: " + matchedItem.length);
   matchedItem.forEach(function (item) {
     styleMark(item.container, "#48929B", "ff", false, false);
     // container, color, alpha, for displaying area, newly added
