@@ -19,16 +19,15 @@ function getElementString(tag, classes, id) {
 }
 
 function getClassSelector(classes) {
+  var rawArray = [];
   var classArray = [];
   if (classes.indexOf(" ") >= 0) {
-    classArray = classes.split(" ");
-    for (var i = 0; i < classArray.length; i++) {
-      if (classArray[i]) {
-        classArray[i] = "." + classArray[i];
-      } else {
-        classArray.splice(i, 1);
+    rawArray = classes.split(" ");
+    for (var i = 0; i < rawArray.length; i++) {
+      if (rawArray[i]) {
+        rawArray[i] = "." + rawArray[i];
+        classArray.push(rawArray[i]);
       }
-      
     }
   } else if (classes) {
     classArray = ["." + classes];
