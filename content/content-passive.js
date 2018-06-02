@@ -59,29 +59,7 @@ var matchedItem = [];
 /*
   passive mark action
 */
-// nah, only seem to response to elements added with different structure, not length change, so I write my own one
-/* function registerObserver() {
-  // Select the node that will be observed for mutations
-  var targetNode = $("body")[0];
-
-  // Options for the observer (which mutations to observe)
-  var config = { childList: true };
-
-  // Callback function to execute when mutations are observed
-  var callback = function (mutationsList) {
-    for (var mutation of mutationsList) {
-      if (mutation.type == "childList") {
-        lookupElements(true);
-      }
-    }
-  };
-
-  // Create an observer instance linked to the callback function
-  var observer = new MutationObserver(callback);
-
-  // Start observing the target node for configured mutations
-  observer.observe(targetNode, config);
-} */
+// MutationObserver only seem to response to elements added with different structure, not length change, so I write my own one
 var pageData = {
   containerCount: 0,
   href: ""
@@ -106,6 +84,7 @@ function registerObserver() {
   }, 500);
 }
 
+/* called after document loaded and tab activated */
 function checkMark()
 {
   // initialize icon
@@ -116,6 +95,7 @@ function checkMark()
     registerObserver();
     console.log("current href: " + window.location.href);
   }
+  markItems();
 }
 checkMark();
 
@@ -145,8 +125,8 @@ function lookupElements(dynamic) {
               pageData.containerCount = $(tag+classSelector).length;
               pageData.href = window.location.href;
               
-              // 
-              if (href && href.length && window.location.href.indexOf(href) == -1) {
+              // try to not run on the post page
+              if (href && window.location.href.indexOf(href) == -1) {
                 
                 $(tag+classSelector).each(function (index, value) {
                   
@@ -201,29 +181,6 @@ function lookupElements(dynamic) {
                   
                 });
                 
-              } else {
-                $(tag+classSelector).each(function (index, value) {
-                  if (dynamic || $(value).parents().length == generation) {
-                    var match = false;
-                    if (value.innerText == title) {
-                      match = true;
-                      pushElements(value, value, title, undefined);
-                    }
-                    if (!match) {
-                      $(value).find("a").each(function (i, v) {
-                        if (v.innerText == title) {
-                          match = true;
-                          pushElements(value, v, title, undefined);
-                          return false;
-                        }
-                      });
-                    }
-                    if (match) {
-                      checkStatus.matched = true
-                      return false;
-                    }
-                  }
-                });
               }
             }
           }

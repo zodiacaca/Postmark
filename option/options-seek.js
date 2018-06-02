@@ -66,37 +66,16 @@ function seek(num, cell) {
                 var tag = item[site][sub][entry].tag;
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
-                if (href && href.length) {
+                if (href) {
                   $(html).find(tag+classSelector).each(function (index, value) {
                     if ($(value).parents().length == generation) {
                       var match = false;
-                      if (attributeValid(value, "href") && $(value).attr("href").indexOf(href) >= 0) {
+                      if (value.hasAttribute("href") && $(value).attr("href").indexOf(href) >= 0) {
                         match = true;
                       }
                       if (!match) {
                         $(value).find("a").each(function (i, v) {
-                          if (attributeValid(v, "href") && $(v).attr("href").indexOf(href) >= 0) {
-                            match = true;
-                            return false;
-                          }
-                        });
-                      }
-                      if (match) {
-                        matched = true
-                        return false;
-                      }
-                    }
-                  });
-                } else {
-                  $(html).find(tag+classSelector).each(function (index, value) {
-                    if ($(value).parents().length == generation) {
-                      var match = false;
-                      if (value.innerText == title) {
-                        match = true;
-                      }
-                      if (!match) {
-                        $(value).find("a").each(function (i, v) {
-                          if (v.innerText == title) {
+                          if (v.hasAttribute("href") && $(v).attr("href").indexOf(href) >= 0) {
                             match = true;
                             return false;
                           }
