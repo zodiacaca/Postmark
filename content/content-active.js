@@ -213,7 +213,8 @@ function getTimeValue() {
   return d.getTime();
 }
 
-function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for displaying area, newly added
+function styleMark(ctn, c, a, dsp, added) {
+// container, color, alpha, for displaying area, newly added
   if (!$(ctn).children(".postmark-mark").length || dsp) {
     
     var a_b = parseInt(a, 16) / 5;
@@ -260,7 +261,7 @@ function styleMark(ctn, c, a, dsp, added) { // container, color, alpha, for disp
     $(mark).css("left", 0);
     $(mark).css("z-index", Math.pow(2, 31) - 1);
     $(mark).css("pointer-events", "none");
-    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 2s cubic-bezier(0.25, -0.35, 0.4, 1)");
+    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 2s cubic-bezier(0.25, -0.35, 0.25, 1.25)");
     $(mark).parent().hover(
       function () {
         $(this).find(".postmark-mark").each(function (i, v) {

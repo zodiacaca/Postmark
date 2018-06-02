@@ -81,7 +81,10 @@ function seek(num, cell) {
                           }
                         });
                       }
-                      (match) && (matched = true);
+                      if (match) {
+                        matched = true
+                        return false;
+                      }
                     }
                   });
                 } else {
@@ -99,7 +102,10 @@ function seek(num, cell) {
                           }
                         });
                       }
-                      (match) && (matched = true);
+                      if (match) {
+                        matched = true
+                        return false;
+                      }
                     }
                   });
                 }

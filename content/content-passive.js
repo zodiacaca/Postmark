@@ -116,8 +116,6 @@ function checkMark()
     registerObserver();
     console.log("current href: " + window.location.href);
   }
-  
-  markItems();
 }
 checkMark();
 
@@ -126,7 +124,8 @@ function lookupElements(dynamic) {
     for (var site in item) {
       for (var sub in item[site]) {
         if (window.location.href.indexOf(sub) >= 0) {
-          var checkedElements = [];
+          // below here code should be executed twice(valid entry count)
+          var checkedElements = []; // prepare for "_post" attribute assigning
           findAutoSelectSubfolder(sub, site);
           for (var entry in item[site][sub]) {
             if (!isNaN(entry)) {
@@ -141,12 +140,19 @@ function lookupElements(dynamic) {
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
               remembered.selector = tag+classSelector;
+              
               // set initial values for observer
               pageData.containerCount = $(tag+classSelector).length;
               pageData.href = window.location.href;
+              
+              // 
               if (href && href.length && window.location.href.indexOf(href) == -1) {
+                
                 $(tag+classSelector).each(function (index, value) {
+                  
+                  // skip depth check for dynamic sites anyway
                   if (dynamic || $(value).parents().length == generation) {
+                    
                     if (!(value.hasAttribute("_post"))) {
                       var match = false;
                       if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
@@ -182,13 +188,19 @@ function lookupElements(dynamic) {
                           num++;
                         });
                       }
-                      (match) && (checkStatus.matched = true);
+                      if (match) {
+                        checkStatus.matched = true
+                        return false;
+                      }
                     }
                     // don't check the checked element again
                     // put it outside this block will cause execute sequence disorder
                     checkedElements.pushIfUnique(value);
+                    
                   }
+                  
                 });
+                
               } else {
                 $(tag+classSelector).each(function (index, value) {
                   if (dynamic || $(value).parents().length == generation) {
@@ -206,7 +218,10 @@ function lookupElements(dynamic) {
                         }
                       });
                     }
-                    (match) && (checkStatus.matched = true);
+                    if (match) {
+                      checkStatus.matched = true
+                      return false;
+                    }
                   }
                 });
               }
@@ -217,12 +232,13 @@ function lookupElements(dynamic) {
           });
         }
       }
-      markItems();
-      checkStatus.checked = true;
     }
+    markItems();  // put it in the storage.get function
+    checkStatus.checked = true;
   });
 }
 
+/* called once after a successful matching */
 function pushElements(container, anchor, title, href) {
   var data = {
     container: container,
@@ -237,6 +253,7 @@ function pushElements(container, anchor, title, href) {
   }
 }
 
+/* called from lookupElements() which compare records against DOM elements */
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   console.log("matched item: " + matchedItem.length);
