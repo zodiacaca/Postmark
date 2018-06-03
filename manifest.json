@@ -28,8 +28,8 @@
   "background": {
     "scripts": [
       "library/jquery-3.2.1.min.js",
-      "background/bg-passive.js",
-      "background/bg-active.js"
+      "js/background/bg-passive.js",
+      "js/background/bg-active.js"
     ],
     "persistent": false
     },
@@ -39,14 +39,15 @@
     "js": [
       "library/jquery-3.2.1.min.js",
       "library/jquery-ui-1.12.1/jquery-ui.js",
-      "shared/basic.js",
-      "content/content-passive.js",
-      "content/content-active.js",
-      "content/content-active-ui.js"
+      "js/shared/basic.js",
+      "js/content/content-variables.js",
+      "js/content/content-passive.js",
+      "js/content/content-active.js",
+      "js/content/content-active-ui.js"
     ]
   }],
   
-  "options_page": "option/options.html",
+  "options_page": "html/option/options.html",
   
   "web_accessible_resources": [
     "icons/*.*"

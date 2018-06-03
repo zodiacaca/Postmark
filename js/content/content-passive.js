@@ -42,20 +42,6 @@ document.oncontextmenu = function (e) {
 }
 
 
-// variables //
-var checkStatus = {
-  checked: false,
-  matched: false
-}
-var remembered = {
-  selector: undefined,
-  level: undefined,
-  category: { category: undefined, depth: 0 },
-  title: [],
-  href: []
-}
-var matchedItem = [];
-
 /*
   passive mark action
 */
@@ -79,7 +65,7 @@ function registerObserver() {
     matchedItem = [];
     pageData.href = window.location.href;
   }
-  setTimeout(function () {
+  observerTimer = setTimeout(function () {
     registerObserver();
   }, 500);
 }
@@ -92,7 +78,6 @@ function checkMark()
   
   if (!checkStatus.checked) {
     lookupElements();
-    registerObserver();
     console.log("current href: " + window.location.href);
   }
   markItems();
@@ -124,6 +109,9 @@ function lookupElements(dynamic) {
               // set initial values for observer
               pageData.containerCount = $(tag+classSelector).length;
               pageData.href = window.location.href;
+              if (!observerTimer) {
+                registerObserver();
+              }
               
               // try to not run on the post page
               if (href && window.location.href.indexOf(href) == -1) {
