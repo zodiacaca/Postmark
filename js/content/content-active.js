@@ -47,7 +47,7 @@ function checkDOM()
     
     toggle = false;
   }
-  
+  /* reviewed 06/04 */
   // use wheel for selecting container
   window.onwheel = function (e) {
     if (e.deltaY < 0) {
@@ -56,11 +56,14 @@ function checkDOM()
     if (e.deltaY > 0) {
       if (index < containers.length - 1) { index += 1 }
     }
-    (document.getElementById("markBox")) && (updateStyle());
+    if (document.getElementById("markBox")) {
+      updateStyle();
+      filterClassNames();
+    }
     
     return !toggle;
   }
-  
+  /* reviewed 06/04 */
   // exit
   $("#markConfirm").on("click", function (e) {
     prepareData();
@@ -244,6 +247,9 @@ function styleMark(ctn, c, a, dsp, added) {
       $(mark).attr("at", 0);
     }
     ctn.appendChild(mark);
+    if ($(ctn).css("position") == "static") {
+      $(ctn).css("position", "relative");
+    }
     $(mark).css("all", "initial");
     $(mark).css("width", containerSize.w + "px");
     $(mark).css("height", containerSize.h + "px");
@@ -310,7 +316,11 @@ function selectContainer() {
     updateStyle();
   }
 }
-
+/* reviewed 06/04 */
+function filterClassNames() {
+  
+}
+/* reviewed 06/04 */
 /*
   jump
 */

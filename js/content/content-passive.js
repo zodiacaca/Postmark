@@ -51,7 +51,8 @@ var pageData = {
   href: ""
 }
 function registerObserver() {
-  if ($(remembered.selector).length > pageData.containerCount) {
+  // don't use ">", page elements update have a delay after url changed
+  if ($(remembered.selector).length != pageData.containerCount) {
     console.log("container count: " + $(remembered.selector).length);
     lookupElements(true);
     pageData.containerCount = $(remembered.selector).length;
@@ -70,7 +71,6 @@ function registerObserver() {
   }, 500);
 }
 
-/* called after document loaded and tab activated */
 function checkMark()
 {
   // initialize icon
@@ -183,7 +183,6 @@ function lookupElements(dynamic) {
   });
 }
 
-/* called once after a successful matching */
 function pushElements(container, anchor, title, href) {
   var data = {
     container: container,
@@ -198,7 +197,6 @@ function pushElements(container, anchor, title, href) {
   }
 }
 
-/* called from lookupElements() which compare records against DOM elements */
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   console.log("matched item: " + matchedItem.length);

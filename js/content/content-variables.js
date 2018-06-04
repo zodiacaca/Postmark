@@ -1,5 +1,4 @@
 
-
 /*--------------------
   Variables
 --------------------*/
@@ -15,11 +14,26 @@ var remembered = {
   title: [],
   href: []
 }
+// 
 var matchedItem = [];
 var observerTimer;
 
+// functions
+// called after document loaded or tab activated
+// 
+var checkMark;
+// called once after a successful matching
+var pushElements;
+// called from lookupElements() which compares records against DOM elements
+var markItems;
+
+
 /* active */
 
-
-// ui //
-
+/* reviewed 06/04 */
+/* active-ui */
+// functions
+// called in the wheel listener
+// clear class names, only keep one class name assigned to the container
+var filterClassNames;
+/* reviewed 06/04 */

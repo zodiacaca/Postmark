@@ -14,7 +14,7 @@ function onClickHandler(info, tab) {
       callbackHandler
     );
   } else if (info.menuItemId == "postmark_page") {
-    var url = chrome.runtime.getURL("/option/options.html");
+    var url = chrome.runtime.getURL("/html/option/options.html");
     url += "?section=3";
     url += "&url=" + tab.url;
     window.open(url, "_blank");
@@ -27,7 +27,7 @@ function callbackHandler(content) {
 
 
 /*
-  icon click
+  icon clicked
 */
 var lastClicked = 0;
 chrome.browserAction.onClicked.addListener(function (tab) {
@@ -38,7 +38,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
       { event: "onIconClicked" }
     );
   } else {
-    var url = chrome.runtime.getURL("/option/options.html");
+    var url = chrome.runtime.getURL("/html/option/options.html");
     url += "?section=2";
     url += "&url=" + tab.url;
     window.open(url, "_blank");
