@@ -27,9 +27,13 @@ var pushElements;
 // called from lookupElements() which compares records against DOM elements
 var markItems;
 
-
+/* reviewed 06/05 */
 /* active */
-
+// functions
+// called inside prepareData()
+// get the first big picture within the container
+var getPostImage;
+/* reviewed 06/05 */
 /* reviewed 06/04 */
 /* active-ui */
 // functions

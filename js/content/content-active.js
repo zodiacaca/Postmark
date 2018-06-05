@@ -73,8 +73,6 @@ function checkDOM()
     if (document.getElementById("markFolders")) {
       $("#markFolders").remove();
       subfolders = [];
-    // } else if () {
-        
     } else {
       clear();
     }
@@ -109,6 +107,7 @@ function prepareData() {
       }
     }
   }
+  /* reviewed 06/05 */
   if (!document.getElementById("markFolders") || subfolders.length > 0) {
     // storage doesn't seem to be able to read object defined in the global scope
     var data = {
@@ -116,9 +115,12 @@ function prepareData() {
       title: linkData.title,
       href: linkData.href
     }
-    saveData(host, page, containers[index], data);  // pass variables to local ones, storageArea has a delay
+    var imgURL = getPostImage(containers[index].container);
+    // pass variables to local ones, storageArea has a delay
+    saveData(host, page, containers[index], data, imgURL);
     clear();
   }
+  /* reviewed 06/05 */
   if (document.getElementById("markFolders")) {
     subfolders.push(window.location.hostname + "/");
     if (remembered.category.category) {
@@ -133,7 +135,7 @@ function prepareData() {
   }
 }
 
-function saveData(host, page, container, link) {
+function saveData(host, page, container, link, img) {
   var subfoldersStr = "";
   for (var i = 1; i < subfolders.length; i++) {
     subfoldersStr += subfolders[i];
@@ -143,6 +145,7 @@ function saveData(host, page, container, link) {
     (!item[host]) && (item[host] = {});
     (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
     (!item[host][subfoldersStr]["maxEntries"]) && (item[host][subfoldersStr]["maxEntries"] = 2);
+    
     var oldest;
     var newest = 1;
     var length = 0;
@@ -160,6 +163,7 @@ function saveData(host, page, container, link) {
       delete item[host][subfoldersStr][oldest];
     }
     var number = parseInt(newest) + 1;
+    
     item[host][subfoldersStr][number] = {
       title: link.title, // from the title attribute or the inner text
       href: link.href,
@@ -168,6 +172,7 @@ function saveData(host, page, container, link) {
       depth: $(link.item).parents().length, // depth in the DOM tree
       level: container.level, // chosen selector's position, relative to depth
       nth: getNth(container.container, link.item), // position among the many anchors within
+      image: img,
       page: page, // at the page where marked
       date: getFullDate(),
       time: getTimeValue(),
@@ -184,7 +189,21 @@ function saveData(host, page, container, link) {
     matchedItem.pushIfUnique(data);
   });
 }
-
+/* reviewed 06/05 */
+function getPostImage(ctn) {
+  var url;
+  var threshold = 64;
+  $(ctn).find("img").each(function (i, v) {
+    if (v.offsetWidth >= threshold && v.offsetHeight >= threshold) {
+      url = $(v).attr("src");
+      
+      return false;
+    }
+  });
+  
+  return url;
+}
+/* reviewed 06/05 */
 function getNth(ctn, a) {
   var num = 0;
   $(ctn).find("a").each(function (i, v) {

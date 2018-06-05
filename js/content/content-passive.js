@@ -101,6 +101,7 @@ function lookupElements(dynamic) {
               var depth = item[site][sub][entry].depth;
               var generation = depth - level;
               var nth = item[site][sub][entry].nth;
+              var img = item[site][sub][entry].image;
               var tag = item[site][sub][entry].tag;
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
@@ -148,9 +149,12 @@ function lookupElements(dynamic) {
                                 return false;
                               }
                             } else {
-                              match = true;
-                              pushElements(value, v, undefined, href);
-                              return false;
+                              // image check only applied to passive
+                              if (img && img == getPostImage(value)) {
+                                match = true;
+                                pushElements(value, v, undefined, href);
+                                return false;
+                              }
                             }
                           }
                           num++;
