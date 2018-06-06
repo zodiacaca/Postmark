@@ -192,7 +192,7 @@ function saveData(host, page, container, link, img) {
 /* reviewed 06/05 */
 function getPostImage(ctn) {
   var url;
-  var threshold = 64;
+  var threshold = 128;
   $(ctn).find("img").each(function (i, v) {
     if (v.offsetWidth >= threshold && v.offsetHeight >= threshold) {
       url = $(v).attr("src");
@@ -333,11 +333,105 @@ function selectContainer() {
   if (remembered.level) {
     index = remembered.level;
     updateStyle();
+    filterClassNames();
   }
 }
 /* reviewed 06/04 */
 function filterClassNames() {
   
+  var classArray = [];
+  var classes = containers[index].class;
+  var className;
+  
+  if (classes && classes.indexOf(" ") >= 0) {
+    
+    // step 1: turn className into class selectors
+    classArray = classes.split(" ");
+    for (var i = classArray.length - 1; i >= 0; i--) {
+      if (!classArray[i]) {
+        classArray.splice(i, 1);
+      } else {
+        classArray[i] = "." + classArray[i];
+      }
+    }
+    
+    // step 2: 
+    if (classArray.length > 0) {
+    loop0:  // loop through classArray
+      for (var i = 0; i < classArray.length; i++) {
+        
+        var pedigree;
+        var charaStyle;
+    loop1:  // loop through elements have the class
+        for (var ii = 0; ii < $(classArray[i]).length; ii++) {
+          
+          // step 2.1: 
+          var branch = getBranchString($(classArray[i])[ii]);
+          if (pedigree) {
+            if (branch != pedigree) {
+              pedigree = undefined;
+              continue loop0;
+            }
+          } else {
+            pedigree = branch;
+          }
+          
+          // step 2.2: 
+          var style = getCharacteristicStyle($(classArray[i])[ii]);
+          if (charaStyle) {
+            if (style != charaStyle) {
+              charaStyle = undefined;
+              continue loop0;
+            }
+          } else {
+            charaStyle = style;
+          }
+          
+        }
+        
+        pedigree = undefined;
+        charaStyle = undefined;
+        // step 2.3: 
+        if (className) {
+          if ($(classArray[i]).length > $(className).length) {
+            className = classArray[i];
+          }
+        } else {
+          className = classArray[i];
+        }
+        
+      }
+      
+    }
+    
+  }
+  
+  if (className) {
+    containers[index].class = className.substr(1);
+    $("#markList").children().eq(index)[0].innerText = getElementString(containers[index].tag, className.substr(1));
+    $("#markList").children().eq(index).css("color", "#00f");
+  }
+  
+}
+
+function getBranchString(end) {
+  var str = "";
+  $(end).parents().each(function (i, v) {
+    str += end.tagName;
+  });
+  
+  return str;
+}
+
+function getCharacteristicStyle(end) {
+  var characteristic = ["width", "min-width", "max-width"];
+  
+  var str = "";
+  for (var i = 0; i < characteristic.length; i++) {
+    str += window.getComputedStyle(end, null).getPropertyValue(characteristic[i]);
+  }
+  
+  return str;
 }
 /* reviewed 06/04 */
 /*

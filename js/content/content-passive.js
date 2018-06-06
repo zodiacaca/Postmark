@@ -150,7 +150,13 @@ function lookupElements(dynamic) {
                               }
                             } else {
                               // image check only applied to passive
-                              if (img && img == getPostImage(value)) {
+                              if (img) {
+                                if (img == getPostImage(value)) {
+                                  match = true;
+                                  pushElements(value, v, undefined, href);
+                                  return false;
+                                }
+                              } else {
                                 match = true;
                                 pushElements(value, v, undefined, href);
                                 return false;

@@ -40,4 +40,6 @@ var getPostImage;
 // called in the wheel listener
 // clear class names, only keep one class name assigned to the container
 var filterClassNames;
+  var getBranchString;
+  var getCharacteristicStyle;
 /* reviewed 06/04 */

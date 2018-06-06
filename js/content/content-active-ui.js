@@ -52,6 +52,7 @@ function fillBox() {
     addItem(i);
   }
   updateStyle();
+  filterClassNames();
 }
 
 function createList() {
@@ -83,6 +84,7 @@ function addItem(i) {
   $(level).css("padding-left", toPx(0.75));
   $(level).css("border-bottom", "thin solid " + floorColor);
   $(level).css("display", "block");
+  $(level).css("transition", "color 0.5s");
 }
 
 function addButtons() {
