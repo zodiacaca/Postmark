@@ -286,7 +286,9 @@ function styleMark(ctn, c, a, dsp, added) {
     $(mark).css("left", 0);
     $(mark).css("z-index", Math.pow(2, 31) - 1);
     $(mark).css("pointer-events", "none");
-    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 2s cubic-bezier(0.25, -0.35, 0.25, 1.25)");
+    // it seems "background-color" has a default value to change from, 
+    // add it later to avoid applying to not newly added mark
+    $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s");
     $(mark).parent().hover(
       function () {
         $(this).find(".postmark-mark").each(function (i, v) {
@@ -298,9 +300,12 @@ function styleMark(ctn, c, a, dsp, added) {
         $(this).find(".postmark-mark").css("opacity", 1);
       }
     );
-    setTimeout(function () {
-      mark.style.backgroundColor = c + a_b;
-    }, 0);
+    if (added) {
+      setTimeout(function () {
+        mark.style.backgroundColor = c + a_b;
+        $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 2s cubic-bezier(0.25, -0.35, 0.25, 1.25)");
+      }, 0);
+    }
   }
 }
 
