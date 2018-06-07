@@ -344,67 +344,30 @@ function selectContainer() {
 /* reviewed 06/04 */
 function filterClassNames() {
   
-  var classArray = [];
-  var classes = containers[index].class;
+  var classArray = getClassArray(containers[index].class);
   var className;
   
-  if (classes && classes.indexOf(" ") >= 0) {
+  if (classArray && classArray.length > 1) {
     
-    // step 1: turn className into class selectors
-    classArray = classes.split(" ");
-    for (var i = classArray.length - 1; i >= 0; i--) {
-      if (!classArray[i]) {
-        classArray.splice(i, 1);
-      } else {
-        classArray[i] = "." + classArray[i];
-      }
-    }
-    
-    // step 2: 
-    if (classArray.length > 0) {
-    loop0:  // loop through classArray
-      for (var i = 0; i < classArray.length; i++) {
-        
-        var pedigree;
-        var charaStyle;
-    loop1:  // loop through elements have the class
-        for (var ii = 0; ii < $(classArray[i]).length; ii++) {
-          
-          // step 2.1: 
-          var branch = getBranchString($(classArray[i])[ii]);
-          if (pedigree) {
-            if (branch != pedigree) {
-              pedigree = undefined;
-              continue loop0;
-            }
-          } else {
-            pedigree = branch;
-          }
-          
-          // step 2.2: 
-          var style = getCharacteristicStyle($(classArray[i])[ii]);
-          if (charaStyle) {
-            if (style != charaStyle) {
-              charaStyle = undefined;
-              continue loop0;
-            }
-          } else {
-            charaStyle = style;
-          }
-          
+    var parents = $(containers[index].container).parents();
+    for (var i = 0; i < parents.length; i++) {
+      
+      if ($(parents.get(i)).children().length >= 5) {
+        var children = $(parents.get(i)).children();
+        var list = [];
+        for (var ii = 0; ii < children.length; ii++) {
+          var info = getBranchAppearance($(children).get(ii));
+          list.push(info);
+        }
+        var percent = getMajorityPercent(list)[0];
+        var majority = getMajorityPercent(list)[1];
+        if (percent >= 0.5) {
+          className = findPostClass(classArray, children, majority);
         }
         
-        pedigree = undefined;
-        charaStyle = undefined;
-        // step 2.3: 
         if (className) {
-          if ($(classArray[i]).length > $(className).length) {
-            className = classArray[i];
-          }
-        } else {
-          className = classArray[i];
+          break;
         }
-        
       }
       
     }
@@ -412,31 +375,113 @@ function filterClassNames() {
   }
   
   if (className) {
-    containers[index].class = className.substr(1);
-    $("#markList").children().eq(index)[0].innerText = getElementString(containers[index].tag, className.substr(1));
+    containers[index].class = className;
+    $("#markList").children().eq(index)[0].innerText = getElementString(containers[index].tag, className);
     $("#markList").children().eq(index).css("color", "#00f");
   }
   
 }
 
-function getBranchString(end) {
-  var str = "";
-  $(end).parents().each(function (i, v) {
-    str += end.tagName;
-  });
+function getClassArray(classes) {
+  var classArray;
+  if (classes) {
+    if (classes.indexOf(" ") >= 0) {
+      classArray = classes.split(" ");
+      for (var i = classArray.length - 1; i >= 0; i--) {
+        if (!classArray[i]) {
+          classArray.splice(i, 1);
+        }
+      }
+    } else {
+      classArray = [classes];
+    }
+  }
+  
+  return classArray;
+}
+
+function getBranchAppearance(child) {
+  var str = child.tagName;
+  var characteristic = ["width", "min-width", "max-width"];
+  for (var i = 0; i < characteristic.length; i++) {
+    str += window.getComputedStyle(child, null).getPropertyValue(characteristic[i]);
+  }
   
   return str;
 }
 
-function getCharacteristicStyle(end) {
-  var characteristic = ["width", "min-width", "max-width"];
-  
-  var str = "";
-  for (var i = 0; i < characteristic.length; i++) {
-    str += window.getComputedStyle(end, null).getPropertyValue(characteristic[i]);
+function getMajorityPercent(list) {
+loop0:
+  var percent;
+  var majority;
+  for (var i = 0; i < list.length; i++) {
+loop1:
+    var count = 0;
+    var major = [];
+    for (var ii = 0; ii < list.length; ii++) {
+      if (list[i] == list[ii]) {
+        major.push(ii);
+        count++;
+      }
+    }
+    var pct = count / list.length;
+    if (percent) {
+      if (pct > percent) {
+        percent = pct;
+        majority = major;
+      }
+    } else {
+      percent = pct;
+      majority = major;
+    }
+    
   }
   
-  return str;
+  return [percent, majority];
+}
+
+function findPostClass(classes, children, major) {
+  
+  var className;
+loop0:
+  for (var i = 0; i < classes.length; i++) {
+loop1:  // check can find class under single element of majority.
+    var notFound;
+    for (var ii = 0; ii < major.length; ii++) {
+      
+      var childClasses = getClassArray(children.get(major[ii]).className);
+      if (childClasses) {
+        if (childClasses.indexOf(classes[i]) == -1) {
+          notFound = seekClass(classes[i], children.get(major[ii]));
+        }
+      } else {
+        notFound = seekClass(classes[i], children.get(major[ii]));
+      }
+      if (notFound) {
+        notFound = undefined;
+        continue loop0;
+      }
+      
+    }
+    
+    className = classes[i];
+    break loop0;
+    
+  }
+  
+  return className;
+}
+
+function seekClass(className, children) {
+  var notFound = true;
+  $(children).find("*").each(function (i, v) {
+    var vClasses = getClassArray(v.className);
+    if (vClasses && vClasses.indexOf(className) != -1) {
+      notFound = false;
+    }
+  });
+  
+  return notFound;
 }
 /* reviewed 06/04 */
 /*
