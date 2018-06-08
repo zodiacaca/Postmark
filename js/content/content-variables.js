@@ -27,15 +27,16 @@ var pushElements;
 // called from lookupElements() which compares records against DOM elements
 var markItems;
 
-/* reviewed 06/05 */
+/* reviewed 06/08 */
 /* active */
 // functions
 // called inside prepareData()
 // get the first big picture within the container
 var getPostImage;
-/* reviewed 06/05 */
-/* reviewed 06/04 */
+
 /* active-ui */
+
+/* active-filter */
 // functions
 // called in the wheel listener
 // clear class names, only keep one class name assigned to the container
@@ -44,5 +45,6 @@ var filterClassNames;
   var getBranchAppearance;
   var getMajorityPercent;
   var findPostClass;
+  var unifiedAppearance;
   var seekClass;
-/* reviewed 06/04 */
+/* reviewed 06/08 */

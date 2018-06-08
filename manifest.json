@@ -43,7 +43,8 @@
       "js/content/content-variables.js",
       "js/content/content-passive.js",
       "js/content/content-active.js",
-      "js/content/content-active-ui.js"
+      "js/content/content-active-ui.js",
+      "js/content/content-active-filter.js"
     ]
   }],
   
