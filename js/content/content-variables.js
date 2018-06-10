@@ -31,7 +31,7 @@ var markItems;
 /* active */
 // functions
 // called inside prepareData()
-// get the first big picture within the container
+// get the first big picture in the container
 var getPostImage;
 
 /* active-ui */

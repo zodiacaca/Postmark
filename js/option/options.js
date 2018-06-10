@@ -49,7 +49,7 @@ chrome.storage.local.get(function (items) {
           remove.appendChild(removeIcon);
           host.appendChild(document.createTextNode(site));
           subfolder.appendChild(document.createTextNode(sub));
-          container.appendChild(document.createTextNode(getElementString(items[site][sub][entry].tag, items[site][sub][entry].class)));
+          container.appendChild(document.createTextNode(getElementIdentifier(items[site][sub][entry].tag, items[site][sub][entry].class)));
           slot.appendChild(document.createTextNode(count + "/" + items[site][sub].maxEntries));
           title.appendChild(document.createTextNode(items[site][sub][entry].title));
           postLink.appendChild(document.createTextNode("post"));

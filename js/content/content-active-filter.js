@@ -12,7 +12,7 @@ function filterClassNames() {
     var parents = $(containers[index].container).parents();
     for (var i = 0; i < parents.length; i++) {
       
-      if ($(parents.get(i)).children().length >= 3) {
+      if ($(parents.get(i)).children().length >= 4) {
         var children = $(parents.get(i)).children();
         var list = [];
         for (var ii = 0; ii < children.length; ii++) {
@@ -36,7 +36,7 @@ function filterClassNames() {
   
   if (className) {
     containers[index].class = className;
-    $("#markList").children().eq(index)[0].innerText = getElementString(containers[index].tag, className);
+    $("#markList").children().eq(index)[0].innerText = getElementIdentifier(containers[index].tag, className);
     $("#markList").children().eq(index).css("color", "#00f");
   }
   

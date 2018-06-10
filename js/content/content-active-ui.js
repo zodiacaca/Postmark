@@ -73,7 +73,7 @@ function addItem(i) {
   // append
   var markList = document.getElementById("markList");
   markList.appendChild(level);
-  level.appendChild(document.createTextNode(getElementString(containers[i].tag, containers[i].class)));
+  level.appendChild(document.createTextNode(getElementIdentifier(containers[i].tag, containers[i].class)));
   // css properties
   $(level).css("all", "initial");
   $(level).css("font-family", "Helvetica");

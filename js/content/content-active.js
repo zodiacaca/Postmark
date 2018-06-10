@@ -1,7 +1,6 @@
 
 // variables //
 // switch
-var toggle = false;
 var jumpToggle = 0;
 var index = 0;
 
@@ -40,28 +39,28 @@ function checkDOM()
     showArea();
     
     selectContainer();
-    toggle = true;
   }
   else {
     clear();
-    
-    toggle = false;
   }
   /* reviewed 06/04 */
   // use wheel for selecting container
   window.onwheel = function (e) {
-    if (e.deltaY < 0) {
-      if (index > 0) { index -= 1 }
-    }
-    if (e.deltaY > 0) {
-      if (index < containers.length - 1) { index += 1 }
-    }
+    
     if (document.getElementById("markBox")) {
+      if (e.deltaY < 0) {
+        if (index > 0) { index -= 1 }
+      }
+      if (e.deltaY > 0) {
+        if (index < containers.length - 1) { index += 1 }
+      }
+      
       updateStyle();
       filterClassNames();
+      
+      return false;  
     }
     
-    return !toggle;
   }
   /* reviewed 06/04 */
   // exit
@@ -381,6 +380,5 @@ function clear() {
   subfolders = [];
   index = 0;
   jumpToggle = 0;
-  toggle = false;
 }
 

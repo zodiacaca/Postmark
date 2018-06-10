@@ -7,7 +7,7 @@ Array.prototype.pushIfUnique = function(element) {
 }
 
 // method
-function getElementString(tag, classes, id) {
+function getElementIdentifier(tag, classes, id) {
   var str;
   if (classes && classes.length) {
     str = tag + ":" + classes;
