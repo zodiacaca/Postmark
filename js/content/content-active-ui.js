@@ -117,12 +117,12 @@ function addButtons() {
   $(checkIcon).css("width", toPx(1));
   $(checkIcon).css("height", toPx(1));
   $(confirm).hover(
-    function () {
+    function() {
       $(confirm).css("background", "#ddd");
       $(confirm).css("transform", "scale(1.1)");
       $(confirm).css("border", "0px solid grey");
       $(confirm).css("border-bottom", "medium solid #0f0");
-    }, function () {
+    }, function() {
       $(confirm).css("background", "#aaa");
       $(confirm).css("transform", "scale(1)");
       $(confirm).css("border-top", "thin solid grey");
@@ -152,12 +152,12 @@ function addButtons() {
   $(removeIcon).css("width", toPx(1));
   $(removeIcon).css("height", toPx(1));
   $(cancel).hover(
-    function () {
+    function() {
       $(cancel).css("background", "#ddd");
       $(cancel).css("transform", "scale(1.1)");
       $(cancel).css("border", "0px solid grey");
       $(cancel).css("border-bottom", "medium solid red");
-    }, function () {
+    }, function() {
       $(cancel).css("background", "#aaa");
       $(cancel).css("transform", "scale(1)");
       $(cancel).css("border-top", "thin solid grey");
@@ -205,7 +205,7 @@ function addHostnameButton() {
   $(hostItem).css("border-bottom", "medium solid #0f0");
   $(hostItem).css("background-color", "#eee");
   
-  $(hostItem).on("click", function (e) {
+  $(hostItem).on("click", function(e) {
     subfolders = [];
     subfolders.push(window.location.hostname + "/");
     var count = $("#markFolders").children().length;
@@ -233,7 +233,7 @@ function showSubfolders(index, folder) {
   $(folderItem).css("border-bottom", "medium solid grey");
   $(folderItem).css("background-color", "#eee");
   
-  $(folderItem).on("click", function (e) {
+  $(folderItem).on("click", function(e) {
     selectCategory(this);
   });
 }

@@ -166,6 +166,9 @@ form {
   width: 12rem;
   background-color: rgba(0, 0, 0, 0.5);
 }
+.div-btn:active {
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
 /*
   slider-seek
