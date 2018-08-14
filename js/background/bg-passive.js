@@ -2,7 +2,7 @@
 /*
   on installed
 */
-chrome.runtime.onInstalled.addListener(function() {
+chrome.runtime.onInstalled.addListener(function () {
   var id_link = chrome.contextMenus.create({
     "title": "Inspect containers",
     "contexts":["link"],
@@ -22,7 +22,7 @@ chrome.runtime.onInstalled.addListener(function() {
 /*
   listen from content
 */
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // console.log(sender.tab ? "from a content script: " + sender.tab.url : "from the extension");
   // console.log(sender.tab);
   if (request.task == "css") {
@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 /*
   tab switch
 */
-chrome.tabs.onActivated.addListener(function(activeInfo) {
+chrome.tabs.onActivated.addListener(function (activeInfo) {
   chrome.browserAction.setIcon({path: "icons/i-2.svg"});
   chrome.tabs.sendMessage(
     activeInfo.tabId,
@@ -48,7 +48,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 function changeIcon(id, p) {
   chrome.tabs.query(
     { currentWindow: true, active: true },
-    function(tabArray) {
+    function (tabArray) {
       (tabArray[0].id == id) && (chrome.browserAction.setIcon({path: p}));
     }
   );

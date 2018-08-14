@@ -7,12 +7,12 @@ $("#slider-seek-slider").slider({
   min: 0,
   max: 99,
   values: [2, 5],
-  slide: function(event, ui) {
+  slide: function (event, ui) {
     $("#slider-seek-range-from").text(ui.values[0]);
     $("#slider-seek-range-to").text(ui.values[1]);
   }
 });
-$("#slider-seek-btn-seek").on("click", function(e) {
+$("#slider-seek-btn-seek").on("click", function (e) {
   seekMark();
 });
 
@@ -51,7 +51,7 @@ function seek(num, cell) {
   
   function findMark(html)
   {
-    chrome.storage.local.get([host], function(item) {
+    chrome.storage.local.get([host], function (item) {
       if (item) {
         var matched = false;
         for (var site in item) {
@@ -67,14 +67,14 @@ function seek(num, cell) {
                 var classes = item[site][sub][entry].class;
                 var classSelector = getClassSelector(classes);
                 if (href) {
-                  $(html).find(tag+classSelector).each(function(index, value) {
+                  $(html).find(tag+classSelector).each(function (index, value) {
                     if ($(value).parents().length == generation) {
                       var match = false;
                       if (value.hasAttribute("href") && $(value).attr("href").indexOf(href) >= 0) {
                         match = true;
                       }
                       if (!match) {
-                        $(value).find("a").each(function(i, v) {
+                        $(value).find("a").each(function (i, v) {
                           if (v.hasAttribute("href") && $(v).attr("href").indexOf(href) >= 0) {
                             match = true;
                             return false;
@@ -100,10 +100,10 @@ function seek(num, cell) {
           foundPages.appendChild(pageBox);
           pageBox.appendChild(document.createTextNode(num));
           $(pageBox).attr("href", page);
-          $(pageBox).on("click", function(e) {
+          $(pageBox).on("click", function (e) {
             return false;
           });
-          $(pageBox).mousedown(function(e) {
+          $(pageBox).mousedown(function (e) {
             switch(e.which)
             {
               case 1:

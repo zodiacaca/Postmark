@@ -147,7 +147,7 @@ function unifiedAppearance(classN) {
   var notUnified;
   
   var appearance;
-  $("." + classN).each(function(i, v) {
+  $("." + classN).each(function (i, v) {
     if (appearance) {
       if (getBranchAppearance(v) != appearance) {
         notUnified = true;
@@ -162,7 +162,7 @@ function unifiedAppearance(classN) {
 
 function seekClass(classN, child) {
   var notFound = true;
-  $(child).find("*").each(function(i, v) {
+  $(child).find("*").each(function (i, v) {
     var vClasses = getClassArray(v.className);
     if (vClasses && vClasses.indexOf(classN) != -1) {
       notFound = false;

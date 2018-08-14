@@ -1,6 +1,6 @@
 /* reviewed 06/05 */
 // prototype
-Array.prototype.pushIfUnique = function(element) {
+Array.prototype.pushIfUnique = function (element) {
   if (this.indexOf(element) == -1) {
     this.push(element);
   }
