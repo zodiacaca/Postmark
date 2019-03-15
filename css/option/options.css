@@ -166,13 +166,13 @@ form {
   letter-spacing: 1px;
   font-size: 0.8rem;
   line-height: 2.1;
-  color: #fffb;
+  color: #fffd;
   font-weight: bold;
   text-align: center;
   text-shadow: 0 0 0.1rem #aaaa;
   cursor: pointer;
   width: 11rem;
-  background-image: radial-gradient(#00000070, #0000007a);
+  background-image: radial-gradient(#00000060, #0000006a);
   -webkit-mask: linear-gradient(135deg, transparent 6%, black 6%, black 94%, transparent 94%);
 }
 .div-btn:active {
