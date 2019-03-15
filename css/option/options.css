@@ -169,10 +169,9 @@ form {
   color: #fffd;
   font-weight: bold;
   text-align: center;
-  text-shadow: 0 0 0.1rem #aaaa;
   cursor: pointer;
   width: 11rem;
-  background-image: radial-gradient(#00000060, #0000006a);
+  background: #0006;
   -webkit-mask: linear-gradient(135deg, transparent 6%, black 6%, black 94%, transparent 94%);
 }
 .div-btn:active {
