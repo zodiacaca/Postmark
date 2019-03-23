@@ -105,7 +105,7 @@ function addButtons() {
   $(confirm).css("border-top", "thin solid grey");
   $(confirm).css("border-right", "thin solid grey");
   $(confirm).css("border-bottom", "medium solid #0f0");
-  $(confirm).css("background", "#aaa");
+  $(confirm).css("background", "#fffa");
   $(confirm).css("box-sizing", "content-box");
   $(confirm).css("display", "inline");
   var checkIcon = document.createElement("img");
@@ -123,7 +123,7 @@ function addButtons() {
       $(confirm).css("border", "0px solid grey");
       $(confirm).css("border-bottom", "medium solid #0f0");
     }, function () {
-      $(confirm).css("background", "#aaa");
+      $(confirm).css("background", "#fffa");
       $(confirm).css("transform", "scale(1)");
       $(confirm).css("border-top", "thin solid grey");
       $(confirm).css("border-right", "thin solid grey");
@@ -140,7 +140,7 @@ function addButtons() {
   $(cancel).css("border-top", "thin solid grey");
   $(cancel).css("border-right", "thin solid grey");
   $(cancel).css("border-bottom", "medium solid red");
-  $(cancel).css("background", "#aaa");
+  $(cancel).css("background", "#fffa");
   $(cancel).css("box-sizing", "content-box");
   $(cancel).css("display", "inline");
   var removeIcon = document.createElement("img");
@@ -158,7 +158,7 @@ function addButtons() {
       $(cancel).css("border", "0px solid grey");
       $(cancel).css("border-bottom", "medium solid red");
     }, function () {
-      $(cancel).css("background", "#aaa");
+      $(cancel).css("background", "#fffa");
       $(cancel).css("transform", "scale(1)");
       $(cancel).css("border-top", "thin solid grey");
       $(cancel).css("border-right", "thin solid grey");
