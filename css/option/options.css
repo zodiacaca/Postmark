@@ -166,14 +166,14 @@ form {
   letter-spacing: 2px;
   font-size: 0.8rem;
   line-height: 2.1;
-  color: #fffe;
+  color: #fffd;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
   width: 11rem;
   border-left: medium solid #0002;
   border-right: medium solid #0002;
-  background: linear-gradient(-45deg, #0005 8%, transparent 8%, transparent 92%, #0005 92%), linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%), linear-gradient(#0006, #0006);
+  background: linear-gradient(-45deg, #0005 8%, transparent 8%, transparent 92%, #0005 92%), linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%), linear-gradient(#0005, #0005);
   background-position: 0 0, -30rem -2rem, 0 0;
   background-size: 100% 100%, 500% 500%, 100% 100%;
   background-repeat: repeat, repeat, repeat;
@@ -184,7 +184,7 @@ form {
   opacity: 0.95;
 }
 .div-btn--clicked {
-  color: #48929B;
+  color: rgba(0, 255, 0, 0.95);
   background-position: 0 0, 30rem 2rem, 0 0;
 }
 
@@ -204,7 +204,7 @@ form {
 
 #slider-seek-result {
   margin: 1rem;
-  border-left: thick solid #48929B;
+  border-left: thick solid rgba(0, 255, 0, 0.6);
 }
 
 #slider-seek-cells {

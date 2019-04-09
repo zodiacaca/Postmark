@@ -96,7 +96,7 @@ function seek(num, cell) {
             }
           }
         }
-        $(cell).css("background-color", "#48929B");
+        $(cell).css("background-color", "rgba(0, 255, 0, 0.6)");
         console.log("page:" + num + " " + matched);
         if (matched) {
           var foundPages = document.getElementById("slider-seek-pages");
