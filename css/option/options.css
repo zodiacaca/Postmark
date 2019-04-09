@@ -163,7 +163,7 @@ form {
 .div-btn {
   margin-left: 0.5rem;
   font-family: Meiryo UI;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   font-size: 0.8rem;
   line-height: 2.1;
   color: #fffe;
@@ -171,11 +171,21 @@ form {
   text-align: center;
   cursor: pointer;
   width: 11rem;
-  background: #0006;
+  border-left: medium solid #0002;
+  border-right: medium solid #0002;
+  background: linear-gradient(-45deg, #0005 8%, transparent 8%, transparent 92%, #0005 92%), linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%), linear-gradient(#0006, #0006);
+  background-position: 0 0, -30rem -2rem, 0 0;
+  background-size: 100% 100%, 500% 500%, 100% 100%;
+  background-repeat: repeat, repeat, repeat;
+  transition: background-position 1.2s, color 0.25s;
   -webkit-mask: linear-gradient(135deg, transparent 6%, black 6%, black 94%, transparent 94%);
 }
 .div-btn:active {
-  opacity: 0.9;
+  opacity: 0.95;
+}
+.div-btn--clicked {
+  color: #48929B;
+  background-position: 0 0, 30rem 2rem, 0 0;
 }
 
 /*
@@ -194,7 +204,7 @@ form {
 
 #slider-seek-result {
   margin: 1rem;
-  border-left: thick solid rgba(0, 255, 0, 0.6);
+  border-left: thick solid #48929B;
 }
 
 #slider-seek-cells {

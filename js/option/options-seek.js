@@ -13,7 +13,11 @@ $("#slider-seek-slider").slider({
   }
 });
 $("#slider-seek-btn-seek").on("click", function (e) {
-  seekMark();
+  if (!$(this).hasClass("div-btn--clicked")) {
+    seekMark();
+    $(this).toggleClass("div-btn--clicked");
+    this.innerText = "Seeking...";
+  }
 });
 
 function seekMark() {
@@ -92,7 +96,7 @@ function seek(num, cell) {
             }
           }
         }
-        $(cell).css("background-color", "rgba(0, 255, 0, 0.6)");
+        $(cell).css("background-color", "#48929B");
         console.log("page:" + num + " " + matched);
         if (matched) {
           var foundPages = document.getElementById("slider-seek-pages");
