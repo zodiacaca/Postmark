@@ -235,6 +235,9 @@ $button-width: 12rem;
 $chamfer: 0.06;
 $chf-tl: percentage($chamfer);
 $chf-br: percentage(1 - $chamfer);
+#slider-seek-operate {
+  margin: 1.25rem 0;
+}
 #slider-seek-btn-seek {
   font-family: Meiryo UI;
   letter-spacing: 3px;

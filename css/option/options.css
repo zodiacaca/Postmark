@@ -179,6 +179,9 @@ tr td:nth-child(9) {
     top: 100%;
     left: 17rem; }
 
+#slider-seek-operate {
+  margin: 1.25rem 0; }
+
 #slider-seek-btn-seek {
   font-family: Meiryo UI;
   letter-spacing: 3px;
