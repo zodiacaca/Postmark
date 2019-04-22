@@ -5,16 +5,16 @@
 // chrome.storage.local.clear();
 chrome.storage.local.get(function (items) {
   console.log(items);
-  var markList = document.getElementById("markList");
+  var markList = document.getElementById("slider-marks-list");
   for (var site in items) {
     var emptySite = true;
-    
+
     for (var sub in items[site]) {
       var emptySubfolder = true;
-      
+
       var count = 0;
       for (var entry in items[site][sub]) {
-        
+
         if (!isNaN(entry)) {
           emptySite = false;
           emptySubfolder = false;
@@ -60,7 +60,7 @@ chrome.storage.local.get(function (items) {
           removeIcon.className = "graph-remove";
           $(removeIcon).attr("src", "/icons/cross-remove-sign.svg");
           $(removeIcon).attr("alt", "remove");
-          
+
           $(removeIcon).on("click", function () {
             var parent = $(this).parent().parent();
             var host = $(parent).children()[0].innerText;
@@ -131,7 +131,7 @@ selectSection();
 
 function fillSeekForm(url) {
   url += "page/*num*/";
-  $("#slider-seek-textfield-url").val(url);
+  $("#slider-seek-url").find("input").val(url);
 }
 
 function findMarks(url) {
@@ -152,7 +152,7 @@ function findMarks(url) {
       behavior: "smooth"
     });
   }
-  
+
   if (headers.length <= 9) {
     setTimeout(function () {
       findMarks(url);
@@ -186,7 +186,7 @@ function adjustSectionSize() {
   $("#slider").children().css("width", innerWidth + "px");
   $("#slider-marks").css("left", innerWidth + "px");
   $("#slider-seek").css("left", innerWidth * 2 + "px");
-  
+
   var innerHeight = window.innerHeight;
   $("body").css("height", innerHeight + "px");
   var navHeight = $("nav").height();
@@ -199,7 +199,6 @@ function getHostname(url) {
   var st = url.indexOf("//");
   st += 2;
   var ed = url.indexOf("/", st);
-  
+
   return url.substr(st, ed - st);
 }
-

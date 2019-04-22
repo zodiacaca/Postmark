@@ -95,7 +95,7 @@ function addButtons() {
   $(opBox).css("all", "initial");
   $(opBox).css("position", "fixed");
   $(opBox).css("z-index", Math.pow(2, 31));
-  
+
   var confirm = document.createElement("button");
   confirm.id = "markConfirm";
   opBox.appendChild(confirm);
@@ -130,7 +130,7 @@ function addButtons() {
       $(confirm).css("border-bottom", "medium solid #0f0");
     }
   );
-  
+
   var cancel = document.createElement("button");
   cancel.id = "markCancel";
   opBox.appendChild(cancel);
@@ -165,7 +165,7 @@ function addButtons() {
       $(cancel).css("border-bottom", "medium solid red");
     }
   );
-  
+
   $(opBox).position({
     my: "left top",
     at: "right top",
@@ -184,7 +184,7 @@ function addFolderList() {
   $(folderList).css("top", "0");
   $(folderList).css("left", "0");
   $(folderList).css("background-color", "rgba(0, 0, 0, 0.8)");
-  
+
   addHostnameButton();
 }
 
@@ -204,7 +204,7 @@ function addHostnameButton() {
   $(hostItem).css("padding", toPx([0.1, 0.2]));
   $(hostItem).css("border-bottom", "medium solid #0f0");
   $(hostItem).css("background-color", "#eee");
-  
+
   $(hostItem).on("click", function (e) {
     subfolders = [];
     subfolders.push(window.location.hostname + "/");
@@ -232,7 +232,7 @@ function showSubfolders(index, folder) {
   $(folderItem).css("padding", toPx([0.1, 0.2]));
   $(folderItem).css("border-bottom", "medium solid grey");
   $(folderItem).css("background-color", "#eee");
-  
+
   $(folderItem).on("click", function (e) {
     selectCategory(this);
   });
@@ -307,7 +307,7 @@ function toPx(num) {
     for (var i = 0; i < count; i++) {
       str += num[i] * 16 + "px ";
     }
-    
+
     return str;
   } else {
     return num * 16 + "px";

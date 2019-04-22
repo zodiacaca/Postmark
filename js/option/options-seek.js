@@ -13,9 +13,9 @@ $("#slider-seek-slider").slider({
   }
 });
 $("#slider-seek-btn-seek").on("click", function (e) {
-  if (!$(this).hasClass("div-btn--clicked")) {
+  if (!$(this).hasClass("slider-seek-btn-seek--clicked")) {
     seekMark();
-    $(this).toggleClass("div-btn--clicked");
+    $(this).toggleClass("slider-seek-btn-seek--clicked");
     this.innerText = "Seeking...";
   }
 });
@@ -23,36 +23,36 @@ $("#slider-seek-btn-seek").on("click", function (e) {
 function seekMark() {
   var start = parseInt($("#slider-seek-range-from").text());
   var end = parseInt($("#slider-seek-range-to").text());
-  
+
   $("#slider-seek-cells").children().remove();
   $("#slider-seek-pages").children().remove();
-  
+
   var cells = document.getElementById("slider-seek-cells");
-  
+
   progressBar(end - start + 1);
   for (var i = start; i <= end; i++) {
     seek(i, cells.children[i - start]);
   }
 }
- 
+
 function seek(num, cell) {
-  var page = $("#slider-seek-textfield-url").val();
+  var page = $("#slider-seek-url").find("input").val();
   page = page.replace("*num*", num)
   var host = getHostname(page);
-  
+
   $.ajax({
     url: page,
     dataType: "html",
     success: phaseHTML
   });
-  
+
   function phaseHTML(html)
   {
     var parser = new DOMParser();
     var htmlDoc = parser.parseFromString(html, "text/html");
     findMark(htmlDoc);
   }
-  
+
   function findMark(html)
   {
     chrome.storage.local.get([host], function (item) {
@@ -96,7 +96,7 @@ function seek(num, cell) {
             }
           }
         }
-        $(cell).css("background-color", "rgba(0, 255, 0, 0.6)");
+        $(cell).css("background-color", "#48929B");
         console.log("page:" + num + " " + matched);
         if (matched) {
           var foundPages = document.getElementById("slider-seek-pages");
@@ -117,7 +117,7 @@ function seek(num, cell) {
                   var pages = [];
                   var start = parseInt($("#slider-seek-range-from").text());
                   for (var i = start; i <= num; i++) {
-                    var page = $("#slider-seek-textfield-url").val();
+                    var page = $("#slider-seek-url").find("input").val();
                     page = page.replace("*num*", i)
                     if (windowChecked) {
                       pages.push(page);
@@ -158,4 +158,3 @@ function progressBar(count) {
     cells.appendChild(cell);
   }
 }
-
