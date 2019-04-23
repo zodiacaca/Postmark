@@ -317,22 +317,45 @@ $bar-width: $bar-height * 12;
   float: left;
 
   .shape {
-    margin-top: -$bar-height;
     position: relative;
-
-    &:first-child {
-      margin-top: 0;
-    }
   }
   span {
+    display: inline-block;
     width: $bar-width;
     height: $bar-height;
-    background: hsl(0, 0, 25%);
+    background: linear-gradient(hsl(0, 0, 25%), hsl(0, 0, 25%));
+    background-position: -$bar-width 0;
+    background-repeat: no-repeat;
     position: absolute;
+    transition: background-position 0.5s, transform 0.5s;
+    transform-origin: 0 50%;
   }
   .shape-2 {
     span {
       top: ($bar-width / 1.414);
+    }
+  }
+}
+#slider-seek-result-cancel {
+  .shape--open {
+    margin: 0.5rem;
+    width: $bar-width;
+    height: $bar-width;
+
+    span {
+      background-position: 0 0;
+    }
+    &:first-child {
+      span {
+        transform: rotate(45deg);
+      }
+    }
+    &:last-child {
+      margin-top: -($bar-width + 0.5rem);
+
+      span {
+        transform: rotate(-45deg);
+      }
     }
   }
 }

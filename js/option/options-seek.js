@@ -17,6 +17,7 @@ $("#slider-seek-btn-seek").on("click", function (e) {
     seekMark();
     $(this).toggleClass("slider-seek-btn-seek--clicked");
     this.innerText = "Seeking...";
+    $("#slider-seek-result-cancel .shape").toggleClass("shape--open");
   }
 });
 
