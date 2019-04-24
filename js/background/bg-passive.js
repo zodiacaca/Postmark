@@ -8,13 +8,13 @@ chrome.runtime.onInstalled.addListener(function () {
     "contexts":["link"],
     "id": "postmark_link"
   });
-  
+
   var id_page = chrome.contextMenus.create({
     "title": "Seek through pages",
     "contexts":["page"],
     "id": "postmark_page"
   });
-  
+
   // change icon to svg format
   chrome.browserAction.setIcon({path: "icons/i-2.svg"});
 });

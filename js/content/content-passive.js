@@ -75,7 +75,7 @@ function checkMark()
 {
   // initialize icon
   chrome.runtime.sendMessage({task: "icon", path: "icons/i-2.svg"});
-  
+
   if (!checkStatus.checked) {
     lookupElements();
     console.log("current href: " + window.location.href);
@@ -106,22 +106,22 @@ function lookupElements(dynamic) {
               var classes = item[site][sub][entry].class;
               var classSelector = getClassSelector(classes);
               remembered.selector = tag+classSelector;
-              
+
               // set initial values for observer
               pageData.containerCount = $(tag+classSelector).length;
               pageData.href = window.location.href;
               if (!observerTimer) {
                 registerObserver();
               }
-              
+
               // try to not run on the post page
               if (href && window.location.href.indexOf(href) == -1) {
-                
+
                 $(tag+classSelector).each(function (index, value) {
-                  
+
                   // skip depth check for dynamic sites anyway
                   if (dynamic || $(value).parents().length == generation) {
-                    
+
                     if (!(value.hasAttribute("_post"))) {
                       var match = false;
                       if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
@@ -175,16 +175,16 @@ function lookupElements(dynamic) {
                     // don't check the checked element again
                     // put it outside this block will cause execute sequence disorder
                     checkedElements.pushIfUnique(value);
-                    
+
                   }
-                  
+
                 });
-                
+
               }
             }
           }
           checkedElements.forEach(function (item) {
-            item.setAttribute("_post", "checked"); 
+            item.setAttribute("_post", "checked");
           });
         }
       }
@@ -226,11 +226,11 @@ function autoMark() {
   } else {
     home = isNaN(page.substr(page.length - 1, 1))
   }
-  
+
   if (remembered.category.category && remembered.class && home) {
     var classSelector = getClassSelector(remembered.class);
     var autoItem = $(classSelector)[0];
-    
+
     chrome.storage.local.get([host], function (item) {
       var subfoldersStr = remembered.category.category;
       (!item[host]) && (item[host] = {});
@@ -307,14 +307,15 @@ function findAutoSelectSubfolder(subfolder, host) {
 }
 
 // recheck size
-document.getElementsByTagName("body")[0].onload = function () {
-  $("body").find(".postmark-mark").each(function (index, value) {
-    var parentSize = {
-      w: value.parentElement.offsetWidth,
-      h: value.parentElement.offsetHeight
-    }
-    $(value).css("width", parentSize.w + "px");
-    $(value).css("height", parentSize.h + "px");
-  });
+if ($("body")) {
+  document.getElementsByTagName("body")[0].onload = function () {
+    $("body").find(".postmark-mark").each(function (index, value) {
+      var parentSize = {
+        w: value.parentElement.offsetWidth,
+        h: value.parentElement.offsetHeight
+      }
+      $(value).css("width", parentSize.w + "px");
+      $(value).css("height", parentSize.h + "px");
+    });
+  }
 }
-

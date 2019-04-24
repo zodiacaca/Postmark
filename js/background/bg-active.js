@@ -6,7 +6,7 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 
 function onClickHandler(info, tab) {
   console.log(info);
-  
+
   if (info.menuItemId == "postmark_link") {
     chrome.tabs.sendMessage(
       tab.id,
@@ -22,7 +22,7 @@ function onClickHandler(info, tab) {
 }
 
 function callbackHandler(content) {
-  
+
 }
 
 
