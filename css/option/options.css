@@ -194,7 +194,7 @@ tr td:nth-child(9) {
   width: 12rem;
   background: linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%), linear-gradient(#cccccc, #cccccc);
   background-position: -36rem -6rem, 0 0;
-  background-size: 500% 500%, 100% 100%;
+  background-size: 300% 300%, 100% 100%;
   background-repeat: no-repeat, repeat;
   cursor: pointer;
   transition: background-position 2.25s;
@@ -256,17 +256,19 @@ tr td:nth-child(9) {
   #slider-seek-result-cancel .shape-2 span {
     top: 1.0608203678rem; }
 
-#slider-seek-result-cancel .shape--open {
-  margin: 0.5rem;
-  width: 1.5rem;
-  height: 1.5rem; }
-  #slider-seek-result-cancel .shape--open span {
-    background-position: 0 0; }
-  #slider-seek-result-cancel .shape--open:first-child span {
-    transform: rotate(45deg); }
-  #slider-seek-result-cancel .shape--open:last-child {
-    margin-top: -2rem; }
-    #slider-seek-result-cancel .shape--open:last-child span {
-      transform: rotate(-45deg); }
+#slider-seek-result-cancel {
+  cursor: pointer; }
+  #slider-seek-result-cancel .shape--open {
+    margin: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem; }
+    #slider-seek-result-cancel .shape--open span {
+      background-position: 0 0; }
+    #slider-seek-result-cancel .shape--open:first-child span {
+      transform: rotate(45deg); }
+    #slider-seek-result-cancel .shape--open:last-child {
+      margin-top: -2rem; }
+      #slider-seek-result-cancel .shape--open:last-child span {
+        transform: rotate(-45deg); }
 
 /*# sourceMappingURL=options.css.map */

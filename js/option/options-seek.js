@@ -2,6 +2,7 @@
 /*
   seek
 */
+$("#slider-seek-btn-seek").toggleClass("slider-seek-btn-seek--clicked");
 $("#slider-seek-slider").slider({
   range: true,
   min: 0,
@@ -15,10 +16,15 @@ $("#slider-seek-slider").slider({
 $("#slider-seek-btn-seek").on("click", function (e) {
   if (!$(this).hasClass("slider-seek-btn-seek--clicked")) {
     seekMark();
-    $(this).toggleClass("slider-seek-btn-seek--clicked");
     this.innerText = "Seeking...";
+    $(this).toggleClass("slider-seek-btn-seek--clicked");
     $("#slider-seek-result-cancel .shape").toggleClass("shape--open");
   }
+});
+$("#slider-seek-result-cancel").on("click", function (e) {
+  $("#slider-seek-btn-seek")[0].innerText = "Seek";
+  $("#slider-seek-btn-seek").toggleClass("slider-seek-btn-seek--clicked");
+  $("#slider-seek-result-cancel .shape").toggleClass("shape--open");
 });
 
 function seekMark() {
