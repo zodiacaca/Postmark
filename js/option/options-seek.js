@@ -2,6 +2,8 @@
 /*
   seek
 */
+var ajaxInstance = [];
+
 $("#slider-seek-btn-seek").toggleClass("slider-seek-btn-seek--clicked");
 $("#slider-seek-slider").slider({
   range: true,
@@ -25,6 +27,10 @@ $("#slider-seek-result-cancel").on("click", function (e) {
   $("#slider-seek-btn-seek")[0].innerText = "Seek";
   $("#slider-seek-btn-seek").toggleClass("slider-seek-btn-seek--clicked");
   $("#slider-seek-result-cancel .shape").toggleClass("shape--open");
+
+  for (var i = ajaxInstance.length - 1; i >= 0; i--) {
+    ajaxInstance[i].abort();
+  }
 });
 
 function seekMark() {
@@ -37,6 +43,7 @@ function seekMark() {
   var cells = document.getElementById("slider-seek-cells");
 
   progressBar(end - start + 1);
+  ajaxInstance = [];
   for (var i = start; i <= end; i++) {
     seek(i, cells.children[i - start]);
   }
@@ -47,11 +54,12 @@ function seek(num, cell) {
   page = page.replace("*num*", num)
   var host = getHostname(page);
 
-  $.ajax({
+  var xhr = $.ajax({
     url: page,
     dataType: "html",
     success: phaseHTML
   });
+  ajaxInstance.push(xhr);
 
   function phaseHTML(html)
   {

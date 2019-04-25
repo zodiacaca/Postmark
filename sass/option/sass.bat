@@ -1,1 +1,0 @@
-powershell.exe -ExecutionPolicy Bypass -Command "C:\Users\Zodiac\Desktop\extensions\postmark\sass\option\sass.ps1"
