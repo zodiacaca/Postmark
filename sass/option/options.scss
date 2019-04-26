@@ -143,7 +143,7 @@ tr td:nth-child(9) {
 $form-width: 0.98;
 #slider-seek-form {
   box-sizing: border-box;
-  margin: 1rem 0;
+  margin: 1rem 0 1.25rem 0;
   padding: 1.6rem;
   padding-bottom: 2.4rem;
   width: percentage($form-width);
@@ -208,7 +208,9 @@ $form-width: 0.98;
 $button-left: 5rem;
 $button-width: 12rem;
 #slider-seek-operate {
+  padding-bottom: 1rem;
   width: 100%;
+  border-bottom: thin solid hsl(0, 0, 40%);
   position: relative;
 
   &:before {
@@ -224,6 +226,7 @@ $button-width: 12rem;
   &:after {
     content: '';
     display: inline-block;
+    margin-top: -1rem;
     width: 100%;
     border-bottom: thin dashed hsl(0, 0, 60%);
     position: absolute;
@@ -235,9 +238,6 @@ $button-width: 12rem;
 $chamfer: 0.06;
 $chf-tl: percentage($chamfer);
 $chf-br: percentage(1 - $chamfer);
-#slider-seek-operate {
-  margin: 1.25rem 0;
-}
 #slider-seek-btn-seek {
   font-family: Meiryo UI;
   letter-spacing: 3px;
@@ -261,6 +261,7 @@ $chf-br: percentage(1 - $chamfer);
   }
   &:hover {
     box-shadow: 0 0 1.5rem 0.05rem hsl(0, 0, 75%) inset;
+    // opacity
   }
 }
 #slider-seek-operate .slider-seek-btn-seek--clicked {
@@ -268,16 +269,15 @@ $chf-br: percentage(1 - $chamfer);
 }
 
 #slider-seek-result {
-  margin: 1rem 0;
+  display: flex;
   padding: 1rem 0.6rem;
-  border-top: thin solid hsl(0, 0, 40%);
+  width: 60%;
 
   .wrapper {
-    overflow: hidden;
+    flex-grow: 100;
 
     #slider-seek-cells {
       display: flex;
-      width: 60%;
       min-height: 0.2rem;
       background-color: rgba(0, 0, 0, 0.2);
       overflow: hidden;
@@ -291,7 +291,6 @@ $chf-br: percentage(1 - $chamfer);
 
     #slider-seek-pages {
       box-sizing: border-box;
-      width: 60%;
       min-height: 2rem;
       border: thin solid rgba(0, 0, 0, 1);
     }
@@ -314,21 +313,24 @@ $chf-br: percentage(1 - $chamfer);
 $bar-height: 0.125rem;
 $bar-width: $bar-height * 12;
 #slider-seek-result-cancel {
-  float: left;
-
   .shape {
+    margin: 0;
+    width: 0;
+    height: 0;
     position: relative;
-  }
-  span {
-    display: inline-block;
-    width: $bar-width;
-    height: $bar-height;
-    background: linear-gradient(hsl(0, 0, 25%), hsl(0, 0, 25%));
-    background-position: -$bar-width 0;
-    background-repeat: no-repeat;
-    position: absolute;
-    transition: background-position 0.5s, transform 0.5s;
-    transform-origin: 0 50%;
+    transition: margin 0.5s, width 0.5s, height 0.5s;
+
+    span {
+      display: inline-block;
+      width: $bar-width;
+      height: $bar-height;
+      background: linear-gradient(hsl(0, 0, 25%), hsl(0, 0, 25%));
+      background-position: -$bar-width 0;
+      background-repeat: no-repeat;
+      position: absolute;
+      transform-origin: 0 50%;
+      transition: background-position 0.5s, transform 0.5s;
+    }
   }
   .shape-2 {
     span {
@@ -337,6 +339,7 @@ $bar-width: $bar-height * 12;
   }
 }
 #slider-seek-result-cancel {
+  flex-grow: 0.001;
   cursor: pointer;
 
   .shape--open {

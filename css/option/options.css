@@ -114,7 +114,7 @@ tr td:nth-child(9) {
 */
 #slider-seek-form {
   box-sizing: border-box;
-  margin: 1rem 0;
+  margin: 1rem 0 1.25rem 0;
   padding: 1.6rem;
   padding-bottom: 2.4rem;
   width: 98%;
@@ -160,7 +160,9 @@ tr td:nth-child(9) {
       width: 60%; }
 
 #slider-seek-operate {
+  padding-bottom: 1rem;
   width: 100%;
+  border-bottom: thin solid #666666;
   position: relative; }
   #slider-seek-operate:before {
     content: '';
@@ -173,14 +175,12 @@ tr td:nth-child(9) {
   #slider-seek-operate:after {
     content: '';
     display: inline-block;
+    margin-top: -1rem;
     width: 100%;
     border-bottom: thin dashed #999999;
     position: absolute;
     top: 100%;
     left: 17rem; }
-
-#slider-seek-operate {
-  margin: 1.25rem 0; }
 
 #slider-seek-btn-seek {
   font-family: Meiryo UI;
@@ -208,14 +208,13 @@ tr td:nth-child(9) {
   background-position: 36rem 6rem, 0 0; }
 
 #slider-seek-result {
-  margin: 1rem 0;
+  display: flex;
   padding: 1rem 0.6rem;
-  border-top: thin solid #666666; }
+  width: 60%; }
   #slider-seek-result .wrapper {
-    overflow: hidden; }
+    flex-grow: 100; }
     #slider-seek-result .wrapper #slider-seek-cells {
       display: flex;
-      width: 60%;
       min-height: 0.2rem;
       background-color: rgba(0, 0, 0, 0.2);
       overflow: hidden; }
@@ -225,7 +224,6 @@ tr td:nth-child(9) {
       background-color: gray; }
     #slider-seek-result .wrapper #slider-seek-pages {
       box-sizing: border-box;
-      width: 60%;
       min-height: 2rem;
       border: thin solid black; }
     #slider-seek-result .wrapper #slider-seek-pages a {
@@ -239,11 +237,13 @@ tr td:nth-child(9) {
     #slider-seek-result .wrapper input {
       margin-top: 0.4rem; }
 
-#slider-seek-result-cancel {
-  float: left; }
-  #slider-seek-result-cancel .shape {
-    position: relative; }
-  #slider-seek-result-cancel span {
+#slider-seek-result-cancel .shape {
+  margin: 0;
+  width: 0;
+  height: 0;
+  position: relative;
+  transition: margin 0.5s, width 0.5s, height 0.5s; }
+  #slider-seek-result-cancel .shape span {
     display: inline-block;
     width: 1.5rem;
     height: 0.125rem;
@@ -251,12 +251,13 @@ tr td:nth-child(9) {
     background-position: -1.5rem 0;
     background-repeat: no-repeat;
     position: absolute;
-    transition: background-position 0.5s, transform 0.5s;
-    transform-origin: 0 50%; }
-  #slider-seek-result-cancel .shape-2 span {
-    top: 1.0608203678rem; }
+    transform-origin: 0 50%;
+    transition: background-position 0.5s, transform 0.5s; }
+#slider-seek-result-cancel .shape-2 span {
+  top: 1.0608203678rem; }
 
 #slider-seek-result-cancel {
+  flex-grow: 0.001;
   cursor: pointer; }
   #slider-seek-result-cancel .shape--open {
     margin: 0.5rem;
