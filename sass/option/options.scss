@@ -286,13 +286,13 @@ $chf-br: percentage(1 - $chamfer);
     #slider-seek-cells span {
       flex-grow: 1;
       height: 0.2rem;
-      background-color: hsl(0, 0, 50%);
+      background-color: #48929B;
     }
 
     #slider-seek-pages {
-      box-sizing: border-box;
+      box-sizing: content-box;
       min-height: 2rem;
-      border: thin solid rgba(0, 0, 0, 1);
+      border: thin solid hsl(0, 0, 30%);
     }
 
     #slider-seek-pages a {
@@ -302,7 +302,13 @@ $chf-br: percentage(1 - $chamfer);
       padding: 0.1rem;
       width: 1rem;
       height: 1rem;
-      border: medium solid hsl(0, 0, 20%);
+      border: medium solid hsl(60, 100%, 40%);
+      opacity: 0;
+      transition: opacity 0.75s;
+
+      &:first-child {
+        margin-left: 0.3rem;
+      }
     }
 
     input {
@@ -342,7 +348,7 @@ $bar-width: $bar-height * 12;
   flex-grow: 0.001;
   cursor: pointer;
 
-  .shape--open {
+  .shape--appear {
     margin: 0.5rem;
     width: $bar-width;
     height: $bar-width;
