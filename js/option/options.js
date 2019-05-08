@@ -3,7 +3,7 @@
   list
 */
 // chrome.storage.local.clear();
-chrome.storage.local.get(function (items) {
+chrome.storage.local.get(function(items) {
   console.log(items);
   var markList = document.getElementById("slider-marks-list");
   for (var site in items) {
@@ -61,7 +61,7 @@ chrome.storage.local.get(function (items) {
           $(removeIcon).attr("src", "/icons/cross-remove-sign.svg");
           $(removeIcon).attr("alt", "remove");
 
-          $(removeIcon).on("click", function () {
+          $(removeIcon).on("click", function() {
             var parent = $(this).parent().parent();
             var host = $(parent).children()[0].innerText;
             var subfolder = $(parent).children()[1].innerText;
@@ -70,7 +70,7 @@ chrome.storage.local.get(function (items) {
             $(parent).css("opacity", 0);
             $(".graph-remove").css("opacity", 0.2);
             $(".graph-remove").css("pointer-events", "none");
-            setTimeout(function () {
+            setTimeout(function() {
               $(parent).remove();
               $(".graph-remove").css("opacity", 1);
               $(".graph-remove").css("pointer-events", "auto");
@@ -85,7 +85,7 @@ chrome.storage.local.get(function (items) {
 });
 
 function removeEntry(host, subfolder, id) {
-  chrome.storage.local.get([host], function (item) {
+  chrome.storage.local.get([host], function(item) {
     if (host && subfolder && id) {
       delete item[host][subfolder][id];
       chrome.storage.local.set(item);
@@ -138,7 +138,7 @@ function findMarks(url) {
   var host = getHostname(url);
   var headers = document.getElementsByTagName("th");
   var data =[];
-  $(headers).each(function (index, value) {
+  $(headers).each(function(index, value) {
     if (value.innerText.indexOf(host) >= 0) {
       $(value).parent().css("background-color", "#b4b7ff");
       data.push(value);
@@ -154,25 +154,25 @@ function findMarks(url) {
   }
 
   if (headers.length <= 9) {
-    setTimeout(function () {
+    setTimeout(function() {
       findMarks(url);
     }, 100);
   }
 }
 
-$("#nav-auto").on("click", function (e) {
+$("#nav-auto").on("click", function(e) {
   $("#slider").css("transform", "translateX(0)");
   $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
-$("#nav-marks").on("click", function (e) {
+$("#nav-marks").on("click", function(e) {
   $("#slider").css("transform", "translateX(" + "-100%" + ")");
   $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");
   $(this).css("border-bottom", "thick solid rgba(0, 0, 0, 0.5)");
 });
-$("#nav-seek").on("click", function (e) {
+$("#nav-seek").on("click", function(e) {
   $("#slider").css("transform", "translateX(" + "-200%" + ")");
   $("#slider").css("transition", "all 600ms cubic-bezier(0.77, 0, 0.18, 1)");
   $(".nav-btn").css("border-bottom", "thick solid rgba(0, 0, 0, 0)");

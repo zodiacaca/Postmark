@@ -288,7 +288,9 @@ $chf-br: percentage(1 - $chamfer);
     #slider-seek-cells span {
       flex-grow: 1;
       height: 0.2rem;
-      background-color: #48929B;
+      // background: #48929B;
+      background: hsl(0, 0%, 50%);
+      transition: background 1s;
     }
 
     #slider-seek-pages {
@@ -307,7 +309,7 @@ $chf-br: percentage(1 - $chamfer);
       height: 1rem;
       background: hsl(60, 100%, 75%);
       opacity: 0;
-      transition: opacity 0.75s;
+      transition: opacity 0.5s;
 
       &:first-child {
         margin-left: 0.3rem;

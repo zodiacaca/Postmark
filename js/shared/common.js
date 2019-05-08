@@ -1,6 +1,6 @@
 /* reviewed 06/05 */
 // prototype
-Array.prototype.pushIfUnique = function (element) {
+Array.prototype.pushIfUnique = function(element) {
   if (this.indexOf(element) == -1) {
     this.push(element);
   }
@@ -14,7 +14,7 @@ function getElementIdentifier(tag, classes, id) {
   } else {
     str = tag;
   }
-  
+
   return str;
 }
 
@@ -34,12 +34,12 @@ function getClassSelector(classes) {
       classArray = ["." + classes];
     }
   }
-  
+
   var classSelector = "";
   for (var i = 0; i < classArray.length; i++) {
     classSelector += classArray[i];
   }
-  
+
   return classSelector;
 }
 /* reviewed 06/05 */

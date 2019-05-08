@@ -223,7 +223,8 @@ tr td:nth-child(9) {
     #slider-seek-result .wrapper #slider-seek-cells span {
       flex-grow: 1;
       height: 0.2rem;
-      background-color: #48929B; }
+      background: gray;
+      transition: background 1s; }
     #slider-seek-result .wrapper #slider-seek-pages {
       box-sizing: content-box;
       min-height: 2rem;
@@ -238,7 +239,7 @@ tr td:nth-child(9) {
       height: 1rem;
       background: #ffff80;
       opacity: 0;
-      transition: opacity 0.75s; }
+      transition: opacity 0.5s; }
       #slider-seek-result .wrapper #slider-seek-pages a:first-child {
         margin-left: 0.3rem; }
     #slider-seek-result .wrapper input {

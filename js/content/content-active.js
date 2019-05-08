@@ -29,7 +29,7 @@ function checkDOM()
   // popup box
   if (!document.getElementById("markBox") && linkData.item) {
     // chrome.runtime.sendMessage({ task: "css", file: "" });
-    
+
     createBox();
     updateBox();
     addStick();
@@ -37,7 +37,7 @@ function checkDOM()
     fillBox();
     addButtons();
     showArea();
-    
+
     selectContainer();
   }
   else {
@@ -45,8 +45,8 @@ function checkDOM()
   }
   /* reviewed 06/04 */
   // use wheel for selecting container
-  window.onwheel = function (e) {
-    
+  window.onwheel = function(e) {
+
     if (document.getElementById("markBox")) {
       if (e.deltaY < 0) {
         if (index > 0) { index -= 1 }
@@ -54,21 +54,21 @@ function checkDOM()
       if (e.deltaY > 0) {
         if (index < containers.length - 1) { index += 1 }
       }
-      
+
       updateStyle();
       filterClassNames();
-      
+
       return false;
     }
-    
+
   }
   /* reviewed 06/04 */
   // exit
-  $("#markConfirm").on("click", function (e) {
+  $("#markConfirm").on("click", function(e) {
     prepareData();
   });
-  
-  $("#markCancel").on("click", function (e) {
+
+  $("#markCancel").on("click", function(e) {
     if (document.getElementById("markFolders")) {
       $("#markFolders").remove();
       subfolders = [];
@@ -140,11 +140,11 @@ function saveData(host, page, container, link, img) {
     subfoldersStr += subfolders[i];
   }
   subfoldersStr = "/" + subfoldersStr;
-  chrome.storage.local.get([window.location.hostname], function (item) {
+  chrome.storage.local.get([window.location.hostname], function(item) {
     (!item[host]) && (item[host] = {});
     (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
     (!item[host][subfoldersStr]["maxEntries"]) && (item[host][subfoldersStr]["maxEntries"] = 2);
-    
+
     var oldest;
     var newest = 1;
     var length = 0;
@@ -162,7 +162,7 @@ function saveData(host, page, container, link, img) {
       delete item[host][subfoldersStr][oldest];
     }
     var number = parseInt(newest) + 1;
-    
+
     item[host][subfoldersStr][number] = {
       title: link.title, // from the title attribute or the inner text
       href: link.href,
@@ -192,26 +192,26 @@ function saveData(host, page, container, link, img) {
 function getPostImage(ctn) {
   var url;
   var threshold = 128;
-  $(ctn).find("img").each(function (i, v) {
+  $(ctn).find("img").each(function(i, v) {
     if (v.offsetWidth >= threshold && v.offsetHeight >= threshold) {
       url = $(v).attr("src");
-      
+
       return false;
     }
   });
-  
+
   return url;
 }
 /* reviewed 06/05 */
 function getNth(ctn, a) {
   var num = 0;
-  $(ctn).find("a").each(function (i, v) {
+  $(ctn).find("a").each(function(i, v) {
     num++;
     if (v == a) {
       return false;
     }
   });
-  
+
   return num;
 }
 
@@ -222,22 +222,22 @@ function getFullDate() {
   var date = d.getDate();
   var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   var day = days[d.getDay()];
-  
+
   var str = year + "/" + month + "/" + date + ", " + day;
-  
+
   return str;
 }
 
 function getTimeValue() {
   var d = new Date();
-  
+
   return d.getTime();
 }
 
 function styleMark(ctn, c, a, dsp, added) {
 // container, color, alpha, for displaying area, newly added
   if (!$(ctn).children(".postmark-mark").length || dsp) {
-    
+
     var a_b = parseInt(a, 16) / 5;
     a_b = Math.round(a_b);
     a_b = a_b.toString(16);
@@ -245,7 +245,7 @@ function styleMark(ctn, c, a, dsp, added) {
     a_s = Math.round(a_s);
     a_s = a_s.toString(16);
     var c_s = c + a_s;
-    
+
     var containerSize = {
       w: ctn.offsetWidth,
       h: ctn.offsetHeight
@@ -285,22 +285,22 @@ function styleMark(ctn, c, a, dsp, added) {
     $(mark).css("left", 0);
     $(mark).css("z-index", Math.pow(2, 31) - 1);
     $(mark).css("pointer-events", "none");
-    // it seems "background-color" has a default value to change from, 
+    // it seems "background-color" has a default value to change from,
     // add it later to avoid applying to not newly added mark
     $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s");
     $(mark).parent().hover(
-      function () {
-        $(this).find(".postmark-mark").each(function (i, v) {
+      function() {
+        $(this).find(".postmark-mark").each(function(i, v) {
           if (getTimeValue() - $(v).attr("at") > 2000) {
             $(v).css("opacity", 0);
           }
         });
-      }, function () {
+      }, function() {
         $(this).find(".postmark-mark").css("opacity", 1);
       }
     );
     if (added) {
-      setTimeout(function () {
+      setTimeout(function() {
         mark.style.backgroundColor = c + a_b;
         $(mark).css("transition", "width 0.5s, height 0.5s, opacity 0.4s, background-color 2s cubic-bezier(0.25, -0.35, 0.25, 1.25)");
       }, 0);
@@ -319,7 +319,7 @@ function getContainers() {
     level: 0
   }
   containers.push(data);
-  
+
   var parents = $(linkData.item).parents();
   var count = parents.length - 2;
   for (var i = 0; i < count; i++) {

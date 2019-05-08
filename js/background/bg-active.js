@@ -30,7 +30,7 @@ function callbackHandler(content) {
   icon clicked
 */
 var lastClicked = 0;
-chrome.browserAction.onClicked.addListener(function (tab) {
+chrome.browserAction.onClicked.addListener(function(tab) {
   var d = new Date();
   if (d.getTime() - lastClicked > 200) {
     chrome.tabs.sendMessage(

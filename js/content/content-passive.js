@@ -1,6 +1,6 @@
 
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.event == "onRClicked") {
     checkDOM();
   } else if (message.event == "onActivated") {
@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 
-document.oncontextmenu = function (e) {
+document.oncontextmenu = function(e) {
   if (e.target) {
     if (e.target.tagName == "A") {
       linkData.item = e.target;
@@ -59,14 +59,14 @@ function registerObserver() {
   }
   if (window.location.href != pageData.href) {
     console.log("current href: " + window.location.href);
-    $(remembered.selector).each(function (index, value) {
+    $(remembered.selector).each(function(index, value) {
       value.removeAttribute("_post");
     });
     pageData.containerCount = 0;
     matchedItem = [];
     pageData.href = window.location.href;
   }
-  observerTimer = setTimeout(function () {
+  observerTimer = setTimeout(function() {
     registerObserver();
   }, 500);
 }
@@ -85,7 +85,7 @@ function checkMark()
 checkMark();
 
 function lookupElements(dynamic) {
-  chrome.storage.local.get([window.location.hostname], function (item) {
+  chrome.storage.local.get([window.location.hostname], function(item) {
     for (var site in item) {
       for (var sub in item[site]) {
         if (window.location.href.indexOf(sub) >= 0) {
@@ -117,7 +117,7 @@ function lookupElements(dynamic) {
               // try to not run on the post page
               if (href && window.location.href.indexOf(href) == -1) {
 
-                $(tag+classSelector).each(function (index, value) {
+                $(tag+classSelector).each(function(index, value) {
 
                   // skip depth check for dynamic sites anyway
                   if (dynamic || $(value).parents().length == generation) {
@@ -130,7 +130,7 @@ function lookupElements(dynamic) {
                       }
                       if (!match) {
                         var num = 1;
-                        $(value).find("a").each(function (i, v) {
+                        $(value).find("a").each(function(i, v) {
                           if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
                             if (dynamic) {
                               var titleMatch;
@@ -183,7 +183,7 @@ function lookupElements(dynamic) {
               }
             }
           }
-          checkedElements.forEach(function (item) {
+          checkedElements.forEach(function(item) {
             item.setAttribute("_post", "checked");
           });
         }
@@ -211,7 +211,7 @@ function pushElements(container, anchor, title, href) {
 function markItems() {
   (checkStatus.matched) && (chrome.runtime.sendMessage({task: "icon", path: "icons/i-2-match.svg"}));
   console.log("matched item: " + matchedItem.length);
-  matchedItem.forEach(function (item) {
+  matchedItem.forEach(function(item) {
     styleMark(item.container, "#48929B", "ff", false, false);
     // container, color, alpha, for displaying area, newly added
   });
@@ -231,7 +231,7 @@ function autoMark() {
     var classSelector = getClassSelector(remembered.class);
     var autoItem = $(classSelector)[0];
 
-    chrome.storage.local.get([host], function (item) {
+    chrome.storage.local.get([host], function(item) {
       var subfoldersStr = remembered.category.category;
       (!item[host]) && (item[host] = {});
       (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
@@ -253,17 +253,17 @@ function autoMark() {
       var title;
       var indexHREF = -1;
       var indexTitle = -1;
-      $(autoItem).find("a").each(function (i, v) {
+      $(autoItem).find("a").each(function(i, v) {
         if (v.innerText) {
           href = $(v).attr("href");
           title = v.innerText;
           if (indexHREF == -1) {
-            indexHREF = remembered.link.findIndex(function (element) {
+            indexHREF = remembered.link.findIndex(function(element) {
               return element == $(v).attr("href");
             });
           }
           if (indexTitle == -1) {
-            indexTitle = remembered.title.findIndex(function (element) {
+            indexTitle = remembered.title.findIndex(function(element) {
               return element == v.innerText;
             });
           }
@@ -308,8 +308,8 @@ function findAutoSelectSubfolder(subfolder, host) {
 
 // recheck size
 if ($("body")) {
-  document.getElementsByTagName("body")[0].onload = function () {
-    $("body").find(".postmark-mark").each(function (index, value) {
+  document.getElementsByTagName("body")[0].onload = function() {
+    $("body").find(".postmark-mark").each(function(index, value) {
       var parentSize = {
         w: value.parentElement.offsetWidth,
         h: value.parentElement.offsetHeight
