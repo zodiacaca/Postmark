@@ -45,6 +45,8 @@ nav {
 }
 
 #slider-seek {
+  height: 100%;
+  background: linear-gradient(0deg, hsl(0, 0, 95%), transparent);
   border-top: thin solid rgba(0, 0, 0, 1);
   position: absolute;
   top: 0;
@@ -143,7 +145,7 @@ tr td:nth-child(9) {
 $form-width: 0.98;
 #slider-seek-form {
   box-sizing: border-box;
-  margin: 1rem 0 1.25rem 0;
+  margin: 1.5rem 0 2rem 0;
   padding: 1.6rem;
   padding-bottom: 2.4rem;
   width: percentage($form-width);
@@ -208,9 +210,9 @@ $form-width: 0.98;
 $button-left: 5rem;
 $button-width: 12rem;
 #slider-seek-operate {
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   width: 100%;
-  border-bottom: thin solid hsl(0, 0, 40%);
+  border-bottom: thin solid hsl(0, 0, 75%);
   position: relative;
 
   &:before {
@@ -226,7 +228,7 @@ $button-width: 12rem;
   &:after {
     content: '';
     display: inline-block;
-    margin-top: -1rem;
+    margin-top: -1.5rem;
     width: 100%;
     border-bottom: thin dashed hsl(0, 0, 60%);
     position: absolute;
@@ -270,7 +272,7 @@ $chf-br: percentage(1 - $chamfer);
 
 #slider-seek-result {
   display: flex;
-  padding: 1rem 0.6rem;
+  padding: 1rem 1rem;
   width: 60%;
 
   .wrapper {
@@ -292,17 +294,18 @@ $chf-br: percentage(1 - $chamfer);
     #slider-seek-pages {
       box-sizing: content-box;
       min-height: 2rem;
-      border: thin solid hsl(0, 0, 30%);
+      background: hsl(0, 0, 95%);
     }
 
     #slider-seek-pages a {
       display: inline-block;
+      font-weight: bold;
       text-align: center;
       margin: 0.2rem;
-      padding: 0.1rem;
+      padding: 0.3rem;
       width: 1rem;
       height: 1rem;
-      border: medium solid hsl(60, 100%, 40%);
+      background: hsl(60, 100%, 75%);
       opacity: 0;
       transition: opacity 0.75s;
 
