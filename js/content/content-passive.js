@@ -85,107 +85,110 @@ function checkMark()
 checkMark();
 
 function lookupElements(dynamic) {
-  chrome.storage.local.get([window.location.hostname], function(item) {
-    for (var site in item) {
-      for (var sub in item[site]) {
-        if (window.location.href.indexOf(sub) >= 0) {
-          // below here code should be executed twice(valid entry count)
-          var checkedElements = []; // prepare for "_post" attribute assigning
-          findAutoSelectSubfolder(sub, site);
-          for (var entry in item[site][sub]) {
-            if (!isNaN(entry)) {
-              var level = item[site][sub][entry].level;
-              findAutoSelectLevel(level, site);
-              var title = item[site][sub][entry].title;
-              var href = item[site][sub][entry].href;
-              var depth = item[site][sub][entry].depth;
-              var generation = depth - level;
-              var nth = item[site][sub][entry].nth;
-              var img = item[site][sub][entry].image;
-              var tag = item[site][sub][entry].tag;
-              var classes = item[site][sub][entry].class;
-              var classSelector = getClassSelector(classes);
-              remembered.selector = tag+classSelector;
+  chrome.storage.local.get("sites", function(item) {
+    if (item.sites) {
+      item = item.sites;
+      for (var site in item) {
+        for (var sub in item[site]) {
+          if (window.location.href.indexOf(sub) >= 0) {
+            // below here code should be executed twice(valid entry count)
+            var checkedElements = []; // prepare for "_post" attribute assigning
+            findAutoSelectSubfolder(sub, site);
+            for (var entry in item[site][sub]) {
+              if (!isNaN(entry)) {
+                var level = item[site][sub][entry].level;
+                findAutoSelectLevel(level, site);
+                var title = item[site][sub][entry].title;
+                var href = item[site][sub][entry].href;
+                var depth = item[site][sub][entry].depth;
+                var generation = depth - level;
+                var nth = item[site][sub][entry].nth;
+                var img = item[site][sub][entry].image;
+                var tag = item[site][sub][entry].tag;
+                var classes = item[site][sub][entry].class;
+                var classSelector = getClassSelector(classes);
+                remembered.selector = tag+classSelector;
 
-              // set initial values for observer
-              pageData.containerCount = $(tag+classSelector).length;
-              pageData.href = window.location.href;
-              if (!observerTimer) {
-                registerObserver();
-              }
+                // set initial values for observer
+                pageData.containerCount = $(tag+classSelector).length;
+                pageData.href = window.location.href;
+                if (!observerTimer) {
+                  registerObserver();
+                }
 
-              // try to not run on the post page
-              if (href && window.location.href.indexOf(href) == -1) {
+                // try to not run on the post page
+                if (href && window.location.href.indexOf(href) == -1) {
 
-                $(tag+classSelector).each(function(index, value) {
+                  $(tag+classSelector).each(function(index, value) {
 
-                  // skip depth check for dynamic sites anyway
-                  if (dynamic || $(value).parents().length == generation) {
+                    // skip depth check for dynamic sites anyway
+                    if (dynamic || $(value).parents().length == generation) {
 
-                    if (!(value.hasAttribute("_post"))) {
-                      var match = false;
-                      if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
-                        match = true;
-                        pushElements(value, value, undefined, href);
-                      }
-                      if (!match) {
-                        var num = 1;
-                        $(value).find("a").each(function(i, v) {
-                          if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
-                            if (dynamic) {
-                              var titleMatch;
-                              if (v.hasAttribute("title")) {
-                                if (v.getAttribute("title") == title) {
-                                  titleMatch = true;
+                      if (!(value.hasAttribute("_post"))) {
+                        var match = false;
+                        if (value.hasAttribute("href") && value.getAttribute("href").indexOf(href) >= 0) {
+                          match = true;
+                          pushElements(value, value, undefined, href);
+                        }
+                        if (!match) {
+                          var num = 1;
+                          $(value).find("a").each(function(i, v) {
+                            if (v.hasAttribute("href") && v.getAttribute("href").indexOf(href) >= 0) {
+                              if (dynamic) {
+                                var titleMatch;
+                                if (v.hasAttribute("title")) {
+                                  if (v.getAttribute("title") == title) {
+                                    titleMatch = true;
+                                  } else {
+                                    titleMatch = false;
+                                  }
                                 } else {
-                                  titleMatch = false;
+                                  titleMatch = true;
                                 }
-                              } else {
-                                titleMatch = true;
-                              }
-                              if (num == nth && titleMatch) {
-                                match = true;
-                                pushElements(value, v, undefined, href);
-                                return false;
-                              }
-                            } else {
-                              // image check only applied to passive
-                              // if (img) {
-                              if (false) {
-                                if (img == getPostImage(value)) {
+                                if (num == nth && titleMatch) {
                                   match = true;
                                   pushElements(value, v, undefined, href);
                                   return false;
                                 }
                               } else {
-                                match = true;
-                                pushElements(value, v, undefined, href);
-                                return false;
+                                // image check only applied to passive
+                                // if (img) {
+                                if (false) {
+                                  if (img == getPostImage(value)) {
+                                    match = true;
+                                    pushElements(value, v, undefined, href);
+                                    return false;
+                                  }
+                                } else {
+                                  match = true;
+                                  pushElements(value, v, undefined, href);
+                                  return false;
+                                }
                               }
                             }
-                          }
-                          num++;
-                        });
+                            num++;
+                          });
+                        }
+                        if (match) {
+                          checkStatus.matched = true
+                          return false;
+                        }
                       }
-                      if (match) {
-                        checkStatus.matched = true
-                        return false;
-                      }
+                      // don't check the checked element again
+                      // put it outside this block will cause execute sequence disorder
+                      checkedElements.pushIfUnique(value);
+
                     }
-                    // don't check the checked element again
-                    // put it outside this block will cause execute sequence disorder
-                    checkedElements.pushIfUnique(value);
 
-                  }
+                  });
 
-                });
-
+                }
               }
             }
+            checkedElements.forEach(function(item) {
+              item.setAttribute("_post", "checked");
+            });
           }
-          checkedElements.forEach(function(item) {
-            item.setAttribute("_post", "checked");
-          });
         }
       }
     }
@@ -231,7 +234,7 @@ function autoMark() {
     var classSelector = getClassSelector(remembered.class);
     var autoItem = $(classSelector)[0];
 
-    chrome.storage.local.get([host], function(item) {
+    chrome.storage.local.get("sites", function(item) {
       var subfoldersStr = remembered.category.category;
       (!item[host]) && (item[host] = {});
       (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});

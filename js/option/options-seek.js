@@ -70,8 +70,9 @@ function seek(num, cell) {
 
   function findMark(html)
   {
-    chrome.storage.local.get([host], function(item) {
-      if (item) {
+    chrome.storage.local.get("sites", function(item) {
+      if (item.sites) {
+        item = item.sites;
         var matched = false;
         for (var site in item) {
           for (var sub in item[site]) {

@@ -140,15 +140,16 @@ function saveData(host, page, container, link, img) {
     subfoldersStr += subfolders[i];
   }
   subfoldersStr = "/" + subfoldersStr;
-  chrome.storage.local.get([window.location.hostname], function(item) {
-    (!item[host]) && (item[host] = {});
-    (!item[host][subfoldersStr]) && (item[host][subfoldersStr] = {});
-    (!item[host][subfoldersStr]["maxEntries"]) && (item[host][subfoldersStr]["maxEntries"] = 2);
+  chrome.storage.local.get("sites", function(item) {
+    (!item.sites) && (item.sites = {});
+    (!item.sites[host]) && (item.sites[host] = {});
+    (!item.sites[host][subfoldersStr]) && (item.sites[host][subfoldersStr] = {});
+    (!item.sites[host][subfoldersStr]["maxEntries"]) && (item.sites[host][subfoldersStr]["maxEntries"] = 2);
 
     var oldest;
     var newest = 1;
     var length = 0;
-    for (var key in item[host][subfoldersStr]) {
+    for (var key in item.sites[host][subfoldersStr]) {
       if (!oldest && !isNaN(key)) {
         oldest = key;
       }
@@ -158,12 +159,12 @@ function saveData(host, page, container, link, img) {
       length += 1;
     }
     length -= 1;  // maxEntries takes one place
-    if (length >= item[host][subfoldersStr]["maxEntries"]) {
-      delete item[host][subfoldersStr][oldest];
+    if (length >= item.sites[host][subfoldersStr]["maxEntries"]) {
+      delete item.sites[host][subfoldersStr][oldest];
     }
     var number = parseInt(newest) + 1;
 
-    item[host][subfoldersStr][number] = {
+    item.sites[host][subfoldersStr][number] = {
       title: link.title, // from the title attribute or the inner text
       href: link.href,
       tag: container.tag, // tag name
@@ -178,7 +179,7 @@ function saveData(host, page, container, link, img) {
       autoMarked: false
     }
     console.log(item);
-    chrome.storage.local.set(item);
+    chrome.storage.local.set({sites: item.sites});
     styleMark(container.container, "#48929B", "ff", false, true);
     // container, color, alpha, for displaying area, newly added
     var data = {
