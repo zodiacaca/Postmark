@@ -88,24 +88,26 @@ function lookupElements(dynamic) {
   chrome.storage.local.get("sites", function(item) {
     if (item.sites) {
       item = item.sites;
-      for (var site in item) {
-        for (var sub in item[site]) {
+      var site = window.location.host;
+      if (item[site]) {
+        item = item[site];
+        for (var sub in item) {
           if (window.location.href.indexOf(sub) >= 0) {
             // below here code should be executed twice(valid entry count)
             var checkedElements = []; // prepare for "_post" attribute assigning
             findAutoSelectSubfolder(sub, site);
-            for (var entry in item[site][sub]) {
+            for (var entry in item[sub]) {
               if (!isNaN(entry)) {
-                var level = item[site][sub][entry].level;
+                var level = item[sub][entry].level;
                 findAutoSelectLevel(level, site);
-                var title = item[site][sub][entry].title;
-                var href = item[site][sub][entry].href;
-                var depth = item[site][sub][entry].depth;
+                var title = item[sub][entry].title;
+                var href = item[sub][entry].href;
+                var depth = item[sub][entry].depth;
                 var generation = depth - level;
-                var nth = item[site][sub][entry].nth;
-                var img = item[site][sub][entry].image;
-                var tag = item[site][sub][entry].tag;
-                var classes = item[site][sub][entry].class;
+                var nth = item[sub][entry].nth;
+                var img = item[sub][entry].image;
+                var tag = item[sub][entry].tag;
+                var classes = item[sub][entry].class;
                 var classSelector = getClassSelector(classes);
                 remembered.selector = tag+classSelector;
 

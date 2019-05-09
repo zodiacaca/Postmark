@@ -74,17 +74,18 @@ function seek(num, cell) {
       if (item.sites) {
         item = item.sites;
         var matched = false;
-        for (var site in item) {
-          for (var sub in item[site]) {
-            for (var entry in item[site][sub]) {
+        if (item[host]) {
+          item = item[host];
+          for (var sub in item) {
+            for (var entry in item[sub]) {
               if (!isNaN(entry)) {
-                var title = item[site][sub][entry].title;
-                var href = item[site][sub][entry].href;
-                var depth = item[site][sub][entry].depth;
-                var level = item[site][sub][entry].level;
+                var title = item[sub][entry].title;
+                var href = item[sub][entry].href;
+                var depth = item[sub][entry].depth;
+                var level = item[sub][entry].level;
                 var generation = depth - level;
-                var tag = item[site][sub][entry].tag;
-                var classes = item[site][sub][entry].class;
+                var tag = item[sub][entry].tag;
+                var classes = item[sub][entry].class;
                 var classSelector = getClassSelector(classes);
                 if (href) {
                   $(html).find(tag+classSelector).each(function(index, value) {
