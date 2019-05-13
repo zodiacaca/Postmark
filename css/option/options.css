@@ -161,54 +161,6 @@ tr td:nth-child(9) {
       margin-bottom: 0.5rem;
       width: 60%; }
 
-#slider-seek-operate {
-  padding-bottom: 1.5rem;
-  width: 100%;
-  border-bottom: thin solid #bfbfbf;
-  position: relative; }
-  #slider-seek-operate:before {
-    content: '';
-    display: inline-block;
-    width: 5rem;
-    border-top: thin dashed #999999;
-    position: absolute;
-    top: 0;
-    left: 0; }
-  #slider-seek-operate:after {
-    content: '';
-    display: inline-block;
-    margin-top: -1.5rem;
-    width: 100%;
-    border-bottom: thin dashed #999999;
-    position: absolute;
-    top: 100%;
-    left: 17rem; }
-
-#slider-seek-btn-seek {
-  font-family: Meiryo UI;
-  letter-spacing: 3px;
-  font-size: 0.8rem;
-  line-height: 2.1;
-  color: #4d4d4d;
-  font-weight: bold;
-  text-align: center;
-  margin-left: 5rem;
-  width: 12rem;
-  background: linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%), linear-gradient(#cccccc, #cccccc);
-  background-position: -36rem -6rem, 0 0;
-  background-size: 300% 300%, 100% 100%;
-  background-repeat: no-repeat, repeat;
-  cursor: pointer;
-  transition: background-position 2.25s;
-  -webkit-mask: linear-gradient(135deg, transparent 6%, black 6%, black 94%, transparent 94%); }
-  #slider-seek-btn-seek:active {
-    opacity: 0.8; }
-  #slider-seek-btn-seek:hover {
-    box-shadow: 0 0 1.5rem 0.05rem #bfbfbf inset; }
-
-#slider-seek-operate .slider-seek-btn-seek--clicked {
-  background-position: 36rem 6rem, 0 0; }
-
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
