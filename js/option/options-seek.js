@@ -4,7 +4,7 @@
 */
 var ajaxInstance = [];
 
-$("#slider-seek-btn-seek").toggleClass("slider-seek-btn-seek--clicked");
+$("#slider-seek-operate .start-synchronal").toggleClass("started");
 $("#slider-seek-slider").slider({
   range: true,
   min: 0,
@@ -15,11 +15,11 @@ $("#slider-seek-slider").slider({
     $("#slider-seek-range-to").text(ui.values[1]);
   }
 });
-$("#slider-seek-btn-seek").on("click", function(e) {
-  if (!$(this).hasClass("slider-seek-btn-seek--clicked")) {
+$("#slider-seek-operate .start-synchronal").on("click", function(e) {
+  if (!$(this).hasClass("started")) {
     seekMark();
     this.innerText = "Seeking...";
-    $(this).toggleClass("slider-seek-btn-seek--clicked");
+    $(this).toggleClass("started");
     $("#slider-seek-result-cancel .shape").toggleClass("shape--appear");
   }
 });
@@ -27,8 +27,8 @@ $("#slider-seek-result-cancel").on("click", function(e) {
   $("#slider-seek-cells").children().remove();
   $("#slider-seek-pages").children().remove();
 
-  $("#slider-seek-btn-seek")[0].innerText = "Seek";
-  $("#slider-seek-btn-seek").toggleClass("slider-seek-btn-seek--clicked");
+  $("#slider-seek-operate .start-synchronal")[0].innerText = "Seek";
+  $("#slider-seek-operate .start-synchronal").toggleClass("started");
   $("#slider-seek-result-cancel .shape").toggleClass("shape--appear");
 
   for (var i = ajaxInstance.length - 1; i >= 0; i--) {
