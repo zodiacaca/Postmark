@@ -250,7 +250,8 @@ $chf-br: percentage(1 - $chamfer);
   text-align: center;
   margin-left: $button-left;
   width: $button-width;
-  background: linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%), linear-gradient(hsl(0, 0%, 80%), hsl(0, 0%, 80%));
+  background: linear-gradient(-45deg, transparent 50%, #48929B 50%, transparent 55%),
+    linear-gradient(hsl(0, 0%, 80%), hsl(0, 0%, 80%));
   background-position: (-3 * $button-width) (-0.5 * $button-width), 0 0;
   background-size: 300% 300%, 100% 100%;
   background-repeat: no-repeat, repeat;
