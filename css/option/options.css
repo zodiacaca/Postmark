@@ -164,7 +164,8 @@ tr td:nth-child(9) {
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
-  width: 60%; }
+  padding-right: 40%;
+  border-top: thin solid #bfbfbf; }
   #slider-seek-result .wrapper {
     flex-grow: 100; }
     #slider-seek-result .wrapper #slider-seek-cells {

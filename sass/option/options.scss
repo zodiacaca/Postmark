@@ -210,7 +210,8 @@ $form-width: 0.98;
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
-  width: 60%;
+  padding-right: 40%;
+  border-top: thin solid hsl(0, 0, 75%);
 
   .wrapper {
     flex-grow: 100;
