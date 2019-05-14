@@ -4,7 +4,6 @@
 */
 var ajaxInstance = [];
 
-$("#slider-seek-operate .start-synchronal").toggleClass("started");
 $("#slider-seek-slider").slider({
   range: true,
   min: 0,
@@ -18,7 +17,6 @@ $("#slider-seek-slider").slider({
 $("#slider-seek-operate .start-synchronal").on("click", function(e) {
   if (!$(this).hasClass("started")) {
     seekMark();
-    this.innerText = "Seeking...";
     $(this).toggleClass("started");
     $("#slider-seek-result-cancel .shape").toggleClass("shape--appear");
   }
@@ -27,7 +25,6 @@ $("#slider-seek-result-cancel").on("click", function(e) {
   $("#slider-seek-cells").children().remove();
   $("#slider-seek-pages").children().remove();
 
-  $("#slider-seek-operate .start-synchronal")[0].innerText = "Seek";
   $("#slider-seek-operate .start-synchronal").toggleClass("started");
   $("#slider-seek-result-cancel .shape").toggleClass("shape--appear");
 
