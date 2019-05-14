@@ -14,7 +14,7 @@ $("#slider-seek-slider").slider({
     $("#slider-seek-range-to").text(ui.values[1]);
   }
 });
-$("#slider-seek-operate .start-synchronal").on("click", function(e) {
+$(".wrapper").on("click", function(e) {
   if (!$(this).hasClass("started")) {
     seekMark();
     $(this).toggleClass("started");
@@ -25,7 +25,7 @@ $("#slider-seek-result-cancel").on("click", function(e) {
   $("#slider-seek-cells").children().remove();
   $("#slider-seek-pages").children().remove();
 
-  $("#slider-seek-operate .start-synchronal").toggleClass("started");
+  $(".wrapper").toggleClass("started");
   $("#slider-seek-result-cancel .shape").toggleClass("shape--appear");
 
   for (var i = ajaxInstance.length - 1; i >= 0; i--) {

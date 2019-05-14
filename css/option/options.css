@@ -161,13 +161,20 @@ tr td:nth-child(9) {
       margin-bottom: 0.5rem;
       width: 60%; }
 
+#slider-seek-form-extra {
+  box-sizing: border-box;
+  width: 10rem;
+  height: 2rem;
+  border: medium soild transparent; }
+
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
   padding-right: 40%;
   border-top: thin solid #bfbfbf; }
   #slider-seek-result .wrapper {
-    flex-grow: 100; }
+    flex-grow: 100;
+    cursor: pointer; }
     #slider-seek-result .wrapper #slider-seek-cells {
       display: flex;
       min-height: 0.2rem;
