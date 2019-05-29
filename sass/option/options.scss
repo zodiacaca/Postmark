@@ -152,32 +152,9 @@ $form-unit: 0.25rem;
   width: percentage($form-width);
   background: white;
   border: thin solid hsl(0, 0%, 75%);
-  border-left: 0;
+  border-left: thin solid rgba(0,212,255,1);
   position: relative;
   left: percentage((1 - $form-width) / 2);
-
-  &:before {
-    content: '';
-    display: inline-block;
-    width: 0.25rem;
-    height: 100%;
-    background: linear-gradient(0deg, rgba(59,107,105,1) 0%, rgba(7,168,142,1) 56%, rgba(0,212,255,1) 100%);
-    position: absolute;
-    top: -1px;
-    left: -0.25rem;
-  }
-
-  &:after {
-    content: '';
-    display: inline-block;
-    margin-top: -1px;
-    width: 0.25rem;
-    height: 2px;
-    background: rgba(59,107,105,1);
-    position: absolute;
-    top: 100%;
-    left: -0.25rem;
-  }
 
   span {
     font-weight: bold;
@@ -206,6 +183,20 @@ $form-unit: 0.25rem;
       margin-bottom: 0.5rem;
       width: 60%;
     }
+  }
+}
+.slider-seek-form-wrapper {
+  position: relative;
+
+  &:after {
+    content: '';
+    display: inline-block;
+    width: 0.25rem;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(59,107,105,1) 0%, rgba(7,168,142,1) 56%, rgba(0,212,255,1) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
