@@ -142,17 +142,16 @@ tr td:nth-child(9) {
 /*
   slider-seek
 */
-$form-width: 0.98;
+$form-width: 1;
 $form-unit: 0.25rem;
 #slider-seek-form {
   box-sizing: border-box;
-  margin-top: $form-unit * 6;
+  margin-top: $form-unit * 8;
   padding: $form-unit * 8;
   padding-bottom: $form-unit * 11;
   width: percentage($form-width);
   background: white;
-  border: thin solid hsl(0, 0%, 75%);
-  border-left: thin solid rgba(0,212,255,1);
+  border: thin solid hsl(0, 0%, 80%);
   position: relative;
   left: percentage((1 - $form-width) / 2);
 
@@ -203,7 +202,7 @@ $form-unit: 0.25rem;
 #slider-seek-form-extra {
   box-sizing: border-box;
   width: 10rem;
-  height: 2rem;
+  height: 3rem;
   opacity: 0;
 }
 
@@ -211,7 +210,7 @@ $form-unit: 0.25rem;
   display: flex;
   padding: 1rem 1rem;
   padding-right: 40%;
-  border-top: thin solid hsl(0, 0, 75%);
+  border-top: thin solid hsl(0, 0, 70%);
 
   .wrapper {
     flex-grow: 100;

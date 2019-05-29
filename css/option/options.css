@@ -116,15 +116,14 @@ tr td:nth-child(9) {
 */
 #slider-seek-form {
   box-sizing: border-box;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   padding: 2rem;
   padding-bottom: 2.75rem;
-  width: 98%;
+  width: 100%;
   background: white;
-  border: thin solid #bfbfbf;
-  border-left: thin solid #00d4ff;
+  border: thin solid #cccccc;
   position: relative;
-  left: 1%; }
+  left: 0%; }
   #slider-seek-form span {
     font-weight: bold;
     color: #4d4d4d; }
@@ -158,14 +157,14 @@ tr td:nth-child(9) {
 #slider-seek-form-extra {
   box-sizing: border-box;
   width: 10rem;
-  height: 2rem;
+  height: 3rem;
   opacity: 0; }
 
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
   padding-right: 40%;
-  border-top: thin solid #bfbfbf; }
+  border-top: thin solid #b3b3b3; }
   #slider-seek-result .wrapper {
     flex-grow: 100;
     cursor: pointer; }
