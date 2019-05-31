@@ -142,18 +142,37 @@ tr td:nth-child(9) {
 /*
   slider-seek
 */
-$form-width: 1;
+$form-width: 0.6;
 $form-unit: 0.25rem;
-#slider-seek-form {
+.slider-seek-form-wrapper {
   box-sizing: border-box;
-  margin-top: $form-unit * 8;
-  padding: $form-unit * 8;
-  padding-bottom: $form-unit * 11;
+  margin-top: 2rem;
+  padding: 1rem (1rem + $form-unit);
   width: percentage($form-width);
-  background: white;
   border: thin solid hsl(0, 0%, 80%);
+  border-left: 0;
   position: relative;
   left: percentage((1 - $form-width) / 2);
+
+  &:after {
+    content: '';
+    display: inline-block;
+    width: $form-unit;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(59,107,105,1) 0%, rgba(7,168,142,1) 56%, rgba(0,212,255,1) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+#slider-seek-form {
+  box-sizing: border-box;
+  padding: $form-unit * 10;
+  padding-bottom: $form-unit * 14;
+  width: 100%;
+  background: white;
+  border: thin dashed hsl(0, 0%, 80%);
+  position: relative;
 
   span {
     font-weight: bold;
@@ -170,7 +189,7 @@ $form-unit: 0.25rem;
     input {
       padding-left: 0.5rem;
       color: hsl(0, 0, 25%);
-      width: 60%;
+      width: 70%;
       height: 2rem;
     }
   }
@@ -180,22 +199,8 @@ $form-unit: 0.25rem;
 
     #slider-seek-slider {
       margin-bottom: 0.5rem;
-      width: 60%;
+      width: 70%;
     }
-  }
-}
-.slider-seek-form-wrapper {
-  position: relative;
-
-  &:after {
-    content: '';
-    display: inline-block;
-    width: 0.25rem;
-    height: 100%;
-    background: linear-gradient(0deg, rgba(59,107,105,1) 0%, rgba(7,168,142,1) 56%, rgba(0,212,255,1) 100%);
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 }
 
@@ -206,10 +211,18 @@ $form-unit: 0.25rem;
   opacity: 0;
 }
 
+$result-width: 0.6;
+.slider-seek-result-wrapper
+{
+  box-sizing: border-box;
+  width: percentage($result-width);
+  position: relative;
+  left: percentage((1 - $result-width) / 2);
+}
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
-  padding-right: 40%;
+  padding-right: 30%;
   border-top: thin solid hsl(0, 0, 70%);
 
   .wrapper {

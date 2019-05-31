@@ -114,36 +114,15 @@ tr td:nth-child(9) {
 /*
   slider-seek
 */
-#slider-seek-form {
+.slider-seek-form-wrapper {
   box-sizing: border-box;
   margin-top: 2rem;
-  padding: 2rem;
-  padding-bottom: 2.75rem;
-  width: 100%;
-  background: white;
+  padding: 1rem 1.25rem;
+  width: 60%;
   border: thin solid #cccccc;
+  border-left: 0;
   position: relative;
-  left: 0%; }
-  #slider-seek-form span {
-    font-weight: bold;
-    color: #4d4d4d; }
-  #slider-seek-form #slider-seek-url {
-    width: 100%; }
-    #slider-seek-form #slider-seek-url span {
-      padding-right: 0.75rem; }
-    #slider-seek-form #slider-seek-url input {
-      padding-left: 0.5rem;
-      color: #404040;
-      width: 60%;
-      height: 2rem; }
-  #slider-seek-form #slider-seek-range {
-    margin-top: 3.25rem; }
-    #slider-seek-form #slider-seek-range #slider-seek-slider {
-      margin-bottom: 0.5rem;
-      width: 60%; }
-
-.slider-seek-form-wrapper {
-  position: relative; }
+  left: 20%; }
   .slider-seek-form-wrapper:after {
     content: '';
     display: inline-block;
@@ -154,16 +133,48 @@ tr td:nth-child(9) {
     top: 0;
     left: 0; }
 
+#slider-seek-form {
+  box-sizing: border-box;
+  padding: 2.5rem;
+  padding-bottom: 3.5rem;
+  width: 100%;
+  background: white;
+  border: thin dashed #cccccc;
+  position: relative; }
+  #slider-seek-form span {
+    font-weight: bold;
+    color: #4d4d4d; }
+  #slider-seek-form #slider-seek-url {
+    width: 100%; }
+    #slider-seek-form #slider-seek-url span {
+      padding-right: 0.75rem; }
+    #slider-seek-form #slider-seek-url input {
+      padding-left: 0.5rem;
+      color: #404040;
+      width: 70%;
+      height: 2rem; }
+  #slider-seek-form #slider-seek-range {
+    margin-top: 3.25rem; }
+    #slider-seek-form #slider-seek-range #slider-seek-slider {
+      margin-bottom: 0.5rem;
+      width: 70%; }
+
 #slider-seek-form-extra {
   box-sizing: border-box;
   width: 10rem;
   height: 3rem;
   opacity: 0; }
 
+.slider-seek-result-wrapper {
+  box-sizing: border-box;
+  width: 60%;
+  position: relative;
+  left: 20%; }
+
 #slider-seek-result {
   display: flex;
   padding: 1rem 1rem;
-  padding-right: 40%;
+  padding-right: 30%;
   border-top: thin solid #b3b3b3; }
   #slider-seek-result .wrapper {
     flex-grow: 100;
