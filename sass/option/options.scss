@@ -148,7 +148,11 @@ $form-unit: 0.25rem;
   box-sizing: border-box;
   margin-top: 2rem;
   padding: 1rem (1rem + $form-unit);
+  padding-bottom: (1rem + $form-unit) * 1.5;
   width: percentage($form-width);
+  background:
+    linear-gradient(#fff, #fff) content-box,
+    linear-gradient(hsl(0, 0%, 99%), hsl(0, 0%, 99%)) padding-box;
   border: thin solid hsl(0, 0%, 80%);
   border-left: 0;
   position: relative;
@@ -228,7 +232,7 @@ $form-unit: 0.25rem;
   opacity: 0;
 }
 
-$result-width: 0.6;
+$result-width: 0.5;
 .slider-seek-result-wrapper
 {
   box-sizing: border-box;
@@ -240,7 +244,7 @@ $result-width: 0.6;
   display: flex;
   padding: 1rem 1rem;
   padding-right: 30%;
-  border-top: thin solid hsl(0, 0, 70%);
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
 
   .wrapper {
     flex-grow: 100;
