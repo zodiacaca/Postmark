@@ -236,7 +236,7 @@ tr td:nth-child(9) {
     display: inline-block;
     width: 1.5rem;
     height: 0.125rem;
-    background: linear-gradient(#404040, #404040);
+    background: linear-gradient(#0d0d0d, #0d0d0d);
     background-position: -1.5rem 0;
     background-repeat: no-repeat;
     position: absolute;

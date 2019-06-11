@@ -295,6 +295,7 @@ $result-width: 0.5;
 }
 $bar-height: 0.125rem;
 $bar-width: $bar-height * 12;
+$bar-color: hsl(0, 0, 5%);
 #slider-seek-result-cancel {
   .shape {
     margin: 0;
@@ -307,7 +308,7 @@ $bar-width: $bar-height * 12;
       display: inline-block;
       width: $bar-width;
       height: $bar-height;
-      background: linear-gradient(hsl(0, 0, 25%), hsl(0, 0, 25%));
+      background: linear-gradient($bar-color, $bar-color);
       background-position: -$bar-width 0;
       background-repeat: no-repeat;
       position: absolute;
