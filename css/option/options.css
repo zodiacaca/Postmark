@@ -159,6 +159,21 @@ tr td:nth-child(9) {
       margin-bottom: 0.5rem;
       width: 70%; }
 
+.title {
+  margin-top: -0.5rem;
+  margin-left: -2.5rem;
+  margin-bottom: 4rem;
+  width: 12rem;
+  height: 1.5rem;
+  border-bottom: thin solid #00d4ff; }
+  .title h2 {
+    float: right;
+    font-family: Century Gothic;
+    font-weight: normal;
+    margin: 0;
+    margin-right: 0.5rem;
+    padding: 0; }
+
 #slider-seek-form-extra {
   box-sizing: border-box;
   width: 10rem;

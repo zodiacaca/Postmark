@@ -203,6 +203,23 @@ $form-unit: 0.25rem;
     }
   }
 }
+.title {
+  margin-top: -0.5rem;;
+  margin-left: -2.5rem;
+  margin-bottom: 4rem;
+  width: 12rem;
+  height: 1.5rem;
+  border-bottom: thin solid rgba(0,212,255,1);
+
+  h2 {
+    float: right;
+    font-family: Century Gothic;
+    font-weight: normal;
+    margin: 0;
+    margin-right: 0.5rem;
+    padding: 0;
+  }
+}
 
 #slider-seek-form-extra {
   box-sizing: border-box;
