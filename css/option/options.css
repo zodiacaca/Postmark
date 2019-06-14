@@ -143,6 +143,7 @@ tr td:nth-child(9) {
   width: 100%;
   background: white;
   border: thin dashed #cccccc;
+  border-radius: 1rem;
   position: relative; }
   #slider-seek-form span {
     font-weight: bold;
@@ -155,7 +156,10 @@ tr td:nth-child(9) {
       padding-left: 0.5rem;
       color: #404040;
       width: 70%;
-      height: 2rem; }
+      height: 2rem;
+      background: #f2f2f2;
+      border: 0;
+      border-radius: 0.75rem; }
   #slider-seek-form #slider-seek-range {
     margin-top: 3.25rem; }
     #slider-seek-form #slider-seek-range #slider-seek-slider {
