@@ -142,21 +142,22 @@ tr td:nth-child(9) {
 /*
   slider-seek
 */
-$form-width: 0.6;
+$form-width: 0.575;
 $form-unit: 0.25rem;
 .slider-seek-form-wrapper {
   box-sizing: border-box;
   margin-top: 2rem;
   padding: 1rem (1rem + $form-unit);
-  padding-bottom: (1rem + $form-unit) * 1.5;
   width: percentage($form-width);
   background:
     linear-gradient(#fff, #fff) content-box,
     linear-gradient(hsl(0, 0%, 99%), hsl(0, 0%, 99%)) padding-box;
   border: thin solid hsl(0, 0%, 80%);
   border-left: 0;
+  border-radius: 1.5rem;
   position: relative;
   left: percentage((1 - $form-width) / 2);
+  overflow: hidden;
 
   &:after {
     content: '';
@@ -228,11 +229,11 @@ $form-unit: 0.25rem;
 #slider-seek-form-extra {
   box-sizing: border-box;
   width: 10rem;
-  height: 3rem;
+  height: 4rem;
   opacity: 0;
 }
 
-$result-width: 0.5;
+$result-width: 0.45;
 .slider-seek-result-wrapper
 {
   box-sizing: border-box;
@@ -242,9 +243,11 @@ $result-width: 0.5;
 }
 #slider-seek-result {
   display: flex;
-  padding: 1rem 1rem;
+  padding: 1.75rem 1.75rem;
   padding-right: 30%;
+  padding-bottom: 3.5rem;
   background: linear-gradient(to right, #2c3e50, #bdc3c7);
+  border-radius: 0.5rem;
 
   .wrapper {
     flex-grow: 100;
