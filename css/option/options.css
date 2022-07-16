@@ -6,7 +6,8 @@ body {
   overflow: hidden; }
 
 nav {
-  display: flex; }
+  display: flex;
+  transition: box-shadow 0.25s; }
 
 .nav-btn {
   font-family: Meiryo UI;
